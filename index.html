@@ -6,23 +6,24 @@
   <title>Nomi Studio — Financeiro 2026</title>
   <style>
     :root {
-      --bg: #f6f8fb;
+      --bg: #f5f7fb;
       --card: #ffffff;
-      --text: #1f2937;
-      --muted: #6b7280;
       --line: #e5e7eb;
-      --navy: #183153;
-      --blue: #3b82f6;
+      --text: #172033;
+      --muted: #667085;
+      --navy: #17325c;
       --green: #16a34a;
       --yellow: #d97706;
       --red: #dc2626;
-      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      --blue: #2563eb;
+      --shadow: 0 10px 30px rgba(23, 50, 92, 0.08);
       --radius: 18px;
     }
+
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: var(--bg);
       color: var(--text);
     }
@@ -34,45 +35,41 @@
     .topbar {
       display: flex;
       justify-content: space-between;
-      gap: 16px;
       align-items: flex-start;
-      margin-bottom: 24px;
+      gap: 16px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
     }
-    .title h1 {
+    h1 {
       margin: 0;
-      font-size: 32px;
+      font-size: 30px;
       line-height: 1.1;
     }
-    .title p {
-      margin: 8px 0 0;
+    .subtitle {
+      margin-top: 8px;
       color: var(--muted);
+      max-width: 700px;
     }
     .actions {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
     }
-    button, select, input {
+    .btn, .input, .select {
       font: inherit;
+      border-radius: 14px;
     }
     .btn {
-      border: 0;
-      background: var(--navy);
-      color: white;
-      padding: 12px 16px;
-      border-radius: 14px;
-      cursor: pointer;
-      box-shadow: var(--shadow);
-    }
-    .btn.secondary {
+      border: 1px solid var(--line);
       background: white;
       color: var(--text);
-      border: 1px solid var(--line);
-      box-shadow: none;
+      padding: 11px 15px;
+      cursor: pointer;
     }
-    .btn.danger {
-      background: #dc2626;
+    .btn.primary {
+      background: var(--navy);
       color: white;
+      border-color: var(--navy);
     }
     .tabs {
       display: flex;
@@ -80,17 +77,19 @@
       flex-wrap: wrap;
       background: white;
       border: 1px solid var(--line);
-      padding: 8px;
       border-radius: 18px;
-      margin-bottom: 24px;
+      padding: 8px;
+      margin-bottom: 20px;
+      min-height: 58px;
+      align-items: center;
     }
     .tab {
       padding: 10px 14px;
-      border-radius: 12px;
-      cursor: pointer;
-      color: var(--muted);
       border: 0;
+      border-radius: 12px;
       background: transparent;
+      color: var(--muted);
+      cursor: pointer;
     }
     .tab.active {
       background: var(--navy);
@@ -119,64 +118,35 @@
       padding: 18px 18px 0;
       display: flex;
       justify-content: space-between;
-      gap: 12px;
       align-items: center;
+      gap: 12px;
     }
     .card-header h3 {
       margin: 0;
       font-size: 18px;
     }
-    .card-body {
-      padding: 18px;
-    }
-    .metric .label {
-      color: var(--muted);
-      font-size: 14px;
-    }
-    .metric .value {
-      margin-top: 6px;
-      font-size: 30px;
-      font-weight: 700;
-    }
-    .metric .hint {
-      margin-top: 6px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      padding: 6px 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 600;
-      background: #eef2ff;
-      color: var(--navy);
-    }
-    .badge.green { background: #dcfce7; color: #166534; }
-    .badge.yellow { background: #fef3c7; color: #92400e; }
-    .badge.red { background: #fee2e2; color: #991b1b; }
+    .card-body { padding: 18px; }
+    .metric-label { color: var(--muted); font-size: 14px; }
+    .metric-value { font-size: 30px; font-weight: 700; margin-top: 6px; }
+    .metric-hint { font-size: 13px; color: var(--muted); margin-top: 6px; }
     .toolbar {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
       margin-bottom: 14px;
-      align-items: center;
+      align-items: end;
     }
-    .toolbar .field {
+    .field {
       display: flex;
       flex-direction: column;
       gap: 6px;
+      min-width: 180px;
     }
-    .toolbar label, .field label {
-      font-size: 13px;
-      color: var(--muted);
-    }
+    .field label { font-size: 13px; color: var(--muted); }
     .input, .select {
       min-height: 42px;
       border: 1px solid var(--line);
       background: white;
-      border-radius: 12px;
       padding: 10px 12px;
       width: 100%;
     }
@@ -187,8 +157,8 @@
       background: white;
     }
     table {
-      border-collapse: collapse;
       width: 100%;
+      border-collapse: collapse;
       min-width: 900px;
     }
     th, td {
@@ -201,23 +171,12 @@
     thead th {
       background: #f8fafc;
       color: var(--muted);
-      font-weight: 600;
       position: sticky;
       top: 0;
       z-index: 1;
     }
-    tr:last-child td { border-bottom: 0; }
-    .status-pago { color: #166534; font-weight: 700; }
-    .status-pendente { color: #92400e; font-weight: 700; }
-    .status-não-pagou { color: #991b1b; font-weight: 700; }
-    .status-nao-pagou { color: #991b1b; font-weight: 700; }
-    .status-parcial { color: #b45309; font-weight: 700; }
-    .status-atrasado { color: #dc2626; font-weight: 700; }
-    .status-cancelado { color: #6b7280; font-weight: 700; }
-    .kpi-list {
-      display: grid;
-      gap: 10px;
-    }
+    .small { font-size: 13px; color: var(--muted); }
+    .kpi-list { display: grid; gap: 10px; }
     .kpi-row {
       display: flex;
       justify-content: space-between;
@@ -226,6 +185,18 @@
       padding-bottom: 10px;
     }
     .kpi-row:last-child { border-bottom: 0; padding-bottom: 0; }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 5px 10px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .tag-green { background: #dcfce7; color: #166534; }
+    .tag-yellow { background: #fef3c7; color: #92400e; }
+    .tag-red { background: #fee2e2; color: #991b1b; }
+    .tag-blue { background: #dbeafe; color: #1d4ed8; }
     .danger-box {
       border: 1px solid #fed7aa;
       background: #fff7ed;
@@ -233,117 +204,41 @@
       padding: 12px;
       margin-bottom: 10px;
     }
-    .small { font-size: 13px; color: var(--muted); }
-    .right { text-align: right; }
-    .summary-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
-    }
-    /* Import modal */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.5);
-      z-index: 100;
-      align-items: center;
-      justify-content: center;
-    }
-    .modal-overlay.open { display: flex; }
-    .modal {
-      background: white;
-      border-radius: 20px;
-      padding: 28px;
-      width: 500px;
-      max-width: 95vw;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-    }
-    .modal h3 { margin: 0 0 16px; }
-    .modal textarea {
-      width: 100%;
-      height: 200px;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 12px;
-      font: inherit;
-      font-size: 13px;
-      resize: vertical;
-    }
-    .modal-actions {
-      display: flex;
-      gap: 10px;
-      margin-top: 16px;
-      justify-content: flex-end;
-    }
-    /* Toast notification */
-    .toast {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: #183153;
-      color: white;
-      padding: 14px 20px;
+    .notice {
+      margin: 0 0 16px;
+      padding: 12px 14px;
       border-radius: 14px;
-      font-size: 14px;
-      font-weight: 600;
-      z-index: 200;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.3s;
-      pointer-events: none;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1d4ed8;
+      display: none;
     }
-    .toast.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    /* Backup badge */
-    .backup-info {
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 6px;
-    }
+    .notice.show { display: block; }
     @media (max-width: 1100px) {
-      .grid, .grid-2, .summary-grid { grid-template-columns: 1fr; }
-      .topbar { flex-direction: column; }
+      .grid, .grid-2 { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-  <!-- Import Modal -->
-  <div class="modal-overlay" id="importModal">
-    <div class="modal">
-      <h3>Importar dados (JSON)</h3>
-      <p style="color:var(--muted);font-size:13px;margin:0 0 12px">Cole o conteúdo do JSON exportado anteriormente:</p>
-      <textarea id="importTextarea" placeholder='{"config":{...},"clients":[...],...}'></textarea>
-      <div class="modal-actions">
-        <button class="btn secondary" onclick="document.getElementById('importModal').classList.remove('open')">Cancelar</button>
-        <button class="btn" onclick="window.doImport()">Importar</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Toast -->
-  <div class="toast" id="toast"></div>
-
   <div class="container">
     <div class="topbar">
-      <div class="title">
+      <div>
         <h1>Nomi Studio — Financeiro 2026</h1>
-        <p>Painel financeiro editável, com salvamento automático e compartilhável via link.</p>
-        <div class="backup-info" id="backupInfo"></div>
+        <div class="subtitle">Painel financeiro editável, simples e estável, com foco em controle mensal de clientes e pagamentos.</div>
       </div>
       <div class="actions">
-        <button class="btn secondary" id="loadSampleBtn">Restaurar dados-base</button>
-        <button class="btn secondary" id="importJsonBtn">Importar JSON</button>
-        <button class="btn secondary" id="exportJsonBtn">Exportar JSON</button>
-        <button class="btn secondary" id="backupBtn">Backup local</button>
-        <button class="btn" id="downloadHtmlBtn">Baixar HTML</button>
+        <button class="btn" id="restoreBtn">Restaurar dados-base</button>
+        <button class="btn" id="importBtn">Importar JSON</button>
+        <button class="btn" id="exportBtn">Exportar JSON</button>
+        <button class="btn" id="backupBtn">Backup local</button>
+        <button class="btn primary" id="downloadBtn">Baixar HTML</button>
+        <input type="file" id="importFile" accept="application/json" style="display:none">
       </div>
     </div>
+
+    <div class="notice" id="notice"></div>
     <div class="tabs" id="tabs"></div>
 
-    <!-- DASHBOARD -->
     <section class="panel active" data-panel="dashboard">
       <div class="toolbar">
         <div class="field">
@@ -351,119 +246,81 @@
           <select id="dashboardMonth" class="select"></select>
         </div>
       </div>
-      <div class="grid" id="dashboardMetrics"></div>
+      <div class="grid" id="metricsGrid"></div>
       <div style="height:16px"></div>
-      <div class="summary-grid">
-        <div class="card">
-          <div class="card-header"><h3>Resumo do mȻs selecionado</h3></div>
-          <div class="card-body" id="monthSummary"></div>
-        </div>
-        <div class="card">
-          <div class="card-header"><h3>Visão anual 2026</h3></div>
-          <div class="card-body" id="yearSummary"></div>
-        </div>
+      <div class="grid-2">
+        <div class="card"><div class="card-header"><h3>Resumo do mês selecionado</h3></div><div class="card-body" id="monthSummary"></div></div>
+        <div class="card"><div class="card-header"><h3>Visão anual 2026</h3></div><div class="card-body" id="yearSummary"></div></div>
       </div>
       <div style="height:16px"></div>
       <div class="grid-2">
-        <div class="card">
-          <div class="card-header"><h3>Clientes em risco</h3></div>
-          <div class="card-body" id="riskClients"></div>
-        </div>
-        <div class="card">
-          <div class="card-header"><h3>Status do mês</h3></div>
-          <div class="card-body" id="monthStatusList"></div>
-        </div>
+        <div class="card"><div class="card-header"><h3>Clientes em risco</h3></div><div class="card-body" id="riskClients"></div></div>
+        <div class="card"><div class="card-header"><h3>Status do mês</h3></div><div class="card-body" id="monthStatus"></div></div>
       </div>
     </section>
 
-    <!-- CLIENTES -->
     <section class="panel" data-panel="clientes">
       <div class="card">
         <div class="card-header"><h3>Clientes</h3></div>
         <div class="card-body">
-          <div class="toolbar">
-            <button class="btn" id="addClientBtn">Adicionar cliente</button>
-          </div>
+          <div class="toolbar"><button class="btn primary" id="addClientBtn">Adicionar cliente</button></div>
           <div class="table-wrap"><table id="clientsTable"></table></div>
         </div>
       </div>
     </section>
 
-    <!-- CONTROLE MENSAL -->
     <section class="panel" data-panel="controle">
       <div class="card">
-        <div class="card-header"><h3>Controle mensal</h3></div>
+        <div class="card-header"><h3>Controle Mensal</h3></div>
         <div class="card-body">
           <div class="toolbar">
             <div class="field">
-              <label for="filterMonth">Filtrar por mȻs</label>
+              <label for="filterMonth">Filtrar por mês</label>
               <select id="filterMonth" class="select"></select>
             </div>
-            <button class="btn" id="addMonthlyRowBtn">Adicionar lancamento</button>
+            <button class="btn primary" id="addMonthlyBtn">Adicionar lançamento</button>
           </div>
           <div class="table-wrap"><table id="monthlyTable"></table></div>
         </div>
       </div>
     </section>
 
-    <!-- DESPESAS -->
     <section class="panel" data-panel="despesas">
       <div class="card">
         <div class="card-header"><h3>Despesas</h3></div>
         <div class="card-body">
-          <div class="toolbar">
-            <div class="field">
-              <label for="filterExpenseMonth">Filtrar por mês</label>
-              <select id="filterExpenseMonth" class="select"></select>
-            </div>
-            <button class="btn" id="addExpenseBtn">Adicionar despesa</button>
-          </div>
+          <div class="toolbar"><button class="btn primary" id="addExpenseBtn">Adicionar despesa</button></div>
           <div class="table-wrap"><table id="expensesTable"></table></div>
         </div>
       </div>
     </section>
 
-    <!-- DRE -->
     <section class="panel" data-panel="dre">
       <div class="grid-2">
-        <div class="card">
-          <div class="card-header"><h3>DRE anual 2026</h3></div>
-          <div class="card-body" id="dreAnnual"></div>
-        </div>
-        <div class="card">
-          <div class="card-header"><h3>DRE do mês selecionado</h3></div>
-          <div class="card-body" id="dreMonth"></div>
-        </div>
+        <div class="card"><div class="card-header"><h3>DRE anual</h3></div><div class="card-body" id="dreAnnual"></div></div>
+        <div class="card"><div class="card-header"><h3>DRE do mês</h3></div><div class="card-body" id="dreMonth"></div></div>
       </div>
     </section>
 
-    <!-- FLUXO DE CAIXA -->
     <section class="panel" data-panel="fluxo">
       <div class="card">
-        <div class="card-header"><h3>Fluxo de caixa por mês</h3></div>
-        <div class="card-body">
-          <div class="table-wrap"><table id="cashflowTable"></table></div>
-        </div>
+        <div class="card-header"><h3>Fluxo de Caixa</h3></div>
+        <div class="card-body"><div class="table-wrap"><table id="cashflowTable"></table></div></div>
       </div>
     </section>
 
-    <!-- CONFIGURAÇÕES -->
     <section class="panel" data-panel="config">
       <div class="card">
         <div class="card-header"><h3>Configurações</h3></div>
-        <div class="card-body">
-          <div class="grid-2" id="configFields"></div>
-        </div>
+        <div class="card-body"><div class="grid-2" id="configGrid"></div></div>
       </div>
     </section>
   </div>
 
   <script>
     const MONTHS = ['jan/2026','fev/2026','mar/2026','abr/2026','mai/2026','jun/2026','jul/2026','ago/2026','set/2026','out/2026','nov/2026','dez/2026'];
-    const STORAGE_KEY = 'nomi_financeiro_2026_html';
-    const BACKUP_KEY = 'nomi_financeiro_2026_backup';
 
-    const defaultData = {
+    const DEFAULT_DATA = {
       config: {
         dashboardMonth: 'abr/2026',
         proLaboreMensal: 5000,
@@ -474,428 +331,492 @@
         reservaMeses: 3,
       },
       clients: [
-        { cliente: 'Duda Serenine', servico: 'Posts recorrentes', valorMensal: 800, vencimento: 10, status: 'Ativo', risco: 'Baixo', observacao: 'Cliente recorrente confi�nvel' },
+        { cliente: 'Duda Serenine', servico: 'Posts recorrentes', valorMensal: 800, vencimento: 10, status: 'Ativo', risco: 'Baixo', observacao: 'Cliente recorrente confiável' },
         { cliente: 'Duda Dittert', servico: 'Posts recorrentes', valorMensal: 700, vencimento: 10, status: 'Ativo', risco: 'Baixo', observacao: 'Cliente recorrente confiável' },
         { cliente: 'Debora', servico: 'Posts recorrentes', valorMensal: 500, vencimento: 20, status: 'Ativo', risco: 'Baixo', observacao: 'Cliente recorrente confiável' },
-        { cliente: 'LYGIA IMBELLONI', servico: 'Posts recorrentes', valorMensal: 500, vencimento: 29, status: 'Ativo', risco: 'Baixo', observacao: 'Cliente recorrente confi�nvel' },
+        { cliente: 'LYGIA IMBELLONI', servico: 'Posts recorrentes', valorMensal: 500, vencimento: 29, status: 'Ativo', risco: 'Baixo', observacao: 'Cliente recorrente confiável' },
         { cliente: 'Hiago Gomes', servico: 'Posts recorrentes', valorMensal: 500, vencimento: 10, status: 'Ativo', risco: 'Baixo', observacao: 'Cliente recorrente confiável' },
-        { cliente: 'Por Minha Conta', servico: 'Posts recorrentes', valorMensal: 900, vencimento: 15, status: 'Ativo', risco: 'Baixo', observacao: 'Cliente recorrente confi�nvel' },
+        { cliente: 'Por Minha Conta', servico: 'Posts recorrentes', valorMensal: 900, vencimento: 15, status: 'Ativo', risco: 'Baixo', observacao: 'Cliente recorrente confiável' },
         { cliente: 'Áurea', servico: 'Posts recorrentes', valorMensal: 1500, vencimento: 20, status: 'Ativo', risco: 'Baixo', observacao: 'Cliente mais previsível' },
         { cliente: 'Gestclin', servico: 'Posts recorrentes', valorMensal: 400, vencimento: 29, status: 'Ativo', risco: 'Baixo', observacao: 'Cliente recorrente confiável' },
-        { cliente: 'Sara Brandão', servico: 'Posts recorrentes', valorMensal: 1500, vencimento: 20, status: 'Risco', risco: 'Alto', observacao: 'Atrasos e parcelamento em 2026 — não pagou fev, pagou parcial em mar, parte em abr' },
+        { cliente: 'Sara Brandão', servico: 'Posts recorrentes', valorMensal: 1500, vencimento: 20, status: 'Risco', risco: 'Alto', observacao: 'Atrasos e parcelamento em 2026' }
       ],
       monthly: [],
-      expenses: [],
+      expenses: []
     };
 
-    function currency(v) {
-      return Number(v || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-    }
-    function pct(v) {
-      return Number(v || 0).toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 1, maximumFractionDigits: 1 });
-    }
-    function showToast(msg, duration = 2500) {
-      const t = document.getElementById('toast');
-      t.textContent = msg;
-      t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), duration);
-    }
-    function save(data) {
-      localStorage.setItem(STORAGE_KEY, Json.stringify(data));
-      document.getElementById('backupInfo').textContent = 'Salvo automaticamente às ' + new Date().toLocaleTimeString('pt-BR');
-    }
-    function load() {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return structuredClone(defaultData);
-      try { return JSON.parse(raw); } catch { return structuredClone(defaultData); }
-    }
-    function createBackup() {
-      const backups = JSON.parse(localStorage.getItem(BACKUP_KEY) || '[]');
-      backups.unshift({ timestamp: new Date().toISOString(), data: structuredClone(state) });
-      if (backups.length > 10) backups.splice(10);
-      localStorage.setItem(BACKUP_KEY, JSON.stringify(backups));
+    function deepClone(obj) {
+      return JSON.parse(JSON.stringify(obj));
     }
 
-    function buildSampleMonthly(clients) {
+    function normalizeNumber(value, fallback = 0) {
+      const n = Number(value);
+      return Number.isFinite(n) ? n : fallback;
+    }
+
+    function brl(value) {
+      return normalizeNumber(value).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    function pct(value) {
+      return normalizeNumber(value).toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 1, maximumFractionDigits: 1 });
+    }
+
+    function notice(message, isError = false) {
+      const el = document.getElementById('notice');
+      if (!el) return;
+      el.textContent = message;
+      el.classList.add('show');
+      el.style.background = isError ? '#fef2f2' : '#eff6ff';
+      el.style.borderColor = isError ? '#fecaca' : '#bfdbfe';
+      el.style.color = isError ? '#b91c1c' : '#1d4ed8';
+      clearTimeout(window.__noticeTimer);
+      window.__noticeTimer = setTimeout(() => el.classList.remove('show'), 3500);
+    }
+
+    function saveState() {
+      localStorage.setItem('nomi_financeiro_2026_v3', JSON.stringify(state));
+    }
+
+    function buildMonthlySeed(clients) {
       const rows = [];
-      const sampleStatus = {
-        'jan/2026': {
-          'Duda Serenine': [800, 'Pago', '10/01/2026'],
-          'Duda Dittert': [700, 'Pago', '10/01/2026'],
-          'Debora': [500, 'Pago', '20/01/2026'],
-          'LYGIA IMBELLONI': [500, 'Pago', '29/01/2026'],
-          'Hiago Gomes': [500, 'Pago', '10/01/2026'],
-          'Por Minha Conta': [900, 'Pago', '15/01/2026'],
-          'Áurea': [1500, 'Pago', '20/01/2026'],
-          'Gestclin': [400, 'Pago', '29/01/2026'],
-          'Sara Brandão': [1500, 'Pago', '20/01/2026'],
-        },
-        'fev/2026':  {
-          'Duda Serenine': [800, 'Pago', '10/02/2026'],
-          'Duda Dittert': [700, 'Pago', '10/02/2026'],
-          'Debora': [500, 'Pago', '20/02/2026'],
-          'LYGIA IMBELLONI': [500, 'Pago', '28/02/2026'],
-          'Hiago Gomes': [500, 'Pago', '10/02/2026'],
-          'Por Minha Conta': [900, 'Pago', '15/02/2026'],
-          'Áurea': [1500, 'Pago', '20/02/2026'],
-          'Gestclin': [400, 'Pago', '28/02/2026'],
-          'Sara Brandão': [0, 'Não pagou', ''],
-        },
-        'mar/2026': {
-          'Duda Serenine': [800, 'Pago', '10/03/2026'],
-          'Duda Dittert': [700, 'Pago', '10/03/2026'],
-          'Debora': [500, 'Pago', '20/03/2026'],
-          'LYGIA IMBELLONI': [500, 'Pago', '29/03/2026'],
-          'Hiago Gomes': [500, 'Pago', '10/03/2026'],
-          'Por Minha Conta': [900, 'Pago', '15/03/2026'],
-          'Áurea': [1500, 'Pago', '20/03/2026'],
-          'Gestclin': [400, 'Pago', '29/03/2026'],
-          'Sara Brandão': [750, 'Parcial', '01/04/2026'],
-        },
-        'abr/2026': {
-          'Duda Serenine': [800, 'Pago', '10/04/2026'],
-          'Debora': [500, 'Pago', '20/04/2026'],
-          'Sara Brandão': [750, 'Parcial', '07/04/2026'],
-        },
+      const monthNum = { jan:'01', fev:'02', mar:'03', abr:'04', mai:'05', jun:'06', jul:'07', ago:'08', set:'09', out:'10', nov:'11', dez:'12' };
+      const days = { jan:31, fev:28, mar:31, abr:30, mai:31, jun:30, jul:31, ago:31, set:30, out:31, nov:30, dez:31 };
+      const samples = {
+        'jan/2026': { 'Duda Serenine':[800,'Pago','10/01/2026',''], 'Duda Dittert':[700,'Pago','10/01/2026',''], 'Debora':[500,'Pago','20/01/2026',''], 'Por Minha Conta':[900,'Pago','15/01/2026',''], 'Áurea':[1500,'Pago','20/01/2026',''], 'Gestclin':[400,'Pago','29/01/2026',''] },
+        'fev/2026': { 'Duda Serenine':[800,'Pago','10/02/2026',''], 'Duda Dittert':[700,'Pago','10/02/2026',''], 'Debora':[500,'Pago','20/02/2026',''], 'LYGIA IMBELLONI':[500,'Pago','28/02/2026',''], 'Hiago Gomes':[500,'Pago','10/02/2026',''], 'Por Minha Conta':[900,'Pago','15/02/2026',''], 'Áurea':[1500,'Pago','20/02/2026',''], 'Gestclin':[400,'Pago','28/02/2026',''], 'Sara Brandão':[0,'Não pagou','','Não pagou fevereiro'] },
+        'mar/2026': { 'Duda Serenine':[800,'Pago','10/03/2026',''], 'Duda Dittert':[700,'Pago','10/03/2026',''], 'Debora':[500,'Pago','20/03/2026',''], 'LYGIA IMBELLONI':[500,'Pago','29/03/2026',''], 'Hiago Gomes':[500,'Pago','10/03/2026',''], 'Por Minha Conta':[900,'Pago','15/03/2026',''], 'Áurea':[1500,'Pago','20/03/2026',''], 'Gestclin':[400,'Pago','29/03/2026',''], 'Sara Brandão':[1500,'Parcial','01/04/2026','50% em 01/04 e 50% uma semana depois'] },
+        'abr/2026': { 'Duda Serenine':[800,'Pago','10/04/2026',''], 'Debora':[500,'Pago','20/04/2026',''] }
       };
-      const daysInMonth = { jan:31, fev:28, mar:31, abr:30, mai:31, jun:30, jul:31, ago:31, set:30, out:31, nov:30, dez:31 };
-      const monthNumMap = {jan:'01',fev:'02',mar:'03',abr:'04',mai:'05',jun:'06',jul:'07',ago:'08',set:'09',out:'10',nov:'11',dez:'12'};
-      for (const month of MONTHS) {
+
+      MONTHS.forEach(month => {
         const [mon, year] = month.split('/');
-        for (const c of clients) {
-          const maxDay = daysInMonth[mon];
-          const day = String(Math.min(Number(c.vencimento), maxDay)).padStart(2, '0');
-          const dueDate = `${day}/${monthNumMap[mon]}/${year}`;
-          const sample = sampleStatus[month]?.[c.cliente];
+        clients.forEach(client => {
+          const dueDay = String(Math.min(normalizeNumber(client.vencimento, 1), days[mon])).padStart(2, '0');
+          const dueDate = `${dueDay}/${monthNum[mon]}/${year}`;
+          const sample = samples[month] && samples[month][client.cliente];
           rows.push({
             mes: month,
-            cliente: c.cliente,
-            servico: c.servico,
-            valorPrevisto: c.valorMensal,
-            valorRecebido: sample ? sample[0] : 0,
+            cliente: client.cliente,
+            servico: client.servico,
+            valorPrevisto: normalizeNumber(client.valorMensal),
+            valorRecebido: sample ? normalizeNumber(sample[0]) : 0,
             status: sample ? sample[1] : 'Pendente',
             dataPrevista: dueDate,
             dataPagamento: sample ? sample[2] : '',
-            observacao:
-              month === 'fev/2026' && c.cliente === 'Sara Brandão' ? 'Não pagou fevereiro' :
-              month === 'mar/2026' && c.cliente === 'Sara Brandão' ? '50% pago em 01/04 e 50% uma semana depois' :
-              month === 'abr/2026' && c.cliente === 'Sara Brandão' ? 'Parte do pagamento de março recebida em abril' : ''
+            observacao: sample ? sample[3] : ''
           });
-        }
-      }
+        });
+      });
       return rows;
     }
 
-    function buildSampleExpenses() {
+    function buildExpenseSeed() {
       const base = [
-        ['Folha', 'Gestor de projetos', 'Fixo', 1300],
-        ['Folha', 'Designer júnior 1', 'Fixo', 1500],
-        ['Folha', 'Designer júnior 2', 'Fixo', 1500],
-        ['Ferramentas', 'Google Drive', 'Fixo', 50],
-        ['Ferramentas', 'Canva', 'Fixo', 50],
-        ['Ferramentas', 'IA', 'Fixo', 150],
-        ['Ferramentas', 'Hospedagem de site', 'Fixo', 50],
+        ['Folha','Gestor de projetos','Fixo',1300,'Sim',''],
+        ['Folha','Designer júnior 1','Fixo',1500,'Sim',''],
+        ['Folha','Designer júnior 2','Fixo',1500,'Sim',''],
+        ['Ferramentas','Google Drive','Fixo',50,'Sim',''],
+        ['Ferramentas','Canva','Fixo',50,'Sim',''],
+        ['Ferramentas','IA','Fixo',150,'Sim',''],
+        ['Ferramentas','Hospedagem de site','Fixo',50,'Sim','']
       ];
-      const monthNumMap = {jan:'01',fev:'02',mar:'03',abr:'04',mai:'05',jun:'06',jul:'07',ago:'08',set:'09',out:'10',nov:'11',dez:'12'};
+      const monthNum = { jan:'01', fev:'02', mar:'03', abr:'04', mai:'05', jun:'06', jul:'07', ago:'08', set:'09', out:'10', nov:'11', dez:'12' };
       const rows = [];
-      for (const month of MONTHS) {
+      MONTHS.forEach(month => {
         const [mon, year] = month.split('/');
-        for (const item of base) {
+        base.forEach(item => {
           rows.push({
-            data: `01/${monthNumMap[mon]}/${year}`,
+            data: `01/${monthNum[mon]}/${year}`,
             mes: month,
             categoria: item[0],
             descricao: item[1],
             tipo: item[2],
             valor: item[3],
-            pago: 'Sim',
-            observacao: '',
+            pago: item[4],
+            observacao: item[5]
           });
-        }
-      }
+        });
+      });
       return rows;
     }
 
-    let state = load();
-    if (!state.monthly?.length) state.monthly = buildSampleMonthly(state.clients);
-    if (!state.expenses?.length) state.expenses = buildSampleExpenses();
-    save(state);
+    function sanitizeState(raw) {
+      const safe = deepClone(DEFAULT_DATA);
+      const source = raw && typeof raw === 'object' ? raw : {};
+      const config = source.config && typeof source.config === 'object' ? source.config : {};
+      safe.config.dashboardMonth = MONTHS.includes(config.dashboardMonth) ? config.dashboardMonth : DEFAULT_DATA.config.dashboardMonth;
+      safe.config.proLaboreMensal = normalizeNumber(config.proLaboreMensal, DEFAULT_DATA.config.proLaboreMensal);
+      safe.config.metaReceitaMensal = normalizeNumber(config.metaReceitaMensal, DEFAULT_DATA.config.metaReceitaMensal);
+      safe.config.metaClientes = normalizeNumber(config.metaClientes, DEFAULT_DATA.config.metaClientes);
+      safe.config.multaAtraso = normalizeNumber(config.multaAtraso, DEFAULT_DATA.config.multaAtraso);
+      safe.config.jurosMes = normalizeNumber(config.jurosMes, DEFAULT_DATA.config.jurosMes);
+      safe.config.reservaMeses = normalizeNumber(config.reservaMeses, DEFAULT_DATA.config.reservaMeses);
 
-    const tabs = [
-      ['dashboard','📊 Dashboard'],
-      ['clientes','👥 Clientes'],
-      ['controle','📅 Controle Mensal'],
-      ['despesas','💸 Despesas'],
-      ['dre','📈 DRE'],
-      ['fluxo','💰 Fluxo de Caixa'],
-      ['config','⚙️ Configurações'],
+      safe.clients = Array.isArray(source.clients) && source.clients.length ? source.clients.map(client => ({
+        cliente: String(client.cliente || ''),
+        servico: String(client.servico || 'Posts recorrentes'),
+        valorMensal: normalizeNumber(client.valorMensal),
+        vencimento: normalizeNumber(client.vencimento, 10),
+        status: String(client.status || 'Ativo'),
+        risco: String(client.risco || 'Baixo'),
+        observacao: String(client.observacao || '')
+      })) : deepClone(DEFAULT_DATA.clients);
+
+      safe.monthly = Array.isArray(source.monthly) && source.monthly.length ? source.monthly.map(row => ({
+        mes: MONTHS.includes(row.mes) ? row.mes : DEFAULT_DATA.config.dashboardMonth,
+        cliente: String(row.cliente || ''),
+        servico: String(row.servico || 'Posts recorrentes'),
+        valorPrevisto: normalizeNumber(row.valorPrevisto),
+        valorRecebido: normalizeNumber(row.valorRecebido),
+        status: String(row.status || 'Pendente'),
+        dataPrevista: String(row.dataPrevista || ''),
+        dataPagamento: String(row.dataPagamento || ''),
+        observacao: String(row.observacao || '')
+      })) : buildMonthlySeed(safe.clients);
+
+      safe.expenses = Array.isArray(source.expenses) && source.expenses.length ? source.expenses.map(expense => ({
+        data: String(expense.data || ''),
+        mes: MONTHS.includes(expense.mes) ? expense.mes : DEFAULT_DATA.config.dashboardMonth,
+        categoria: String(expense.categoria || ''),
+        descricao: String(expense.descricao || ''),
+        tipo: String(expense.tipo || 'Fixo'),
+        valor: normalizeNumber(expense.valor),
+        pago: String(expense.pago || 'Sim'),
+        observacao: String(expense.observacao || '')
+      })) : buildExpenseSeed();
+
+      return safe;
+    }
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem('nomi_financeiro_2026_v3') || localStorage.getItem('nomi_financeiro_2026_v2');
+        if (!raw) return sanitizeState(DEFAULT_DATA);
+        return sanitizeState(JSON.parse(raw));
+      } catch {
+        return sanitizeState(DEFAULT_DATA);
+      }
+    }
+
+    let state = loadState();
+    saveState();
+
+    const TABS = [
+      ['dashboard', 'Dashboard'],
+      ['clientes', 'Clientes'],
+      ['controle', 'Controle Mensal'],
+      ['despesas', 'Despesas'],
+      ['dre', 'DRE'],
+      ['fluxo', 'Fluxo de Caixa'],
+      ['config', 'Configurações']
     ];
 
-    function setActivePanel(name) {
-      document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.dataset.panel === name));
-      document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+    function setPanel(name) {
+      document.querySelectorAll('.panel').forEach(panel => panel.classList.toggle('active', panel.dataset.panel === name));
+      document.querySelectorAll('.tab').forEach(tab => tab.classList.toggle('active', tab.dataset.tab === name));
     }
 
     function renderTabs() {
-      const el = document.getElementById('tabs');
-      el.innerHTML = '';
-      tabs.forEach(([key, label]) => {
-        const b = document.createElement('button');
-        b.className = 'tab' + (key === 'dashboard' ? ' active' : '');
-        b.dataset.tab = key;
-        b.textContent = label;
-        b.onclick = () => setActivePanel(key);
-        el.appendChild(b);
+      const wrap = document.getElementById('tabs');
+      if (!wrap) return;
+      wrap.innerHTML = '';
+      TABS.forEach((item, index) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'tab' + (index === 0 ? ' active' : '');
+        btn.dataset.tab = item[0];
+        btn.textContent = item[1];
+        btn.addEventListener('click', () => setPanel(item[0]));
+        wrap.appendChild(btn);
       });
     }
 
-    function monthRows(month) {
-      return state.monthly.filter(r => r.mes === month);
-    }
     function activeClients() {
-      return state.clients.filter(c => c.status === 'Ativo' || c.status === 'Risco');
+      return state.clients.filter(client => client.status === 'Ativo');
     }
+
+    function monthlyRows(month) {
+      return state.monthly.filter(row => row.mes === month);
+    }
+
     function fixedMonthlyCost() {
       return state.expenses
-        .filter(e => e.tipo === 'Fixo' && e.mes === 'jan/2026')
-        .reduce((s, e) => s + Number(e.valor || 0), 0);
+        .filter(expense => expense.mes === 'jan/2026' && expense.tipo === 'Fixo')
+        .reduce((sum, expense) => sum + normalizeNumber(expense.valor), 0);
     }
-    function annualExpenseWithoutProlabore() {
-      return state.expenses.reduce((s, e) => s + Number(e.valor || 0), 0);
-    }
-    function metricsForMonth(month) {
-      const rows = monthRows(month);
-      const previsto = rows.reduce((s, r) => s + Number(r.valorPrevisto || 0), 0);
-      const recebido = rows.reduce((s, r) => s + Number(r.valorRecebido || 0), 0);
+
+    function getMonthMetrics(month) {
+      const rows = monthlyRows(month);
+      const previsto = rows.reduce((sum, row) => sum + normalizeNumber(row.valorPrevisto), 0);
+      const recebido = rows.reduce((sum, row) => sum + normalizeNumber(row.valorRecebido), 0);
       const pendente = previsto - recebido;
       const cobrados = rows.length;
-      const pagos = rows.filter(r => r.status === 'Pago').length;
-      const naoPagos = rows.filter(r => r.status === 'Não pagou').length;
-      const parciais = rows.filter(r => r.status === 'Parcial').length;
-      const despesaMes = state.expenses.filter(e => e.mes === month).reduce((s, e) => s + Number(e.valor || 0), 0) + Number(state.config.proLaboreMensal || 0);
-      const lucroMes = recebido - despesaMes;
-      const margemMes = recebido > 0 ? lucroMes / recebido : 0;
-      return { previsto, recebido, pendente, cobrados, pagos, naoPagos, parciais, despesaMes, lucroMes, margemMes };
+      const pagos = rows.filter(row => row.status === 'Pago').length;
+      const naoPagos = rows.filter(row => row.status === 'Não pagou').length;
+      const parciais = rows.filter(row => row.status === 'Parcial').length;
+      const despesasMes = state.expenses
+        .filter(expense => expense.mes === month)
+        .reduce((sum, expense) => sum + normalizeNumber(expense.valor), 0) + normalizeNumber(state.config.proLaboreMensal);
+      const lucro = recebido - despesasMes;
+      const margem = recebido > 0 ? lucro / recebido : 0;
+      return { previsto, recebido, pendente, cobrados, pagos, naoPagos, parciais, despesasMes, lucro, margem };
     }
-    function annualMetrics() {
-      const receitaPrevista = state.monthly.reduce((s, r) => s + Number(r.valorPrevisto || 0), 0);
-      const receitaRecebida = state.monthly.reduce((s, r) => s + Number(r.valorRecebido || 0), 0);
+
+    function getYearMetrics() {
+      const receitaPrevista = state.monthly.reduce((sum, row) => sum + normalizeNumber(row.valorPrevisto), 0);
+      const receitaRecebida = state.monthly.reduce((sum, row) => sum + normalizeNumber(row.valorRecebido), 0);
       const pendente = receitaPrevista - receitaRecebida;
-      const recorrenciaAtiva = activeClients().reduce((s, c) => s + Number(c.valorMensal || 0), 0);
-      const clientesAtivos = state.clients.filter(c => c.status === 'Ativo').length;
+      const recorrenciaAtiva = activeClients().reduce((sum, client) => sum + normalizeNumber(client.valorMensal), 0);
+      const clientesAtivos = activeClients().length;
       const custoFixoMensal = fixedMonthlyCost();
-      const custoFixoAnual = annualExpenseWithoutProlabore();
-      const proLaboreAnual = Number(state.config.proLaboreMensal || 0) * 12;
+      const custoFixoAnual = state.expenses.reduce((sum, expense) => sum + normalizeNumber(expense.valor), 0);
+      const proLaboreAnual = normalizeNumber(state.config.proLaboreMensal) * 12;
       const lucroAnual = receitaRecebida - custoFixoAnual - proLaboreAnual;
       const margemAnual = receitaRecebida > 0 ? lucroAnual / receitaRecebida : 0;
       return { receitaPrevista, receitaRecebida, pendente, recorrenciaAtiva, clientesAtivos, custoFixoMensal, custoFixoAnual, proLaboreAnual, lucroAnual, margemAnual };
     }
 
+    function makeTag(status) {
+      const cls = status === 'Pago' ? 'tag-green' : status === 'Parcial' ? 'tag-yellow' : status === 'Não pagou' ? 'tag-red' : 'tag-blue';
+      return `<span class="tag ${cls}">${status}</span>`;
+    }
+
+    function escapeHtml(value) {
+      return String(value || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
     function renderDashboard() {
-      const select = document.getElementById('dashboardMonth');
-      select.innerHTML = MONTHS.map(m => `<option value="${m}">${m}</option>`).join('');
-      select.value = state.config.dashboardMonth;
-      select.onchange = () => {
-        state.config.dashboardMonth = select.value;
-        save(state);
+      const monthSelect = document.getElementById('dashboardMonth');
+      if (!monthSelect) return;
+      monthSelect.innerHTML = MONTHS.map(month => `<option value="${month}">${month}</option>`).join('');
+      monthSelect.value = MONTHS.includes(state.config.dashboardMonth) ? state.config.dashboardMonth : DEFAULT_DATA.config.dashboardMonth;
+      monthSelect.onchange = function() {
+        state.config.dashboardMonth = this.value;
+        saveState();
         renderAll();
       };
-      const m = metricsForMonth(state.config.dashboardMonth);
-      const y = annualMetrics();
-      const lucroColor = m.lucroMes >= 0 ? 'var(--green)' : 'var(--red)';
-      document.getElementById('dashboardMetrics').innerHTML = [
-        { label: 'Receita prevista no mês', value: currency(m.previsto), hint: state.config.dashboardMonth },
-        { label: 'Receita recebida no mês', value: currency(m.recebido), hint: `${m.pagos} pagos | ${m.naoPagos} não pagaram` },
-        { label: 'Pendente no mês', value: currency(m.pendente), hint: `${m.parciais} parciais` },
-        { label: 'Lucro do mês', value: currency(m.lucroMes), hint: `Margem ${pct(m.margemMes)}`, color: lucroColor },
-      ].map(card => `
-        <div class="card metric">
+
+      const month = state.config.dashboardMonth;
+      const m = getMonthMetrics(month);
+      const y = getYearMetrics();
+
+      document.getElementById('metricsGrid').innerHTML = [
+        ['Receita prevista no mês', brl(m.previsto), month],
+        ['Receita recebida no mês', brl(m.recebido), `${m.pagos} pagos`],
+        ['Pendente no mês', brl(m.pendente), `${m.naoPagos} não pagaram`],
+        ['Lucro do mês', brl(m.lucro), `Margem ${pct(m.margem)}`]
+      ].map(item => `
+        <div class="card">
           <div class="card-body">
-            <div class="label">${card.label}</div>
-            <div class="value" style="${card.color ? 'color:'+card.color : ''}">${card.value}</div>
-            <div class="hint">${card.hint}</div>
+            <div class="metric-label">${item[0]}</div>
+            <div class="metric-value">${item[1]}</div>
+            <div class="metric-hint">${item[2]}</div>
           </div>
         </div>
       `).join('');
 
       document.getElementById('monthSummary').innerHTML = `
         <div class="kpi-list">
-          <div class="kpi-row"><span>Mês analisado</span><strong>${state.config.dashboardMonth}</strong></div>
-          <div class="kpi-row"><span>Receita prevista</span><strong>${currency(m.previsto)}</strong></div>
-          <div class="kpi-row"><span>Receita recebida</span><strong>${currency(m.recebido)}</strong></div>
-          <div class="kpi-row"><span>Total pendente</span><strong style="color:var(--red)">${currency(m.pendente)}</strong></div>
+          <div class="kpi-row"><span>Mês analisado</span><strong>${month}</strong></div>
+          <div class="kpi-row"><span>Receita prevista</span><strong>${brl(m.previsto)}</strong></div>
+          <div class="kpi-row"><span>Receita recebida</span><strong>${brl(m.recebido)}</strong></div>
+          <div class="kpi-row"><span>Total pendente</span><strong>${brl(m.pendente)}</strong></div>
           <div class="kpi-row"><span>Clientes com cobrança</span><strong>${m.cobrados}</strong></div>
-          <div class="kpi-row"><span>Clientes pagos</span><strong style="color:var(--green)">${m.pagos}</strong></div>
-          <div class="kpi-row"><span>Clientes não pagaram</span><strong style="color:var(--red)">${m.naoPagos}</strong></div>
-          <div class="kpi-row"><span>Clientes parciais</span><strong style="color:var(--yellow)">${m.parciais}</strong></div>
-          <div class="kpi-row"><span>Despesa do mês + pró-labore</span><strong>${currency(m.despesaMes)}</strong></div>
-          <div class="kpi-row"><span>Lucro operacional do mês</span><strong style="color:${m.lucroMes>=0?'var(--green)':'var(--red)'}">${currency(m.lucroMes)}</strong></div>
+          <div class="kpi-row"><span>Clientes pagos</span><strong>${m.pagos}</strong></div>
+          <div class="kpi-row"><span>Clientes não pagaram</span><strong>${m.naoPagos}</strong></div>
+          <div class="kpi-row"><span>Clientes parciais</span><strong>${m.parciais}</strong></div>
+          <div class="kpi-row"><span>Despesas + pró-labore</span><strong>${brl(m.despesasMes)}</strong></div>
+          <div class="kpi-row"><span>Lucro operacional</span><strong>${brl(m.lucro)}</strong></div>
         </div>
       `;
 
-      const lucroAnualColor = y.lucroAnual >= 0 ? 'var(--green)' : 'var(--red)';
       document.getElementById('yearSummary').innerHTML = `
         <div class="kpi-list">
-          <div class="kpi-row"><span>Receita prevista no ano</span><strong>${currency(y.receitaPrevista)}</strong></div>
-          <div class="kpi-row"><span>Receita recebida no ano</span><strong>${currency(y.receitaRecebida)}</strong></div>
-          <div class="kpi-row"><span>Total pendente no ano</span><strong style="color:var(--red)">${currency(y.pendente)}</strong></div>
-          <div class="kpi-row"><span>Receita recorrente mensal ativa</span><strong>${currency(y.recorrenciaAtiva)}</strong></div>
+          <div class="kpi-row"><span>Receita prevista no ano</span><strong>${brl(y.receitaPrevista)}</strong></div>
+          <div class="kpi-row"><span>Receita recebida no ano</span><strong>${brl(y.receitaRecebida)}</strong></div>
+          <div class="kpi-row"><span>Total pendente no ano</span><strong>${brl(y.pendente)}</strong></div>
+          <div class="kpi-row"><span>Receita recorrente mensal ativa</span><strong>${brl(y.recorrenciaAtiva)}</strong></div>
           <div class="kpi-row"><span>Clientes ativos</span><strong>${y.clientesAtivos}</strong></div>
-          <div class="kpi-row"><span>Custo fixo mensal</span><strong>${currency(y.custoFixoMensal)}</strong></div>
-          <div class="kpi-row"><span>Custo fixo anual</span><strong>${currency(y.custoFixoAnual)}</strong></div>
-          <div class="kpi-row"><span>Pró-labore anual</span><strong>${currency(y.proLaboreAnual)}</strong></div>
-          <div class="kpi-row"><span>Lucro anual estimado</span><strong style="color:${lucroAnualColor}">${currency(y.lucroAnual)}</strong></div>
+          <div class="kpi-row"><span>Custo fixo mensal</span><strong>${brl(y.custoFixoMensal)}</strong></div>
+          <div class="kpi-row"><span>Custo fixo anual</span><strong>${brl(y.custoFixoAnual)}</strong></div>
+          <div class="kpi-row"><span>Pró-labore anual</span><strong>${brl(y.proLaboreAnual)}</strong></div>
+          <div class="kpi-row"><span>Lucro anual estimado</span><strong>${brl(y.lucroAnual)}</strong></div>
           <div class="kpi-row"><span>Margem anual estimada</span><strong>${pct(y.margemAnual)}</strong></div>
-          <div class="kpi-row"><span>Faltam para meta de clientes</span><strong>${Math.max(Number(state.config.metaClientes) - y.clientesAtivos, 0)}</strong></div>
+          <div class="kpi-row"><span>Faltam para meta de clientes</span><strong>${Math.max(normalizeNumber(state.config.metaClientes) - y.clientesAtivos, 0)}</strong></div>
         </div>
       `;
 
-      document.getElementById('riskClients').innerHTML = state.clients
-        .filter(c => c.risco === 'Alto' || c.status === 'Risco')
-        .map(c => `<div class="danger-box"><strong>${c.cliente}</strong><div class="small">${currency(c.valorMensal)} / mês · Risco: ${c.risco}</div><div class="small">${c.observacao || ''}</div></div>`)
-        .join('') || '<div class="small">Nenhum cliente em risco.</div>';
+      const risk = state.clients.filter(client => client.risco === 'Alto' || client.status === 'Risco');
+      document.getElementById('riskClients').innerHTML = risk.length ? risk.map(client => `
+        <div class="danger-box">
+          <strong>${escapeHtml(client.cliente)}</strong>
+          <div class="small">${brl(client.valorMensal)} / mês</div>
+          <div class="small">${escapeHtml(client.observacao || '')}</div>
+        </div>
+      `).join('') : '<div class="small">Nenhum cliente em risco.</div>';
 
-      document.getElementById('monthStatusList').innerHTML = monthRows(state.config.dashboardMonth)
-        .map(r => {
-          const cls = 'status-' + String(r.status).toLowerCase().replace(/\s+/g,'-').normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-          return `<div class="kpi-row"><span>${r.cliente}</span><strong class="${cls}">${r.status}</strong></div>`;
-        })
-        .join('') || '<div class="small">Sem lançamentos neste mês.</div>';
-    }
-
-    function cellInput(value, oninputExpr, type = 'text', options = null) {
-      if (options) {
-        return `<select class="select" onchange="(${oninputExpr})(this.value)">${options.map(o => `<option value="${o}" ${String(value)===String(o)?'selected':''}>${o}</option>`).join('')}</select>`;
-      }
-      const escaped = String(value ?? '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-      return `<input class="input" type="${type}" value="${escaped}" oninput="(${oninputExpr})(this.value)">`;
+      document.getElementById('monthStatus').innerHTML = monthlyRows(month).map(row => `
+        <div class="kpi-row"><span>${escapeHtml(row.cliente)}</span><span>${makeTag(row.status)}</span></div>
+      `).join('') || '<div class="small">Sem lançamentos nesse mês.</div>';
     }
 
     function renderClients() {
       const table = document.getElementById('clientsTable');
+      if (!table) return;
       table.innerHTML = `
         <thead>
           <tr>
-            <th>Cliente</th><th>Serviço</th><th>Valor Mensal</th><th>Vencimento</th><th>Status</th><th>Risco</th><th>Observação</th><th></th>
+            <th>Cliente</th><th>Serviço</th><th>Valor mensal</th><th>Vencimento</th><th>Status</th><th>Risco</th><th>Observação</th><th></th>
           </tr>
         </thead>
-        <tbody>
-          ${state.clients.map((c, i) => `
-            <tr>
-              <td>${cellInput(c.cliente, `function(v){window.updateClient(${i},'cliente',v)}`)}</td>
-              <td>${cellInput(c.servico, `function(v){window.updateClient(${i},'servico',v)}`)}</td>
-              <td>${cellInput(c.valorMensal, `function(v){window.updateClient(${i},'valorMensal',v)}`, 'number')}</td>
-              <td>${cellInput(c.vencimento, `function(v){window.updateClient(${i},'vencimento',v)}`, 'number')}</td>
-              <td>${cellInput(c.status, `function(v){window.updateClient(${i},'status',v)}`, 'text', ['Ativo','Pausado','Encerrado','Risco'])}</td>
-              <td>${cellInput(c.risco, `function(v){window.updateClient(${i},'risco',v)}`, 'text', ['Baixo','Médio','Alto'])}</td>
-              <td>${cellInput(c.observacao, `function(v){window.updateClient(${i},'observacao',v)}`)}</td>
-              <td><button class="btn danger" onclick="window.deleteClient(${i})">Excluir</button></td>
-            </tr>
-          `).join('')}
-        </tbody>
+        <tbody></tbody>
       `;
+      const tbody = table.querySelector('tbody');
+      state.clients.forEach((client, index) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><input class="input" value="${escapeHtml(client.cliente)}"></td>
+          <td><input class="input" value="${escapeHtml(client.servico)}"></td>
+          <td><input class="input" type="number" value="${normalizeNumber(client.valorMensal)}"></td>
+          <td><input class="input" type="number" value="${normalizeNumber(client.vencimento, 10)}"></td>
+          <td>
+            <select class="select">${['Ativo','Pausado','Encerrado','Risco'].map(v => `<option ${client.status===v?'selected':''}>${v}</option>`).join('')}</select>
+          </td>
+          <td>
+            <select class="select">${['Baixo','Médio','Alto'].map(v => `<option ${client.risco===v?'selected':''}>${v}</option>`).join('')}</select>
+          </td>
+          <td><input class="input" value="${escapeHtml(client.observacao || '')}"></td>
+          <td><button class="btn" type="button">Excluir</button></td>
+        `;
+        const inputs = tr.querySelectorAll('input, select');
+        inputs[0].oninput = e => updateClient(index, 'cliente', e.target.value);
+        inputs[1].oninput = e => updateClient(index, 'servico', e.target.value);
+        inputs[2].oninput = e => updateClient(index, 'valorMensal', normalizeNumber(e.target.value));
+        inputs[3].oninput = e => updateClient(index, 'vencimento', normalizeNumber(e.target.value, 10));
+        inputs[4].onchange = e => updateClient(index, 'status', e.target.value);
+        inputs[5].onchange = e => updateClient(index, 'risco', e.target.value);
+        inputs[6].oninput = e => updateClient(index, 'observacao', e.target.value);
+        tr.querySelector('button').onclick = () => { state.clients.splice(index, 1); saveState(); renderAll(); };
+        tbody.appendChild(tr);
+      });
     }
 
     function renderMonthly() {
       const select = document.getElementById('filterMonth');
-      if (!select.dataset.bound) {
-        select.innerHTML = ['todos', ...MONTHS].map(m => `<option value="${m}">${m}</option>`).join('');
-        select.value = state.config.dashboardMonth;
-        select.onchange = () => renderMonthly();
-        select.dataset.bound = '1';
-      }
-      const month = select.value || state.config.dashboardMonth;
-      const rows = month === 'todos' ? state.monthly : state.monthly.filter(r => r.mes === month);
+      if (!select) return;
+      const previous = select.value;
+      select.innerHTML = ['todos'].concat(MONTHS).map(month => `<option value="${month}">${month}</option>`).join('');
+      select.value = previous && ['todos'].concat(MONTHS).includes(previous) ? previous : state.config.dashboardMonth;
+      const currentMonth = select.value || state.config.dashboardMonth;
+      select.onchange = () => renderMonthly();
+      const rows = currentMonth === 'todos' ? state.monthly : state.monthly.filter(row => row.mes === currentMonth);
+
       const table = document.getElementById('monthlyTable');
       table.innerHTML = `
         <thead>
           <tr>
-            <th>Mês</th><th>Cliente</th><th>Serviço</th><th>Valor Previsto</th><th>Valor Recebido</th><th>Status</th><th>Data Prevista</th><th>Data Pagamento</th><th>Observação</th><th></th>
+            <th>Mês</th><th>Cliente</th><th>Serviço</th><th>Valor previsto</th><th>Valor recebido</th><th>Status</th><th>Data prevista</th><th>Data pagamento</th><th>Observação</th><th></th>
           </tr>
         </thead>
-        <tbody>
-          ${rows.map(row => {
-            const i = state.monthly.indexOf(row);
-            const statusClass = 'status-' + String(row.status).toLowerCase().replace(/\s+/g,'-').normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-            return `
-              <tr>
-                <td>${cellInput(row.mes, `function(v){window.updateMonthly(${i},'mes',v)}`, 'text', MONTHS)}</td>
-                <td>${cellInput(row.cliente, `function(v){window.updateMonthly(${i},'cliente',v)}`)}</td>
-                <td>${cellInput(row.servico, `function(v){window.updateMonthly(${i},'servico',v)}`)}</td>
-                <td>${cellInput(row.valorPrevisto, `function(v){window.updateMonthly(${i}+'valorPrevisto',v)}`, 'number')}</td>
-                <td>${cellInput(row.valorRecebido, `function(v){window.updateMonthly(${i},'valorRecebido',v)}`, 'number')}</td>
-                <td><span class="${statusClass}">${row.status}</span> ${cellInput(row.status, `function(v){window.updateMonthly(${i},'status',v)}`, 'text', ['Pago','Não pagou','Parcial','Pendente','Atrasado','Cancelado'])}</td>
-                <td>${cellInput(row.dataPrevista, `function(v){window.updateMonthly(${i},'dataPrevista',v)}`)}</td>
-                <td>${cellInput(row.dataPagamento, `function(v){window.updateMonthly(${i},'dataPagamento',v)}`)}</td>
-                <td>${cellInput(row.observacao, `function(v){window.updateMonthly(${i},'observacao',v)}`)}</td>
-                <td><button class="btn danger" onclick="window.deleteMonthly(${i})">Excluir</button></td>
-              </tr>
-            `;
-          }).join('')}
-        </tbody>
+        <tbody></tbody>
       `;
+      const tbody = table.querySelector('tbody');
+      rows.forEach(row => {
+        const index = state.monthly.indexOf(row);
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><select class="select">${MONTHS.map(v => `<option ${row.mes===v?'selected':''}>${v}</option>`).join('')}</select></td>
+          <td><input class="input" value="${escapeHtml(row.cliente)}"></td>
+          <td><input class="input" value="${escapeHtml(row.servico)}"></td>
+          <td><input class="input" type="number" value="${normalizeNumber(row.valorPrevisto)}"></td>
+          <td><input class="input" type="number" value="${normalizeNumber(row.valorRecebido)}"></td>
+          <td><select class="select">${['Pago','Não pagou','Parcial','Pendente','Atrasado','Cancelado'].map(v => `<option ${row.status===v?'selected':''}>${v}</option>`).join('')}</select></td>
+          <td><input class="input" value="${escapeHtml(row.dataPrevista)}"></td>
+          <td><input class="input" value="${escapeHtml(row.dataPagamento)}"></td>
+          <td><input class="input" value="${escapeHtml(row.observacao || '')}"></td>
+          <td><button class="btn" type="button">Excluir</button></td>
+        `;
+        const inputs = tr.querySelectorAll('input, select');
+        inputs[0].onchange = e => updateMonthly(index, 'mes', e.target.value);
+        inputs[1].oninput = e => updateMonthly(index, 'cliente', e.target.value);
+        inputs[2].oninput = e => updateMonthly(index, 'servico', e.target.value);
+        inputs[3].oninput = e => updateMonthly(index, 'valorPrevisto', normalizeNumber(e.target.value));
+        inputs[4].oninput = e => updateMonthly(index, 'valorRecebido', normalizeNumber(e.target.value));
+        inputs[5].onchange = e => updateMonthly(index, 'status', e.target.value);
+        inputs[6].oninput = e => updateMonthly(index, 'dataPrevista', e.target.value);
+        inputs[7].oninput = e => updateMonthly(index, 'dataPagamento', e.target.value);
+        inputs[8].oninput = e => updateMonthly(index, 'observacao', e.target.value);
+        tr.querySelector('button').onclick = () => { state.monthly.splice(index, 1); saveState(); renderAll(); };
+        tbody.appendChild(tr);
+      });
     }
 
     function renderExpenses() {
-      const select = document.getElementById('filterExpenseMonth');
-      if (!select.dataset.bound) {
-        select.innerHTML = ['todos', ...MONTHS].map(m => `<option value="${m}">${m}</option>`).join('');
-        select.value = 'todos';
-        select.onchange = () => renderExpenses();
-        select.dataset.bound = '1';
-      }
-      const month = select.value || 'todos';
-      const rows = month === 'todos' ? state.expenses : state.expenses.filter(e => e.mes === month);
       const table = document.getElementById('expensesTable');
+      if (!table) return;
       table.innerHTML = `
         <thead>
           <tr>
             <th>Data</th><th>Mês</th><th>Categoria</th><th>Descrição</th><th>Tipo</th><th>Valor</th><th>Pago</th><th>Observação</th><th></th>
           </tr>
         </thead>
-        <tbody>
-          ${rows.map(e => {
-            const i = state.expenses.indexOf(e);
-            return `
-              <tr>
-                <td>${cellInput(e.data, `function(v){window.updateExpense(${i},'data',v)}`)}</td>
-                <td>${cellInput(e.mes, `function(v){window.updateExpense(${i},'mes',v)}`, 'text', MONTHS)}</td>
-                <td>${cellInput(e.categoria, `function(v){window.updateExpense(${i},'categoria',v)}`)}</td>
-                <td>${cellInput(e.descricao, `function(v){window.updateExpense(${i},'descricao',v)}`)}</td>
-                <td>${cellInput(e.tipo, `function(v){window.updateExpense(${i},'tipo',v)}`, 'text', ['Fixo','Variável'])}</td>
-                <td>${cellInput(e.valor, `function(v){window.updateExpense(${i},'valor',v)}`, 'number')}</td>
-                <td>${cellInput(e.pago, `function(v){window.updateExpense(${i},'pago',v)}`, 'text', ['Sim','Não'])}</td>
-                <td>${cellInput(e.observacao, `function(v){window.updateExpense(${i},'observacao',v)}`)}</td>
-                <td><button class="btn danger" onclick="window.deleteExpense(${i})">Excluir</button></td>
-              </tr>
-            `;
-          }).join('')}
-        </tbody>
+        <tbody></tbody>
       `;
+      const tbody = table.querySelector('tbody');
+      state.expenses.forEach((expense, index) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><input class="input" value="${escapeHtml(expense.data)}"></td>
+          <td><select class="select">${MONTHS.map(v => `<option ${expense.mes===v?'selected':''}>${v}</option>`).join('')}</select></td>
+          <td><input class="input" value="${escapeHtml(expense.categoria)}"></td>
+          <td><input class="input" value="${escapeHtml(expense.descricao)}"></td>
+          <td><select class="select">${['Fixo','Variável'].map(v => `<option ${expense.tipo===v?'selected':''}>${v}</option>`).join('')}</select></td>
+          <td><input class="input" type="number" value="${normalizeNumber(expense.valor)}"></td>
+          <td><select class="select">${['Sim','Não'].map(v => `<option ${expense.pago===v?'selected':''}>${v}</option>`).join('')}</select></td>
+          <td><input class="input" value="${escapeHtml(expense.observacao || '')}"></td>
+          <td><button class="btn" type="button">Excluir</button></td>
+        `;
+        const inputs = tr.querySelectorAll('input, select');
+        inputs[0].oninput = e => updateExpense(index, 'data', e.target.value);
+        inputs[1].onchange = e => updateExpense(index, 'mes', e.target.value);
+        inputs[2].oninput = e => updateExpense(index, 'categoria', e.target.value);
+        inputs[3].oninput = e => updateExpense(index, 'descricao', e.target.value);
+        inputs[4].onchange = e => updateExpense(index, 'tipo', e.target.value);
+        inputs[5].oninput = e => updateExpense(index, 'valor', normalizeNumber(e.target.value));
+        inputs[6].onchange = e => updateExpense(index, 'pago', e.target.value);
+        inputs[7].oninput = e => updateExpense(index, 'observacao', e.target.value);
+        tr.querySelector('button').onclick = () => { state.expenses.splice(index, 1); saveState(); renderAll(); };
+        tbody.appendChild(tr);
+      });
     }
 
     function renderDRE() {
-      const month = state.config.dashboardMonth;
-      const m = metricsForMonth(month);
-      const y = annualMetrics();
+      const annual = getYearMetrics();
+      const month = getMonthMetrics(state.config.dashboardMonth);
       document.getElementById('dreAnnual').innerHTML = `
         <div class="kpi-list">
-          <div class="kpi-row"><span>Receita total recebida</span><strong>${currency(y.receitaRecebida)}</strong></div>
-          <div class="kpi-row"><span>Receita prevista</span><strong>${currency(y.receitaPrevista)}</strong></div>
-          <div class="kpi-row"><span>(-) Custos fixos anuais</span><strong style="color:var(--red)">${currency(y.custoFixoAnual)}</strong></div>
-          <div class="kpi-row"><span>(-) Pró-labore anual</span><strong style="color:var(--red)">${currency(y.proLaboreAnual)}</strong></div>
-          <div class="kpi-row"><span>= Lucro líquido estimado</span><strong style="color:${y.lucroAnual>=0?'var(--green)':'var(--red)'};font-size:18px">${currency(y.lucroAnual)}</strong></div>
-          <div class="kpi-row"><span>Margem líquida</span><strong>${pct(y.margemAnual)}</strong></div>
+          <div class="kpi-row"><span>Receita total recebida</span><strong>${brl(annual.receitaRecebida)}</strong></div>
+          <div class="kpi-row"><span>Receita prevista</span><strong>${brl(annual.receitaPrevista)}</strong></div>
+          <div class="kpi-row"><span>Custos fixos anuais</span><strong>${brl(annual.custoFixoAnual)}</strong></div>
+          <div class="kpi-row"><span>Pró-labore anual</span><strong>${brl(annual.proLaboreAnual)}</strong></div>
+          <div class="kpi-row"><span>Lucro líquido estimado</span><strong>${brl(annual.lucroAnual)}</strong></div>
+          <div class="kpi-row"><span>Margem líquida</span><strong>${pct(annual.margemAnual)}</strong></div>
         </div>
       `;
       document.getElementById('dreMonth').innerHTML = `
         <div class="kpi-list">
-          <div class="kpi-row"><span>Mês</span><strong>${month}</strong></div>
-          <div class="kpi-row"><span>Receita recebida</span><strong>${currency(m.recebido)}</strong></div>
-          <div class="kpi-row"><span>Receita prevista</span><strong>${currency(m.previsto)}</strong></div>
-          <div class="kpi-row"><span>(-) Despesas + pró-labore</span><strong style="color:var(--red)">${currency(m.despesaMes)}</strong></div>
-          <div class="kpi-row"><span>= Lucro operacional</span><strong style="color:${m.lucroMes>=0?'var(--green)':'var(--red)'};font-size:18px">${currency(m.lucroMes)}</strong></div>
-          <div class="kpi-row"><span>Margem operacional</span><strong>${pct(m.margemMes)}</strong></div>
+          <div class="kpi-row"><span>Mês</span><strong>${state.config.dashboardMonth}</strong></div>
+          <div class="kpi-row"><span>Receita recebida</span><strong>${brl(month.recebido)}</strong></div>
+          <div class="kpi-row"><span>Receita prevista</span><strong>${brl(month.previsto)}</strong></div>
+          <div class="kpi-row"><span>Despesas + pró-labore</span><strong>${brl(month.despesasMes)}</strong></div>
+          <div class="kpi-row"><span>Lucro operacional</span><strong>${brl(month.lucro)}</strong></div>
+          <div class="kpi-row"><span>Margem operacional</span><strong>${pct(month.margem)}</strong></div>
         </div>
       `;
     }
@@ -903,22 +824,22 @@
     function renderCashflow() {
       let acumulado = 0;
       const rows = MONTHS.map(month => {
-        const entrada = state.monthly.filter(r => r.mes === month).reduce((s, r) => s + Number(r.valorRecebido || 0), 0);
-        const saida = state.expenses.filter(e => e.mes === month).reduce((s, e) => s + Number(e.valor || 0), 0) + Number(state.config.proLaboreMensal || 0);
-        const saldo = entrada - saida;
+        const entradas = state.monthly.filter(row => row.mes === month).reduce((sum, row) => sum + normalizeNumber(row.valorRecebido), 0);
+        const saidas = state.expenses.filter(expense => expense.mes === month).reduce((sum, expense) => sum + normalizeNumber(expense.valor), 0) + normalizeNumber(state.config.proLaboreMensal);
+        const saldo = entradas - saidas;
         acumulado += saldo;
-        return { month, entrada, saida, saldo, acumulado };
+        return { month, entradas, saidas, saldo, acumulado };
       });
       document.getElementById('cashflowTable').innerHTML = `
         <thead><tr><th>Mês</th><th>Entradas</th><th>Saídas</th><th>Saldo do mês</th><th>Saldo acumulado</th></tr></thead>
         <tbody>
-          ${rows.map(r => `
+          ${rows.map(row => `
             <tr>
-              <td>${r.month}</td>
-              <td>${currency(r.entrada)}</td>
-              <td style="color:var(--red)">${currency(r.saida)}</td>
-              <td class="right" style="color:${r.saldo>=0?'var(--green)':'var(--red)'}"><strong>${currency(r.saldo)}</strong></td>
-              <td class="right" style="color:${r.acumulado>=0?'var(--green)':'var(--red)'}"><strong>${currency(r.acumulado)}</strong></td>
+              <td>${row.month}</td>
+              <td>${brl(row.entradas)}</td>
+              <td>${brl(row.saidas)}</td>
+              <td>${brl(row.saldo)}</td>
+              <td>${brl(row.acumulado)}</td>
             </tr>
           `).join('')}
         </tbody>
@@ -926,20 +847,48 @@
     }
 
     function renderConfig() {
-      const box = document.getElementById('configFields');
-      box.innerHTML = `
-        <div class="field"><label>Mês do painel</label><select class="select" onchange="window.updateConfig('dashboardMonth', this.value)">${MONTHS.map(m => `<option value="${m}" ${state.config.dashboardMonth===m?'selected':''}>${m}</option>`).join('')}</select></div>
-        <div class="field"><label>Pró-labore mensal (R$)</label><input class="input" type="number" value="${state.config.proLaboreMensal}" oninput="window.updateConfig('proLaboreMensal', this.value)"></div>
-        <div class="field"><label>Meta de receita mensal (R$)</label><input class="input" type="number" value="${state.config.metaReceitaMensal}" oninput="window.updateConfig('metaReceitaMensal', this.value)"></div>
-        <div class="field"><label>Meta de clientes ativos</label><input class="input" type="number" value="${state.config.metaClientes}" oninput="window.updateConfig('metaClientes', this.value)"></div>
-        <div class="field"><label>Multa atraso (ex: 0.02 = 2%)</label><input class="input" type="number" step="0.01" value="${state.config.multaAtraso}" oninput="window.updateConfig('multaAtraso', this.value)"></div>
-        <div class="field"><label>Juros ao mês (ex: 0.01 = 1%)</label><input class="input" type="number" step="0.01" value="${state.config.jurosMes}" oninput="window.updateConfig('jurosMes', this.value)"></div>
-        <div class="field"><label>Reserva desejada (meses)</label><input class="input" type="number" value="${state.config.reservaMeses}" oninput="window.updateConfig('reservaMeses', this.value)"></div>
-        <div class="field">
-          <label>Reserva ideal necessária</label>
-          <div class="input" style="background:#f8fafc;cursor:default">${currency(fixedMonthlyCost() * state.config.reservaMeses + state.config.proLaboreMensal * state.config.reservaMeses)}</div>
-        </div>
+      const grid = document.getElementById('configGrid');
+      if (!grid) return;
+      grid.innerHTML = `
+        <div class="field"><label>Mês do painel</label><select class="select" id="cfgMonth">${MONTHS.map(month => `<option ${state.config.dashboardMonth===month?'selected':''}>${month}</option>`).join('')}</select></div>
+        <div class="field"><label>Pró-labore mensal</label><input class="input" id="cfgProlabore" type="number" value="${normalizeNumber(state.config.proLaboreMensal)}"></div>
+        <div class="field"><label>Meta de receita mensal</label><input class="input" id="cfgMetaReceita" type="number" value="${normalizeNumber(state.config.metaReceitaMensal)}"></div>
+        <div class="field"><label>Meta de clientes</label><input class="input" id="cfgMetaClientes" type="number" value="${normalizeNumber(state.config.metaClientes)}"></div>
+        <div class="field"><label>Multa atraso</label><input class="input" id="cfgMulta" type="number" step="0.01" value="${normalizeNumber(state.config.multaAtraso)}"></div>
+        <div class="field"><label>Juros mês</label><input class="input" id="cfgJuros" type="number" step="0.01" value="${normalizeNumber(state.config.jurosMes)}"></div>
+        <div class="field"><label>Reserva (meses)</label><input class="input" id="cfgReserva" type="number" value="${normalizeNumber(state.config.reservaMeses)}"></div>
       `;
+      document.getElementById('cfgMonth').onchange = e => updateConfig('dashboardMonth', e.target.value);
+      document.getElementById('cfgProlabore').oninput = e => updateConfig('proLaboreMensal', normalizeNumber(e.target.value));
+      document.getElementById('cfgMetaReceita').oninput = e => updateConfig('metaReceitaMensal', normalizeNumber(e.target.value));
+      document.getElementById('cfgMetaClientes').oninput = e => updateConfig('metaClientes', normalizeNumber(e.target.value));
+      document.getElementById('cfgMulta').oninput = e => updateConfig('multaAtraso', normalizeNumber(e.target.value));
+      document.getElementById('cfgJuros').oninput = e => updateConfig('jurosMes', normalizeNumber(e.target.value));
+      document.getElementById('cfgReserva').oninput = e => updateConfig('reservaMeses', normalizeNumber(e.target.value));
+    }
+
+    function updateClient(index, key, value) {
+      state.clients[index][key] = value;
+      saveState();
+      renderAll();
+    }
+
+    function updateMonthly(index, key, value) {
+      state.monthly[index][key] = value;
+      saveState();
+      renderAll();
+    }
+
+    function updateExpense(index, key, value) {
+      state.expenses[index][key] = value;
+      saveState();
+      renderAll();
+    }
+
+    function updateConfig(key, value) {
+      state.config[key] = value;
+      saveState();
+      renderAll();
     }
 
     function renderAll() {
@@ -952,80 +901,34 @@
       renderConfig();
     }
 
-    // CRUD operations
-    window.updateClient = (index, key, value) => {
-      state.clients[index][key] = ['valorMensal','vencimento'].includes(key) ? Number(value || 0) : value;
-      save(state);
-      showToast('✅ Salvo automaticamente');
-      renderAll();
-    };
-    window.deleteClient = index => {
-      if (!confirm(`Excluir cliente "${state.clients[index].cliente}"?`)) return;
-      state.clients.splice(index, 1);
-      save(state);
-      renderAll();
-    };
-    window.updateMonthly = (index, key, value) => {
-      state.monthly[index][key] = ['valorPrevisto','valorRecebido'].includes(key) ? Number(value || 0) : value;
-      save(state);
-      showToast('✅ Salvo automaticamente');
-      renderAll();
-    };
-    window.deleteMonthly = index => {
-      state.monthly.splice(index, 1);
-      save(state);
-      renderAll();
-    };
-    window.updateExpense = (index, key, value) => {
-      state.expenses[index][key] = key === 'valor' ? Number(value || 0) : value;
-      save(state);
-      showToast('✅ Salvo automaticamente');
-      renderAll();
-    };
-    window.deleteExpense = index => {
-      state.expenses.splice(index, 1);
-      save(state);
-      renderAll();
-    };
-    window.updateConfig = (key, value) => {
-      state.config[key] = ['proLaboreMensal','metaReceitaMensal','metaClientes','multaAtraso','jurosMes','reservaMeses'].includes(key) ? Number(value || 0) : value;
-      save(state);
-      showToast('✅ Configuração salva');
+    document.getElementById('addClientBtn').onclick = function() {
+      state.clients.push({ cliente: '', servico: 'Posts recorrentes', valorMensal: 0, vencimento: 10, status: 'Ativo', risco: 'Baixo', observacao: '' });
+      saveState();
       renderAll();
     };
 
-    // Add rows
-    document.getElementById('addClientBtn').onclick = () => {
-      state.clients.push({ cliente: 'Novo cliente', servico: 'Posts recorrentes', valorMensal: 0, vencimento: 10, status: 'Ativo', risco: 'Baixo', observacao: '' });
-      save(state);
-      renderAll();
-      setActivePanel('clientes');
-    };
-    document.getElementById('addMonthlyRowBtn').onclick = () => {
+    document.getElementById('addMonthlyBtn').onclick = function() {
       state.monthly.push({ mes: state.config.dashboardMonth, cliente: '', servico: 'Posts recorrentes', valorPrevisto: 0, valorRecebido: 0, status: 'Pendente', dataPrevista: '', dataPagamento: '', observacao: '' });
-      save(state);
+      saveState();
       renderAll();
     };
-    document.getElementById('addExpenseBtn').onclick = () => {
+
+    document.getElementById('addExpenseBtn').onclick = function() {
       state.expenses.push({ data: '', mes: state.config.dashboardMonth, categoria: '', descricao: '', tipo: 'Fixo', valor: 0, pago: 'Sim', observacao: '' });
-      save(state);
+      saveState();
       renderAll();
     };
 
-    // Restore defaults
-    document.getElementById('loadSampleBtn').onclick = () => {
-      if (!confirm('Isso vai restaurar todos os dados base. Continuar?')) return;
-      createBackup();
-      state = structuredClone(defaultData);
-      state.monthly = buildSampleMonthly(state.clients);
-      state.expenses = buildSampleExpenses();
-      save(state);
+    document.getElementById('restoreBtn').onclick = function() {
+      state = sanitizeState(DEFAULT_DATA);
+      state.monthly = buildMonthlySeed(state.clients);
+      state.expenses = buildExpenseSeed();
+      saveState();
       renderAll();
-      showToast('✅ Dados restaurados. Backup salvo.');
+      notice('Dados-base restaurados.');
     };
 
-    // Export JSON
-    document.getElementById('exportJsonBtn').onclick = () => {
+    document.getElementById('exportBtn').onclick = function() {
       const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -1033,70 +936,47 @@
       a.download = 'nomi-studio-financeiro-2026.json';
       a.click();
       URL.revokeObjectURL(url);
-      showToast('✅ JSON exportado!');
+      notice('JSON exportado com sucesso.');
     };
 
-    // Import JSON
-    document.getElementById('importJsonBtn').onclick = () => {
-      document.getElementById('importModal').classList.add('open');
-    };
-    window.doImport = () => {
-      try {
-        const raw = document.getElementById('importTextarea').value.trim();
-        const parsed = JSON.parse(raw);
-        if (!parsed.clients || !parsed.monthly || !parsed.expenses) throw new Error('JSON inválido');
-        createBackup();
-        state = parsed;
-        save(state);
-        renderAll();
-        document.getElementById('importModal').classList.remove('open');
-        document.getElementById('importTextarea').value = '';
-        showToast('✅ Dados importados com sucesso!');
-      } catch(e) {
-        alert('Erro ao importar: ' + e.message);
-      }
+    document.getElementById('backupBtn').onclick = function() {
+      saveState();
+      notice('Backup local salvo no navegador.');
     };
 
-    // Backup local
-    document.getElementById('backupBtn').onclick = () => {
-      createBackup();
-      // Also download as JSON
-      const blob = new Blob([JSON.stringify({ backup: new Date().toISOString(), state }, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `nomi-backup-${new Date().toISOString().slice(0,10)}.json`;
-      a.click();
-      URL.revokeObjectURL(url);
-      showToast('✅ Backup salvo localmente e no browser!');
+    document.getElementById('importBtn').onclick = function() {
+      document.getElementById('importFile').click();
     };
 
-    // Download HTML (with embedded current state)
-    document.getElementById('downloadHtmlBtn').onclick = () => {
-      const htmlContent = document.documentElement.outerHTML;
-      const blob = new Blob([htmlContent], { type: 'text/html' });
+    document.getElementById('importFile').onchange = function(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function() {
+        try {
+          const parsed = JSON.parse(String(reader.result || '{}'));
+          state = sanitizeState(parsed);
+          saveState();
+          renderAll();
+          notice('Dados importados com sucesso.');
+        } catch {
+          notice('Arquivo JSON inválido.', true);
+        }
+      };
+      reader.readAsText(file, 'UTF-8');
+      event.target.value = '';
+    };
+
+    document.getElementById('downloadBtn').onclick = function() {
+      const blob = new Blob([document.documentElement.outerHTML], { type: 'text/html;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
       a.download = 'nomi-studio-financeiro-2026.html';
       a.click();
       URL.revokeObjectURL(url);
-      showToast('✅ HTML baixado!');
+      notice('HTML baixado com sucesso.');
     };
-
-    // Keyboard shortcut: Ctrl+S to backup
-    document.addEventListener('keydown', e => {
-      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-        e.preventDefault();
-        createBackup();
-        showToast('✅ Backup rápido salvo! (Ctrl+S)');
-      }
-    });
-
-    // Auto-backup every 5 minutes
-    setInterval(() => {
-      createBackup();
-    }, 5 * 60 * 1000);
 
     renderTabs();
     renderAll();
