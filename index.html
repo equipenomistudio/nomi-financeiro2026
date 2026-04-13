@@ -21,6 +21,7 @@
     }
 
     * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
       font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -28,7 +29,7 @@
       color: var(--text);
     }
     .container {
-      max-width: 1400px;
+      max-width: 1440px;
       margin: 0 auto;
       padding: 24px;
     }
@@ -48,14 +49,14 @@
     .subtitle {
       margin-top: 8px;
       color: var(--muted);
-      max-width: 700px;
+      max-width: 720px;
     }
     .actions {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
     }
-    .btn, .input, .select {
+    .btn, .input, .select, textarea {
       font: inherit;
       border-radius: 14px;
     }
@@ -65,6 +66,7 @@
       color: var(--text);
       padding: 11px 15px;
       cursor: pointer;
+      min-height: 44px;
     }
     .btn.primary {
       background: var(--navy);
@@ -90,6 +92,7 @@
       background: transparent;
       color: var(--muted);
       cursor: pointer;
+      white-space: nowrap;
     }
     .tab.active {
       background: var(--navy);
@@ -120,6 +123,7 @@
       justify-content: space-between;
       align-items: center;
       gap: 12px;
+      flex-wrap: wrap;
     }
     .card-header h3 {
       margin: 0;
@@ -127,7 +131,13 @@
     }
     .card-body { padding: 18px; }
     .metric-label { color: var(--muted); font-size: 14px; }
-    .metric-value { font-size: 30px; font-weight: 700; margin-top: 6px; }
+    .metric-value {
+      font-size: clamp(24px, 3vw, 30px);
+      font-weight: 700;
+      margin-top: 6px;
+      line-height: 1.1;
+      word-break: break-word;
+    }
     .metric-hint { font-size: 13px; color: var(--muted); margin-top: 6px; }
     .toolbar {
       display: flex;
@@ -141,25 +151,32 @@
       flex-direction: column;
       gap: 6px;
       min-width: 180px;
+      flex: 1 1 180px;
     }
     .field label { font-size: 13px; color: var(--muted); }
-    .input, .select {
+    .input, .select, textarea {
       min-height: 42px;
       border: 1px solid var(--line);
       background: white;
       padding: 10px 12px;
       width: 100%;
+      color: var(--text);
+    }
+    textarea {
+      min-height: 80px;
+      resize: vertical;
     }
     .table-wrap {
       overflow: auto;
       border: 1px solid var(--line);
       border-radius: 16px;
       background: white;
+      -webkit-overflow-scrolling: touch;
     }
     table {
       width: 100%;
       border-collapse: collapse;
-      min-width: 900px;
+      min-width: 1180px;
     }
     th, td {
       padding: 12px;
@@ -174,6 +191,7 @@
       position: sticky;
       top: 0;
       z-index: 1;
+      white-space: nowrap;
     }
     .small { font-size: 13px; color: var(--muted); }
     .kpi-list { display: grid; gap: 10px; }
@@ -183,6 +201,7 @@
       gap: 12px;
       border-bottom: 1px solid var(--line);
       padding-bottom: 10px;
+      align-items: flex-start;
     }
     .kpi-row:last-child { border-bottom: 0; padding-bottom: 0; }
     .tag {
@@ -192,6 +211,7 @@
       padding: 5px 10px;
       font-size: 12px;
       font-weight: 700;
+      white-space: nowrap;
     }
     .tag-green { background: #dcfce7; color: #166534; }
     .tag-yellow { background: #fef3c7; color: #92400e; }
@@ -214,8 +234,50 @@
       display: none;
     }
     .notice.show { display: block; }
+    .diagnostic {
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+    }
+    .diagnostic h4 {
+      margin: 0 0 10px;
+      font-size: 16px;
+    }
+    .diagnostic p {
+      margin: 0 0 8px;
+      line-height: 1.5;
+    }
+    .diagnostic .action {
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 12px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+    }
+    .stack {
+      display: grid;
+      gap: 16px;
+    }
+
     @media (max-width: 1100px) {
       .grid, .grid-2 { grid-template-columns: 1fr; }
+      .container { padding: 16px; }
+      .topbar { flex-direction: column; }
+      .actions { width: 100%; }
+      .actions .btn { flex: 1 1 160px; }
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 24px; }
+      .card-body, .card-header { padding-left: 14px; padding-right: 14px; }
+      .tabs { overflow-x: auto; flex-wrap: nowrap; }
+      .tab { flex: 0 0 auto; }
+      .toolbar { flex-direction: column; align-items: stretch; }
+      .field { min-width: 100%; }
+      .kpi-row { flex-direction: column; gap: 6px; }
+      table { min-width: 980px; }
+      .input, .select, .btn { min-height: 46px; }
     }
   </style>
 </head>
@@ -289,16 +351,28 @@
       <div class="card">
         <div class="card-header"><h3>Despesas</h3></div>
         <div class="card-body">
-          <div class="toolbar"><button class="btn primary" id="addExpenseBtn">Adicionar despesa</button></div>
+          <div class="toolbar">
+            <div class="field">
+              <label for="expenseFilterMonth">Filtrar por mês</label>
+              <select id="expenseFilterMonth" class="select"></select>
+            </div>
+            <button class="btn primary" id="addExpenseBtn">Adicionar despesa</button>
+          </div>
           <div class="table-wrap"><table id="expensesTable"></table></div>
         </div>
       </div>
     </section>
 
     <section class="panel" data-panel="dre">
-      <div class="grid-2">
-        <div class="card"><div class="card-header"><h3>DRE anual</h3></div><div class="card-body" id="dreAnnual"></div></div>
-        <div class="card"><div class="card-header"><h3>DRE do mês</h3></div><div class="card-body" id="dreMonth"></div></div>
+      <div class="stack">
+        <div class="grid-2">
+          <div class="card"><div class="card-header"><h3>DRE anual</h3></div><div class="card-body" id="dreAnnual"></div></div>
+          <div class="card"><div class="card-header"><h3>DRE do mês</h3></div><div class="card-body" id="dreMonth"></div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3>Diagnóstico financeiro</h3></div>
+          <div class="card-body"><div id="dreDiagnostic"></div></div>
+        </div>
       </div>
     </section>
 
@@ -375,7 +449,7 @@
     }
 
     function saveState() {
-      localStorage.setItem('nomi_financeiro_2026_v3', JSON.stringify(state));
+      localStorage.setItem('nomi_financeiro_2026_v4', JSON.stringify(state));
     }
 
     function buildMonthlySeed(clients) {
@@ -491,7 +565,7 @@
 
     function loadState() {
       try {
-        const raw = localStorage.getItem('nomi_financeiro_2026_v3') || localStorage.getItem('nomi_financeiro_2026_v2');
+        const raw = localStorage.getItem('nomi_financeiro_2026_v4') || localStorage.getItem('nomi_financeiro_2026_v3') || localStorage.getItem('nomi_financeiro_2026_v2');
         if (!raw) return sanitizeState(DEFAULT_DATA);
         return sanitizeState(JSON.parse(raw));
       } catch {
@@ -515,11 +589,11 @@
     function setPanel(name) {
       document.querySelectorAll('.panel').forEach(panel => panel.classList.toggle('active', panel.dataset.panel === name));
       document.querySelectorAll('.tab').forEach(tab => tab.classList.toggle('active', tab.dataset.tab === name));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function renderTabs() {
       const wrap = document.getElementById('tabs');
-      if (!wrap) return;
       wrap.innerHTML = '';
       TABS.forEach((item, index) => {
         const btn = document.createElement('button');
@@ -593,7 +667,6 @@
 
     function renderDashboard() {
       const monthSelect = document.getElementById('dashboardMonth');
-      if (!monthSelect) return;
       monthSelect.innerHTML = MONTHS.map(month => `<option value="${month}">${month}</option>`).join('');
       monthSelect.value = MONTHS.includes(state.config.dashboardMonth) ? state.config.dashboardMonth : DEFAULT_DATA.config.dashboardMonth;
       monthSelect.onchange = function() {
@@ -666,57 +739,58 @@
       `).join('') || '<div class="small">Sem lançamentos nesse mês.</div>';
     }
 
+    function buildClientRow(client, index) {
+      return `
+        <tr>
+          <td><input class="input" data-type="client" data-index="${index}" data-key="cliente" value="${escapeHtml(client.cliente)}"></td>
+          <td><input class="input" data-type="client" data-index="${index}" data-key="servico" value="${escapeHtml(client.servico)}"></td>
+          <td><input class="input" type="number" data-type="client" data-index="${index}" data-key="valorMensal" value="${normalizeNumber(client.valorMensal)}"></td>
+          <td><input class="input" type="number" data-type="client" data-index="${index}" data-key="vencimento" value="${normalizeNumber(client.vencimento, 10)}"></td>
+          <td><select class="select" data-type="client" data-index="${index}" data-key="status">${['Ativo','Pausado','Encerrado','Risco'].map(v => `<option ${client.status===v?'selected':''}>${v}</option>`).join('')}</select></td>
+          <td><select class="select" data-type="client" data-index="${index}" data-key="risco">${['Baixo','Médio','Alto'].map(v => `<option ${client.risco===v?'selected':''}>${v}</option>`).join('')}</select></td>
+          <td><input class="input" data-type="client" data-index="${index}" data-key="observacao" value="${escapeHtml(client.observacao || '')}"></td>
+          <td><button class="btn" type="button" onclick="deleteClient(${index})">Excluir</button></td>
+        </tr>
+      `;
+    }
+
     function renderClients() {
       const table = document.getElementById('clientsTable');
-      if (!table) return;
       table.innerHTML = `
         <thead>
           <tr>
             <th>Cliente</th><th>Serviço</th><th>Valor mensal</th><th>Vencimento</th><th>Status</th><th>Risco</th><th>Observação</th><th></th>
           </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>${state.clients.map(buildClientRow).join('')}</tbody>
       `;
-      const tbody = table.querySelector('tbody');
-      state.clients.forEach((client, index) => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td><input class="input" value="${escapeHtml(client.cliente)}"></td>
-          <td><input class="input" value="${escapeHtml(client.servico)}"></td>
-          <td><input class="input" type="number" value="${normalizeNumber(client.valorMensal)}"></td>
-          <td><input class="input" type="number" value="${normalizeNumber(client.vencimento, 10)}"></td>
-          <td>
-            <select class="select">${['Ativo','Pausado','Encerrado','Risco'].map(v => `<option ${client.status===v?'selected':''}>${v}</option>`).join('')}</select>
-          </td>
-          <td>
-            <select class="select">${['Baixo','Médio','Alto'].map(v => `<option ${client.risco===v?'selected':''}>${v}</option>`).join('')}</select>
-          </td>
-          <td><input class="input" value="${escapeHtml(client.observacao || '')}"></td>
-          <td><button class="btn" type="button">Excluir</button></td>
-        `;
-        const inputs = tr.querySelectorAll('input, select');
-        inputs[0].oninput = e => updateClient(index, 'cliente', e.target.value);
-        inputs[1].oninput = e => updateClient(index, 'servico', e.target.value);
-        inputs[2].oninput = e => updateClient(index, 'valorMensal', normalizeNumber(e.target.value));
-        inputs[3].oninput = e => updateClient(index, 'vencimento', normalizeNumber(e.target.value, 10));
-        inputs[4].onchange = e => updateClient(index, 'status', e.target.value);
-        inputs[5].onchange = e => updateClient(index, 'risco', e.target.value);
-        inputs[6].oninput = e => updateClient(index, 'observacao', e.target.value);
-        tr.querySelector('button').onclick = () => { state.clients.splice(index, 1); saveState(); renderAll(); };
-        tbody.appendChild(tr);
-      });
+    }
+
+    function buildMonthlyRow(row, index) {
+      return `
+        <tr>
+          <td><select class="select" data-type="monthly" data-index="${index}" data-key="mes">${MONTHS.map(v => `<option ${row.mes===v?'selected':''}>${v}</option>`).join('')}</select></td>
+          <td><input class="input" data-type="monthly" data-index="${index}" data-key="cliente" value="${escapeHtml(row.cliente)}"></td>
+          <td><input class="input" data-type="monthly" data-index="${index}" data-key="servico" value="${escapeHtml(row.servico)}"></td>
+          <td><input class="input" type="number" data-type="monthly" data-index="${index}" data-key="valorPrevisto" value="${normalizeNumber(row.valorPrevisto)}"></td>
+          <td><input class="input" type="number" data-type="monthly" data-index="${index}" data-key="valorRecebido" value="${normalizeNumber(row.valorRecebido)}"></td>
+          <td><select class="select" data-type="monthly" data-index="${index}" data-key="status">${['Pago','Não pagou','Parcial','Pendente','Atrasado','Cancelado'].map(v => `<option ${row.status===v?'selected':''}>${v}</option>`).join('')}</select></td>
+          <td><input class="input" data-type="monthly" data-index="${index}" data-key="dataPrevista" value="${escapeHtml(row.dataPrevista)}"></td>
+          <td><input class="input" data-type="monthly" data-index="${index}" data-key="dataPagamento" value="${escapeHtml(row.dataPagamento)}"></td>
+          <td><input class="input" data-type="monthly" data-index="${index}" data-key="observacao" value="${escapeHtml(row.observacao || '')}"></td>
+          <td><button class="btn" type="button" onclick="deleteMonthly(${index})">Excluir</button></td>
+        </tr>
+      `;
     }
 
     function renderMonthly() {
       const select = document.getElementById('filterMonth');
-      if (!select) return;
       const previous = select.value;
       select.innerHTML = ['todos'].concat(MONTHS).map(month => `<option value="${month}">${month}</option>`).join('');
       select.value = previous && ['todos'].concat(MONTHS).includes(previous) ? previous : state.config.dashboardMonth;
-      const currentMonth = select.value || state.config.dashboardMonth;
       select.onchange = () => renderMonthly();
+      const currentMonth = select.value || state.config.dashboardMonth;
       const rows = currentMonth === 'todos' ? state.monthly : state.monthly.filter(row => row.mes === currentMonth);
-
       const table = document.getElementById('monthlyTable');
       table.innerHTML = `
         <thead>
@@ -724,81 +798,69 @@
             <th>Mês</th><th>Cliente</th><th>Serviço</th><th>Valor previsto</th><th>Valor recebido</th><th>Status</th><th>Data prevista</th><th>Data pagamento</th><th>Observação</th><th></th>
           </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>${rows.map(row => buildMonthlyRow(row, state.monthly.indexOf(row))).join('')}</tbody>
       `;
-      const tbody = table.querySelector('tbody');
-      rows.forEach(row => {
-        const index = state.monthly.indexOf(row);
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td><select class="select">${MONTHS.map(v => `<option ${row.mes===v?'selected':''}>${v}</option>`).join('')}</select></td>
-          <td><input class="input" value="${escapeHtml(row.cliente)}"></td>
-          <td><input class="input" value="${escapeHtml(row.servico)}"></td>
-          <td><input class="input" type="number" value="${normalizeNumber(row.valorPrevisto)}"></td>
-          <td><input class="input" type="number" value="${normalizeNumber(row.valorRecebido)}"></td>
-          <td><select class="select">${['Pago','Não pagou','Parcial','Pendente','Atrasado','Cancelado'].map(v => `<option ${row.status===v?'selected':''}>${v}</option>`).join('')}</select></td>
-          <td><input class="input" value="${escapeHtml(row.dataPrevista)}"></td>
-          <td><input class="input" value="${escapeHtml(row.dataPagamento)}"></td>
-          <td><input class="input" value="${escapeHtml(row.observacao || '')}"></td>
-          <td><button class="btn" type="button">Excluir</button></td>
-        `;
-        const inputs = tr.querySelectorAll('input, select');
-        inputs[0].onchange = e => updateMonthly(index, 'mes', e.target.value);
-        inputs[1].oninput = e => updateMonthly(index, 'cliente', e.target.value);
-        inputs[2].oninput = e => updateMonthly(index, 'servico', e.target.value);
-        inputs[3].oninput = e => updateMonthly(index, 'valorPrevisto', normalizeNumber(e.target.value));
-        inputs[4].oninput = e => updateMonthly(index, 'valorRecebido', normalizeNumber(e.target.value));
-        inputs[5].onchange = e => updateMonthly(index, 'status', e.target.value);
-        inputs[6].oninput = e => updateMonthly(index, 'dataPrevista', e.target.value);
-        inputs[7].oninput = e => updateMonthly(index, 'dataPagamento', e.target.value);
-        inputs[8].oninput = e => updateMonthly(index, 'observacao', e.target.value);
-        tr.querySelector('button').onclick = () => { state.monthly.splice(index, 1); saveState(); renderAll(); };
-        tbody.appendChild(tr);
-      });
+    }
+
+    function buildExpenseRow(expense, index) {
+      return `
+        <tr>
+          <td><input class="input" data-type="expense" data-index="${index}" data-key="data" value="${escapeHtml(expense.data)}"></td>
+          <td><select class="select" data-type="expense" data-index="${index}" data-key="mes">${MONTHS.map(v => `<option ${expense.mes===v?'selected':''}>${v}</option>`).join('')}</select></td>
+          <td><input class="input" data-type="expense" data-index="${index}" data-key="categoria" value="${escapeHtml(expense.categoria)}"></td>
+          <td><input class="input" data-type="expense" data-index="${index}" data-key="descricao" value="${escapeHtml(expense.descricao)}"></td>
+          <td><select class="select" data-type="expense" data-index="${index}" data-key="tipo">${['Fixo','Variável'].map(v => `<option ${expense.tipo===v?'selected':''}>${v}</option>`).join('')}</select></td>
+          <td><input class="input" type="number" data-type="expense" data-index="${index}" data-key="valor" value="${normalizeNumber(expense.valor)}"></td>
+          <td><select class="select" data-type="expense" data-index="${index}" data-key="pago">${['Sim','Não'].map(v => `<option ${expense.pago===v?'selected':''}>${v}</option>`).join('')}</select></td>
+          <td><input class="input" data-type="expense" data-index="${index}" data-key="observacao" value="${escapeHtml(expense.observacao || '')}"></td>
+          <td><button class="btn" type="button" onclick="deleteExpense(${index})">Excluir</button></td>
+        </tr>
+      `;
     }
 
     function renderExpenses() {
+      const select = document.getElementById('expenseFilterMonth');
+      const previous = select.value;
+      select.innerHTML = ['todos'].concat(MONTHS).map(month => `<option value="${month}">${month}</option>`).join('');
+      select.value = previous && ['todos'].concat(MONTHS).includes(previous) ? previous : state.config.dashboardMonth;
+      select.onchange = () => renderExpenses();
+      const currentMonth = select.value || state.config.dashboardMonth;
+      const rows = currentMonth === 'todos' ? state.expenses : state.expenses.filter(expense => expense.mes === currentMonth);
       const table = document.getElementById('expensesTable');
-      if (!table) return;
       table.innerHTML = `
         <thead>
           <tr>
             <th>Data</th><th>Mês</th><th>Categoria</th><th>Descrição</th><th>Tipo</th><th>Valor</th><th>Pago</th><th>Observação</th><th></th>
           </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>${rows.map(expense => buildExpenseRow(expense, state.expenses.indexOf(expense))).join('')}</tbody>
       `;
-      const tbody = table.querySelector('tbody');
-      state.expenses.forEach((expense, index) => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td><input class="input" value="${escapeHtml(expense.data)}"></td>
-          <td><select class="select">${MONTHS.map(v => `<option ${expense.mes===v?'selected':''}>${v}</option>`).join('')}</select></td>
-          <td><input class="input" value="${escapeHtml(expense.categoria)}"></td>
-          <td><input class="input" value="${escapeHtml(expense.descricao)}"></td>
-          <td><select class="select">${['Fixo','Variável'].map(v => `<option ${expense.tipo===v?'selected':''}>${v}</option>`).join('')}</select></td>
-          <td><input class="input" type="number" value="${normalizeNumber(expense.valor)}"></td>
-          <td><select class="select">${['Sim','Não'].map(v => `<option ${expense.pago===v?'selected':''}>${v}</option>`).join('')}</select></td>
-          <td><input class="input" value="${escapeHtml(expense.observacao || '')}"></td>
-          <td><button class="btn" type="button">Excluir</button></td>
-        `;
-        const inputs = tr.querySelectorAll('input, select');
-        inputs[0].oninput = e => updateExpense(index, 'data', e.target.value);
-        inputs[1].onchange = e => updateExpense(index, 'mes', e.target.value);
-        inputs[2].oninput = e => updateExpense(index, 'categoria', e.target.value);
-        inputs[3].oninput = e => updateExpense(index, 'descricao', e.target.value);
-        inputs[4].onchange = e => updateExpense(index, 'tipo', e.target.value);
-        inputs[5].oninput = e => updateExpense(index, 'valor', normalizeNumber(e.target.value));
-        inputs[6].onchange = e => updateExpense(index, 'pago', e.target.value);
-        inputs[7].oninput = e => updateExpense(index, 'observacao', e.target.value);
-        tr.querySelector('button').onclick = () => { state.expenses.splice(index, 1); saveState(); renderAll(); };
-        tbody.appendChild(tr);
-      });
+    }
+
+    function getDiagnostic() {
+      const annual = getYearMetrics();
+      const month = getMonthMetrics(state.config.dashboardMonth);
+      const recorrencia = annual.recorrenciaAtiva;
+      const estruturaMensal = annual.custoFixoMensal + normalizeNumber(state.config.proLaboreMensal);
+      let diagnostico = '';
+      let acao = '';
+      if (recorrencia >= estruturaMensal) {
+        diagnostico = 'Sua receita recorrente ativa já cobre a estrutura mensal total. Isso melhora previsibilidade e reduz risco de caixa.';
+        acao = 'Próxima ação: aumentar margem, revisando preços e reduzindo clientes com maior esforço e menor retorno.';
+      } else if (month.recebido > 0 && month.lucro > 0) {
+        diagnostico = 'Você consegue gerar lucro em alguns meses, mas a estrutura ainda depende de recebimentos variáveis e isso reduz a previsibilidade.';
+        acao = 'Próxima ação: transformar mais receita em recorrência e diminuir exposição a atrasos de clientes instáveis.';
+      } else {
+        diagnostico = 'Hoje a estrutura está pressionando o caixa. A operação depende demais do recebimento do mês e isso dificulta análise e controle.';
+        acao = 'Próxima ação: estabilizar o caixa primeiro. Priorize cobrança, recorrência previsível e revisão de pró-labore ou preços.';
+      }
+      return { diagnostico, acao, estruturaMensal, recorrencia, annual, month };
     }
 
     function renderDRE() {
       const annual = getYearMetrics();
       const month = getMonthMetrics(state.config.dashboardMonth);
+      const diagnostic = getDiagnostic();
       document.getElementById('dreAnnual').innerHTML = `
         <div class="kpi-list">
           <div class="kpi-row"><span>Receita total recebida</span><strong>${brl(annual.receitaRecebida)}</strong></div>
@@ -817,6 +879,15 @@
           <div class="kpi-row"><span>Despesas + pró-labore</span><strong>${brl(month.despesasMes)}</strong></div>
           <div class="kpi-row"><span>Lucro operacional</span><strong>${brl(month.lucro)}</strong></div>
           <div class="kpi-row"><span>Margem operacional</span><strong>${pct(month.margem)}</strong></div>
+        </div>
+      `;
+      document.getElementById('dreDiagnostic').innerHTML = `
+        <div class="diagnostic">
+          <h4>Leitura CFO</h4>
+          <p><strong>Receita recorrente ativa:</strong> ${brl(diagnostic.recorrencia)}</p>
+          <p><strong>Estrutura mensal total:</strong> ${brl(diagnostic.estruturaMensal)}</p>
+          <p>${diagnostic.diagnostico}</p>
+          <div class="action"><strong>Ação recomendada:</strong> ${diagnostic.acao}</div>
         </div>
       `;
     }
@@ -848,7 +919,6 @@
 
     function renderConfig() {
       const grid = document.getElementById('configGrid');
-      if (!grid) return;
       grid.innerHTML = `
         <div class="field"><label>Mês do painel</label><select class="select" id="cfgMonth">${MONTHS.map(month => `<option ${state.config.dashboardMonth===month?'selected':''}>${month}</option>`).join('')}</select></div>
         <div class="field"><label>Pró-labore mensal</label><input class="input" id="cfgProlabore" type="number" value="${normalizeNumber(state.config.proLaboreMensal)}"></div>
@@ -859,36 +929,71 @@
         <div class="field"><label>Reserva (meses)</label><input class="input" id="cfgReserva" type="number" value="${normalizeNumber(state.config.reservaMeses)}"></div>
       `;
       document.getElementById('cfgMonth').onchange = e => updateConfig('dashboardMonth', e.target.value);
-      document.getElementById('cfgProlabore').oninput = e => updateConfig('proLaboreMensal', normalizeNumber(e.target.value));
-      document.getElementById('cfgMetaReceita').oninput = e => updateConfig('metaReceitaMensal', normalizeNumber(e.target.value));
-      document.getElementById('cfgMetaClientes').oninput = e => updateConfig('metaClientes', normalizeNumber(e.target.value));
-      document.getElementById('cfgMulta').oninput = e => updateConfig('multaAtraso', normalizeNumber(e.target.value));
-      document.getElementById('cfgJuros').oninput = e => updateConfig('jurosMes', normalizeNumber(e.target.value));
-      document.getElementById('cfgReserva').oninput = e => updateConfig('reservaMeses', normalizeNumber(e.target.value));
+      document.getElementById('cfgProlabore').onchange = e => updateConfig('proLaboreMensal', normalizeNumber(e.target.value));
+      document.getElementById('cfgMetaReceita').onchange = e => updateConfig('metaReceitaMensal', normalizeNumber(e.target.value));
+      document.getElementById('cfgMetaClientes').onchange = e => updateConfig('metaClientes', normalizeNumber(e.target.value));
+      document.getElementById('cfgMulta').onchange = e => updateConfig('multaAtraso', normalizeNumber(e.target.value));
+      document.getElementById('cfgJuros').onchange = e => updateConfig('jurosMes', normalizeNumber(e.target.value));
+      document.getElementById('cfgReserva').onchange = e => updateConfig('reservaMeses', normalizeNumber(e.target.value));
     }
 
     function updateClient(index, key, value) {
       state.clients[index][key] = value;
       saveState();
-      renderAll();
     }
 
     function updateMonthly(index, key, value) {
       state.monthly[index][key] = value;
       saveState();
-      renderAll();
     }
 
     function updateExpense(index, key, value) {
       state.expenses[index][key] = value;
       saveState();
-      renderAll();
     }
 
     function updateConfig(key, value) {
       state.config[key] = value;
       saveState();
       renderAll();
+    }
+
+    function deleteClient(index) {
+      state.clients.splice(index, 1);
+      saveState();
+      renderAll();
+    }
+
+    function deleteMonthly(index) {
+      state.monthly.splice(index, 1);
+      saveState();
+      renderAll();
+    }
+
+    function deleteExpense(index) {
+      state.expenses.splice(index, 1);
+      saveState();
+      renderAll();
+    }
+
+    function bindTablePersistence() {
+      document.querySelectorAll('input[data-type], select[data-type], textarea[data-type]').forEach(el => {
+        if (el.dataset.bound === '1') return;
+        el.dataset.bound = '1';
+        const handler = event => {
+          const target = event.target;
+          const type = target.dataset.type;
+          const index = Number(target.dataset.index);
+          const key = target.dataset.key;
+          let value = target.value;
+          if (target.type === 'number') value = normalizeNumber(value);
+          if (type === 'client') updateClient(index, key, value);
+          if (type === 'monthly') updateMonthly(index, key, value);
+          if (type === 'expense') updateExpense(index, key, value);
+        };
+        el.addEventListener('change', handler);
+        el.addEventListener('blur', handler);
+      });
     }
 
     function renderAll() {
@@ -899,6 +1004,7 @@
       renderDRE();
       renderCashflow();
       renderConfig();
+      bindTablePersistence();
     }
 
     document.getElementById('addClientBtn').onclick = function() {
