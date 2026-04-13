@@ -1084,7 +1084,50 @@
       notice('HTML baixado com sucesso.');
     };
 
-    renderTabs();
+    // AUTOSAVE INTELIGENTE
+let saveTimer = null;
+
+function scheduleSave() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    saveState();
+  }, 500);
+}
+
+function bindTablePersistence() {
+  document.querySelectorAll('input[data-type], select[data-type], textarea[data-type]').forEach(el => {
+    if (el.dataset.bound === '1') return;
+    el.dataset.bound = '1';
+
+    const handler = event => {
+      const target = event.target;
+      const type = target.dataset.type;
+      const index = Number(target.dataset.index);
+      const key = target.dataset.key;
+      let value = target.value;
+
+      if (target.type === 'number') {
+        value = normalizeNumber(value);
+      }
+
+      if (type === 'client') updateClient(index, key, value);
+      if (type === 'monthly') updateMonthly(index, key, value);
+      if (type === 'expense') updateExpense(index, key, value);
+
+      scheduleSave();
+    };
+
+    el.addEventListener('input', handler);
+    el.addEventListener('change', handler);
+    el.addEventListener('blur', handler);
+  });
+}
+
+window.addEventListener('beforeunload', () => {
+  saveState();
+});
+
+renderTabs();
     renderAll();
   </script>
 </body>
