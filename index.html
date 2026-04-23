@@ -279,6 +279,43 @@
       table { min-width: 980px; }
       .input, .select, .btn { min-height: 46px; }
     }
+
+    /* Fix: selects e inputs dentro de tabelas não ficam cortados */
+    table .select { min-width: 120px; }
+    table .input  { min-width: 90px; }
+
+    /* Botão publicar destaque */
+    .btn.publish {
+      background: #16a34a;
+      color: white;
+      border-color: #16a34a;
+      font-weight: 600;
+    }
+    .btn.publish:hover { background: #15803d; border-color: #15803d; }
+
+    /* Card de sincronização nas configurações */
+    .sync-card {
+      grid-column: 1 / -1;
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 20px;
+      margin-top: 8px;
+    }
+    .sync-card h4 { margin: 0 0 14px; font-size: 16px; }
+    .sync-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .sync-ok   { background: #dcfce7; color: #166534; }
+    .sync-warn { background: #fef3c7; color: #92400e; }
+    .sync-err  { background: #fee2e2; color: #991b1b; }
   </style>
 </head>
 <body>
@@ -294,10 +331,14 @@
         <button class="btn" id="exportBtn">Exportar JSON</button>
         <button class="btn" id="backupBtn">Backup local</button>
         <button class="btn primary" id="downloadBtn">Baixar HTML</button>
+        <button class="btn publish" id="publicarBtn">📤 Publicar para equipe</button>
         <input type="file" id="importFile" accept="application/json" style="display:none">
       </div>
     </div>
 
+    <div id="syncBar" style="display:none;align-items:center;gap:10px;background:#f0fdf4;border:1px solid #86efac;border-radius:14px;padding:10px 16px;margin-bottom:12px;font-size:13px;color:#166534;">
+      <span id="syncBarText">☁️ Sincronização ativa</span>
+    </div>
     <div class="notice" id="notice"></div>
     <div class="tabs" id="tabs"></div>
 
@@ -391,6 +432,9 @@
     </section>
   </div>
 
+  <!-- Estado publicado pela Sara. Atualizado pelo botão "Publicar para equipe". -->
+  <script id="__published_state__" type="application/json">null</script>
+
   <script>
     const MONTHS = ['jan/2026','fev/2026','mar/2026','abr/2026','mai/2026','jun/2026','jul/2026','ago/2026','set/2026','out/2026','nov/2026','dez/2026'];
 
@@ -451,6 +495,99 @@
     function saveState() {
       localStorage.setItem('nomi_financeiro_2026_v4', JSON.stringify(state));
     }
+
+    // ── PRIVATE CONFIG (token GitHub — só no localStorage, nunca publicado) ──
+    let privateConfig = {};
+    function loadPrivateConfig() {
+      try { return JSON.parse(localStorage.getItem('nomi_private_v1') || '{}'); } catch { return {}; }
+    }
+    function savePrivateConfig(updates) {
+      privateConfig = { ...privateConfig, ...updates };
+      localStorage.setItem('nomi_private_v1', JSON.stringify(privateConfig));
+    }
+    privateConfig = loadPrivateConfig();
+
+    function updateSyncStatus(text, type = 'ok') {
+      const bar = document.getElementById('syncBar');
+      const barText = document.getElementById('syncBarText');
+      if (bar && barText) { bar.style.display = 'flex'; barText.textContent = text; }
+      const cfgEl = document.getElementById('syncStatusConfig');
+      if (cfgEl) cfgEl.textContent = text;
+    }
+
+    let publishTimer = null;
+    function schedulePublish() {
+      if (!privateConfig.autoPublish || !privateConfig.githubToken) return;
+      clearTimeout(publishTimer);
+      publishTimer = setTimeout(() => publishToGitHub(true), 10000);
+    }
+
+    async function publishToGitHub(isAuto = false) {
+      const token = privateConfig.githubToken;
+      if (!token) {
+        if (!isAuto) notice('⚠️ Configure o Token GitHub na aba Configurações.', true);
+        return false;
+      }
+      updateSyncStatus('⏳ Publicando...');
+      const repo = 'equipenomistudio/nomi-financeiro2026';
+      const file = 'index.html';
+      try {
+        const getResp = await fetch(`https://api.github.com/repos/${repo}/contents/${file}`, {
+          headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github+json' }
+        });
+        if (!getResp.ok) {
+          updateSyncStatus('❌ Token inválido ou sem permissão');
+          if (!isAuto) notice(`Erro ${getResp.status}: verifique o token GitHub.`, true);
+          return false;
+        }
+        const fileInfo = await getResp.json();
+        const sha = fileInfo.sha;
+
+        state.config._version = Date.now();
+        saveState();
+
+        const stateJson = JSON.stringify(state).replace(/<\/script>/gi, '<\\/script>');
+        let html = document.documentElement.outerHTML;
+        html = html.replace(
+          /<script id="__published_state__" type="application\/json">[\s\S]*?<\/script>/,
+          `<script id="__published_state__" type="application/json">${stateJson}</script>`
+        );
+
+        const encoder = new TextEncoder();
+        const bytes = encoder.encode(html);
+        let binary = '';
+        const chunk = 8192;
+        for (let i = 0; i < bytes.length; i += chunk) {
+          binary += String.fromCharCode(...bytes.subarray(i, i + chunk));
+        }
+        const base64Content = btoa(binary);
+
+        const now = new Date();
+        const dateStr = now.toLocaleDateString('pt-BR') + ' ' + now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        const putResp = await fetch(`https://api.github.com/repos/${repo}/contents/${file}`, {
+          method: 'PUT',
+          headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: `Atualização painel ${dateStr}`, content: base64Content, sha })
+        });
+        if (putResp.ok) {
+          const t = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+          savePrivateConfig({ lastSync: t });
+          updateSyncStatus(`☁️ Sincronizado às ${t}`);
+          if (!isAuto) notice('✅ Publicado! A equipe verá os dados em ~1 minuto.');
+          return true;
+        } else {
+          const err = await putResp.json().catch(() => ({}));
+          updateSyncStatus('❌ Erro ao publicar');
+          if (!isAuto) notice(`Erro ao publicar: ${err.message || putResp.status}`, true);
+          return false;
+        }
+      } catch (e) {
+        updateSyncStatus('❌ Erro de conexão');
+        if (!isAuto) notice(`Erro: ${e.message}`, true);
+        return false;
+      }
+    }
+
 
     function buildMonthlySeed(clients) {
       const rows = [];
@@ -564,12 +701,37 @@
     }
 
     function loadState() {
+      // 1. Verifica se há um estado publicado embutido no HTML (atualizado pelo botão "Publicar para equipe")
+      let publishedState = null;
+      try {
+        const publishedEl = document.getElementById('__published_state__');
+        if (publishedEl && publishedEl.textContent.trim() !== 'null') {
+          publishedState = JSON.parse(publishedEl.textContent);
+        }
+      } catch { /* ignora */ }
+
+      const publishedVersion = publishedState && publishedState.config && publishedState.config._version ? publishedState.config._version : 0;
+
+      // 2. Verifica o estado salvo localmente (localStorage)
       try {
         const raw = localStorage.getItem('nomi_financeiro_2026_v4') || localStorage.getItem('nomi_financeiro_2026_v3') || localStorage.getItem('nomi_financeiro_2026_v2');
-        if (!raw) return sanitizeState(DEFAULT_DATA);
-        return sanitizeState(JSON.parse(raw));
+        if (!raw) {
+          // Sem localStorage: usa estado publicado ou DEFAULT_DATA
+          return sanitizeState(publishedState || DEFAULT_DATA);
+        }
+        const localParsed = JSON.parse(raw);
+        const localVersion = localParsed.config && localParsed.config._version ? localParsed.config._version : 0;
+
+        // Se a versão publicada for mais nova que o localStorage, usa o estado publicado
+        // (isso garante que a equipe veja sempre a versão mais recente da Sara)
+        if (publishedVersion > localVersion) {
+          localStorage.removeItem('nomi_financeiro_2026_v4');
+          return sanitizeState(publishedState);
+        }
+
+        return sanitizeState(localParsed);
       } catch {
-        return sanitizeState(DEFAULT_DATA);
+        return sanitizeState(publishedState || DEFAULT_DATA);
       }
     }
 
@@ -919,6 +1081,8 @@
 
     function renderConfig() {
       const grid = document.getElementById('configGrid');
+      const syncStatus = privateConfig.lastSync ? `☁️ Último sync: ${privateConfig.lastSync}` : (privateConfig.githubToken ? '☁️ Pronto para sincronizar' : '⚠️ Token não configurado');
+      const syncBadgeClass = privateConfig.githubToken ? 'sync-ok' : 'sync-warn';
       grid.innerHTML = `
         <div class="field"><label>Mês do painel</label><select class="select" id="cfgMonth">${MONTHS.map(month => `<option ${state.config.dashboardMonth===month?'selected':''}>${month}</option>`).join('')}</select></div>
         <div class="field"><label>Pró-labore mensal</label><input class="input" id="cfgProlabore" type="number" value="${normalizeNumber(state.config.proLaboreMensal)}"></div>
@@ -927,6 +1091,24 @@
         <div class="field"><label>Multa atraso</label><input class="input" id="cfgMulta" type="number" step="0.01" value="${normalizeNumber(state.config.multaAtraso)}"></div>
         <div class="field"><label>Juros mês</label><input class="input" id="cfgJuros" type="number" step="0.01" value="${normalizeNumber(state.config.jurosMes)}"></div>
         <div class="field"><label>Reserva (meses)</label><input class="input" id="cfgReserva" type="number" value="${normalizeNumber(state.config.reservaMeses)}"></div>
+        <div class="sync-card">
+          <div class="sync-status-badge ${syncBadgeClass}" id="syncStatusConfig">${syncStatus}</div>
+          <div class="field" style="margin-bottom:12px;">
+            <label>🔑 Token GitHub (Personal Access Token)</label>
+            <input class="input" id="cfgGithubToken" type="password" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" value="${privateConfig.githubToken || ''}" style="width:100%;max-width:420px;font-family:monospace;">
+            <div style="font-size:12px;color:var(--muted);margin-top:4px;">Acesse <strong>github.com → Settings → Developer settings → Personal access tokens</strong> e gere um token com permissão <strong>repo</strong>.</div>
+          </div>
+          <div class="field" style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:500;">
+              <input type="checkbox" id="cfgAutoPublish" ${privateConfig.autoPublish ? 'checked' : ''}>
+              Publicar automaticamente após cada alteração (10 s de delay)
+            </label>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn publish" id="cfgPublishNowBtn">📤 Publicar agora</button>
+            <button class="btn" id="cfgSaveTokenBtn">💾 Salvar configurações</button>
+          </div>
+        </div>
       `;
       document.getElementById('cfgMonth').onchange = e => updateConfig('dashboardMonth', e.target.value);
       document.getElementById('cfgProlabore').onchange = e => updateConfig('proLaboreMensal', normalizeNumber(e.target.value));
@@ -935,26 +1117,48 @@
       document.getElementById('cfgMulta').onchange = e => updateConfig('multaAtraso', normalizeNumber(e.target.value));
       document.getElementById('cfgJuros').onchange = e => updateConfig('jurosMes', normalizeNumber(e.target.value));
       document.getElementById('cfgReserva').onchange = e => updateConfig('reservaMeses', normalizeNumber(e.target.value));
+      document.getElementById('cfgSaveTokenBtn').onclick = () => {
+        const token = document.getElementById('cfgGithubToken').value.trim();
+        const auto = document.getElementById('cfgAutoPublish').checked;
+        savePrivateConfig({ githubToken: token, autoPublish: auto });
+        if (token) {
+          updateSyncStatus('☁️ Token salvo. Pronto para sincronizar.');
+          notice('✅ Configurações salvas!');
+        } else {
+          notice('⚠️ Token removido. Sincronização desativada.');
+        }
+        renderConfig();
+      };
+      document.getElementById('cfgPublishNowBtn').onclick = () => {
+        const token = document.getElementById('cfgGithubToken').value.trim();
+        const auto = document.getElementById('cfgAutoPublish').checked;
+        savePrivateConfig({ githubToken: token, autoPublish: auto });
+        publishToGitHub(false);
+      };
     }
 
     function updateClient(index, key, value) {
       state.clients[index][key] = value;
       saveState();
+      schedulePublish();
     }
 
     function updateMonthly(index, key, value) {
       state.monthly[index][key] = value;
       saveState();
+      schedulePublish();
     }
 
     function updateExpense(index, key, value) {
       state.expenses[index][key] = value;
       saveState();
+      schedulePublish();
     }
 
     function updateConfig(key, value) {
       state.config[key] = value;
       saveState();
+      schedulePublish();
       renderAll();
     }
 
@@ -976,25 +1180,7 @@
       renderAll();
     }
 
-    function bindTablePersistence() {
-      document.querySelectorAll('input[data-type], select[data-type], textarea[data-type]').forEach(el => {
-        if (el.dataset.bound === '1') return;
-        el.dataset.bound = '1';
-        const handler = event => {
-          const target = event.target;
-          const type = target.dataset.type;
-          const index = Number(target.dataset.index);
-          const key = target.dataset.key;
-          let value = target.value;
-          if (target.type === 'number') value = normalizeNumber(value);
-          if (type === 'client') updateClient(index, key, value);
-          if (type === 'monthly') updateMonthly(index, key, value);
-          if (type === 'expense') updateExpense(index, key, value);
-        };
-        el.addEventListener('change', handler);
-        el.addEventListener('blur', handler);
-      });
-    }
+    // bindTablePersistence definida abaixo (versão consolidada com scheduleSave)
 
     function renderAll() {
       renderDashboard();
@@ -1084,6 +1270,10 @@
       notice('HTML baixado com sucesso.');
     };
 
+    document.getElementById('publicarBtn').onclick = function() {
+      publishToGitHub(false);
+    };
+
     // AUTOSAVE INTELIGENTE
 let saveTimer = null;
 
@@ -1129,6 +1319,12 @@ window.addEventListener('beforeunload', () => {
 
 renderTabs();
     renderAll();
+
+    // Inicializa barra de sincronização
+    if (privateConfig.githubToken) {
+      const t = privateConfig.lastSync;
+      updateSyncStatus(t ? `☁️ Último sync: ${t}` : '☁️ Sincronização configurada');
+    }
   </script>
 </body>
 </html>
