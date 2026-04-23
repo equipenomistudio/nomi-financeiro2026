@@ -650,15 +650,13 @@
         }
         const fileInfo = await getResp.json();
         const sha = fileInfo.sha;
+        // Decodifica o HTML atual do GitHub (sem capturar o DOM, evitando vazar o token)
+        const rawBase64 = fileInfo.content.replace(/\n/g, '');
+        const existingBytes = Uint8Array.from(atob(rawBase64), c => c.charCodeAt(0));
+        let html = new TextDecoder().decode(existingBytes);
         state.config._version = Date.now();
         saveState();
         const stateJson = JSON.stringify(state).replace(/<\/script>/gi, '<\\/script>');
-        // Limpa campos sensíveis do DOM antes de capturar o HTML
-        const tokenField = document.getElementById('cfgToken');
-        const tokenValue = tokenField ? tokenField.value : '';
-        if (tokenField) tokenField.value = '';
-        let html = document.documentElement.outerHTML;
-        if (tokenField) tokenField.value = tokenValue; // restaura
         html = html.replace(
           /<script id="__published_state__" type="application\/json">[\s\S]*?<\/script>/,
           `<script id="__published_state__" type="application/json">${stateJson}<\/script>`
