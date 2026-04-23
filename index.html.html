@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nomi Studio — Financeiro 2026</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --line: #e5e7eb;
+      --text: #172033;
+      --muted: #667085;
+      --navy: #17325c;
+      --green: #16a34a;
+      --yellow: #d97706;
+      --red: #dc2626;
+      --blue: #2563eb;
+      --shadow: 0 10px 30px rgba(23, 50, 92, 0.08);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    .container {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    h1 {
+      margin: 0;
+      font-size: 30px;
+      line-height: 1.1;
+    }
+    .subtitle {
+      margin-top: 8px;
+      color: var(--muted);
+      max-width: 720px;
+    }
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn, .input, .select, textarea {
+      font: inherit;
+      border-radius: 14px;
+    }
+    .btn {
+      border: 1px solid var(--line);
+      background: white;
+      color: var(--text);
+      padding: 11px 15px;
+      cursor: pointer;
+      min-height: 44px;
+    }
+    .btn.primary {
+      background: var(--navy);
+      color: white;
+      border-color: var(--navy);
+    }
+    .tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 8px;
+      margin-bottom: 20px;
+      min-height: 58px;
+      align-items: center;
+    }
+    .tab {
+      padding: 10px 14px;
+      border: 0;
+      border-radius: 12px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .tab.active {
+      background: var(--navy);
+      color: white;
+    }
+    .panel { display: none; }
+    .panel.active { display: block; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .card-header {
+      padding: 18px 18px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .card-header h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+    .card-body { padding: 18px; }
+    .metric-label { color: var(--muted); font-size: 14px; }
+    .metric-value {
+      font-size: clamp(24px, 3vw, 30px);
+      font-weight: 700;
+      margin-top: 6px;
+      line-height: 1.1;
+      word-break: break-word;
+    }
+    .metric-hint { font-size: 13px; color: var(--muted); margin-top: 6px; }
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+      align-items: end;
+    }
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 180px;
+      flex: 1 1 180px;
+    }
+    .field label { font-size: 13px; color: var(--muted); }
+    .input, .select, textarea {
+      min-height: 42px;
+      border: 1px solid var(--line);
+      background: white;
+      padding: 10px 12px;
+      width: 100%;
+      color: var(--text);
+    }
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+    .table-wrap {
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: white;
+      -webkit-overflow-scrolling: touch;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1180px;
+    }
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+      font-size: 14px;
+    }
+    thead th {
+      background: #f8fafc;
+      color: var(--muted);
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      white-space: nowrap;
+    }
+    .small { font-size: 13px; color: var(--muted); }
+    .kpi-list { display: grid; gap: 10px; }
+    .kpi-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 10px;
+      align-items: flex-start;
+    }
+    .kpi-row:last-child { border-bottom: 0; padding-bottom: 0; }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 5px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .tag-green { background: #dcfce7; color: #166534; }
+    .tag-yellow { background: #fef3c7; color: #92400e; }
+    .tag-red { background: #fee2e2; color: #991b1b; }
+    .tag-blue { background: #dbeafe; color: #1d4ed8; }
+    .danger-box {
+      border: 1px solid #fed7aa;
+      background: #fff7ed;
+      border-radius: 14px;
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+    .notice {
+      margin: 0 0 16px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1d4ed8;
+      display: none;
+    }
+    .notice.show { display: block; }
+    .diagnostic {
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+    }
+    .diagnostic h4 {
+      margin: 0 0 10px;
+      font-size: 16px;
+    }
+    .diagnostic p {
+      margin: 0 0 8px;
+      line-height: 1.5;
+    }
+    .diagnostic .action {
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 12px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+    }
+    .stack {
+      display: grid;
+      gap: 16px;
+    }
+
+    @media (max-width: 1100px) {
+      .grid, .grid-2 { grid-template-columns: 1fr; }
+      .container { padding: 16px; }
+      .topbar { flex-direction: column; }
+      .actions { width: 100%; }
+      .actions .btn { flex: 1 1 160px; }
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 24px; }
+      .card-body, .card-header { padding-left: 14px; padding-right: 14px; }
+      .tabs { overflow-x: auto; flex-wrap: nowrap; }
+      .tab { flex: 0 0 auto; }
+      .toolbar { flex-direction: column; align-items: stretch; }
+      .field { min-width: 100%; }
+      .kpi-row { flex-direction: column; gap: 6px; }
+      table { min-width: 980px; }
+      .input, .select, .btn { min-height: 46px; }
+    }
+
+    /* Fix select/input truncation in tables */
+    table .select { min-width: 120px; }
+    table .input  { min-width: 90px; }
+    .btn.publish { background: #16a34a; color: white; border-color: #16a34a; font-weight: 600; }
+    #syncBar { display:none; align-items:center; gap:10px; background:#f0fdf4; border:1px solid #86efac; border-radius:14px; padding:10px 16px; margin-bottom:12px; font-size:13px; color:#166534; }
+    .sync-card { grid-column: 1 / -1; background: #f8fafc; border: 1px solid var(--line); border-radius: 16px; padding: 20px; margin-top: 8px; }
+    .sync-card h4 { margin: 0 0 14px; font-size: 16px; }
+    .sync-status-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; font-size: 13px; font-weight: 600; margin-bottom: 16px; }
+    .sync-ok   { background: #dcfce7; color: #166534; }
+    .sync-warn { background: #fef3c7; color: #92400e; }
+    .sync-err  { background: #fee2e2; color: #991b1b; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <div>
+        <h1>Nomi Studio — Financeiro 2026</h1>
+        <div class="subtitle">Painel financeiro editável, simples e estável, com foco em controle mensal de clientes e pagamentos.</div>
+      </div>
+      <div class="actions">
+        <button class="btn" id="restoreBtn">Restaurar dados-base</button>
+        <button class="btn" id="importBtn">Importar JSON</button>
+        <button class="btn" id="exportBtn">Exportar JSON</button>
+        <button class="btn" id="backupBtn">Backup local</button>
+        <button class="btn publish" id="publicarBtn">📤 Publicar para equipe</button>
+        <button class="btn primary" id="downloadBtn">Baixar HTML</button>
+        <input type="file" id="importFile" accept="application/json" style="display:none">
+      </div>
+    </div>
+
+    <div class="notice" id="notice"></div>
+    <div id="syncBar"><span id="syncBarText">☁️ Sincronização ativa</span></div>
+  <div class="tabs" id="tabs"></div>
+
+    <section class="panel active" data-panel="dashboard">
+      <div class="toolbar">
+        <div class="field">
+          <label for="dashboardMonth">Mês do painel</label>
+          <select id="dashboardMonth" class="select"></select>
+        </div>
+      </div>
+      <div class="grid" id="metricsGrid"></div>
+      <div style="height:16px"></div>
+      <div class="grid-2">
+        <div class="card"><div class="card-header"><h3>Resumo do mês selecionado</h3></div><div class="card-body" id="monthSummary"></div></div>
+        <div class="card"><div class="card-header"><h3>Visão anual 2026</h3></div><div class="card-body" id="yearSummary"></div></div>
+      </div>
+      <div style="height:16px"></div>
+      <div class="grid-2">
+        <div class="card"><div class="card-header"><h3>Clientes em risco</h3></div><div class="card-body" id="riskClients"></div></div>
+        <div class="card"><div class="card-header"><h3>Status do mês</h3></div><div class="card-body" id="monthStatus"></div></div>
+      </div>
+    </section>
+
+    <section class="panel" data-panel="clientes">
+      <div class="card">
+        <div class="card-header"><h3>Clientes</h3></div>
+        <div class="card-body">
+          <div class="toolbar"><button class="btn primary" id="addClientBtn">Adicionar cliente</button></div>
+          <div class="table-wrap"><table id="clientsTable"></table></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" data-panel="controle">
+      <div class="card">
+        <div class="card-header"><h3>Controle Mensal</h3></div>
+        <div class="card-body">
+          <div class="toolbar">
+            <div class="field">
+              <label for="filterMonth">Filtrar por mês</label>
+              <select id="filterMonth" class="select"></select>
+            </div>
+            <button class="btn primary" id="addMonthlyBtn">Adicionar lançamento</button>
+          </div>
+          <div class="table-wrap"><table id="monthlyTable"></table></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" data-panel="despesas">
+      <div class="card">
+        <div class="card-header"><h3>Despesas</h3></div>
+        <div class="card-body">
+          <div class="toolbar">
+            <div class="field">
+              <label for="expenseFilterMonth">Filtrar por mês</label>
+              <select id="expenseFilterMonth" class="select"></select>
+            </div>
+            <button class="btn primary" id="addExpenseBtn">Adicionar despesa</button>
+          </div>
+          <div class="table-wrap"><table id="expensesTable"></table></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" data-panel="dre">
+      <div class="stack">
+        <div class="grid-2">
+          <div class="card"><div class="card-header"><h3>DRE anual</h3></div><div class="card-body" id="dreAnnual"></div></div>
+          <div class="card"><div class="card-header"><h3>DRE do mês</h3></div><div class="card-body" id="dreMonth"></div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3>Diagnóstico financeiro</h3></div>
+          <div class="card-body"><div id="dreDiagnostic"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" data-panel="fluxo">
+      <div class="card">
+        <div class="card-header"><h3>Fluxo de Caixa</h3></div>
+        <div class="card-body"><div class="table-wrap"><table id="cashflowTable"></table></div></div>
+      </div>
+    </section>
+
+    <section class="panel" data-panel="config">
+      <div class="card">
+        <div class="card-header"><h3>Configurações</h3></div>
+        <div class="card-body"><div class="grid-2" id="configGrid"></div></div>
+      </div>
+    </section>
+  </div>
+
+  <script id="__published_state__" type="application/json">null</script>
+
+  <script>
+    const MONTHS = ['jan/2026','fev/2026','mar/2026','abr/2026','mai/2026','jun/2026','jul/2026','ago/2026','set/2026','out/2026','nov/2026','dez/2026'];
+
+    const DEFAULT_DATA = {
+      config: {
+        dashboardMonth: 'abr/2026',
+        proLaboreMensal: 5000,
+        metaReceitaMensal: 10000,
+        metaClientes: 30,
+        multaAtraso: 0.02,
+        jurosMes: 0.01,
+        reservaMeses: 3,
+      },
+      clients: [
+        { cliente: 'Duda Serenine', servico: 'Posts recorrentes', valorMensal: 800, vencimento: 10, status: 'Ativo', risco: 'Baixo', observacao: 'Cliente recorrente confiável' },
+        { cliente: 'Duda Dittert', servico: 'Posts recorrentes', valorMensal: 700, vencimento: 10, status: 'Ativo', risco: 'Baixo', observacao: 'Cliente recorrente confiável' },
+        { cliente: 'Debora', servico: 'Posts recorrentes', valorMensal: 500, vencimento: 20, status: 'Ativo', risco: 'Baixo', observacao: 'Cliente recorrente confiável' },
+        { cliente: 'LYGIA IMBELLONI', servico: 'Posts recorrentes', valorMensal: 500, vencimento: 29, status: 'Ativo', risco: 'Baixo', observacao: 'Cliente recorrente confiável' },
+        { cliente: 'Hiago Gomes', servico: 'Posts recorrentes', valorMensal: 500, vencimento: 10, status: 'Ativo', risco: 'Baixo', observacao: 'Cliente recorrente confiável' },
+        { cliente: 'Por Minha Conta', servico: 'Posts recorrentes', valorMensal: 900, vencimento: 15, status: 'Ativo', risco: 'Baixo', observacao: 'Cliente recorrente confiável' },
+        { cliente: 'Áurea', servico: 'Posts recorrentes', valorMensal: 1500, vencimento: 20, status: 'Ativo', risco: 'Baixo', observacao: 'Cliente mais previsível' },
+        { cliente: 'Gestclin', servico: 'Posts recorrentes', valorMensal: 400, vencimento: 29, status: 'Ativo', risco: 'Baixo', observacao: 'Cliente recorrente confiável' },
+        { cliente: 'Sara Brandão', servico: 'Posts recorrentes', valorMensal: 1500, vencimento: 20, status: 'Risco', risco: 'Alto', observacao: 'Atrasos e parcelamento em 2026' }
+      ],
+      monthly: [],
+      expenses: []
+    };
+
+    function deepClone(obj) {
+      return JSON.parse(JSON.stringify(obj));
+    }
+
+    function normalizeNumber(value, fallback = 0) {
+      const n = Number(value);
+      return Number.isFinite(n) ? n : fallback;
+    }
+
+    function brl(value) {
+      return normalizeNumber(value).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    function pct(value) {
+      return normalizeNumber(value).toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 1, maximumFractionDigits: 1 });
+    }
+
+    function notice(message, isError = false) {
+      const el = document.getElementById('notice');
+      if (!el) return;
+      el.textContent = message;
+      el.classList.add('show');
+      el.style.background = isError ? '#fef2f2' : '#eff6ff';
+      el.style.borderColor = isError ? '#fecaca' : '#bfdbfe';
+      el.style.color = isError ? '#b91c1c' : '#1d4ed8';
+      clearTimeout(window.__noticeTimer);
+      window.__noticeTimer = setTimeout(() => el.classList.remove('show'), 3500);
+    }
+
+    function saveState() {
+      localStorage.setItem('nomi_financeiro_2026_v4', JSON.stringify(state));
+    }
+
+    function buildMonthlySeed(clients) {
+      const rows = [];
+      const monthNum = { jan:'01', fev:'02', mar:'03', abr:'04', mai:'05', jun:'06', jul:'07', ago:'08', set:'09', out:'10', nov:'11', dez:'12' };
+      const days = { jan:31, fev:28, mar:31, abr:30, mai:31, jun:30, jul:31, ago:31, set:30, out:31, nov:30, dez:31 };
+      const samples = {
+        'jan/2026': { 'Duda Serenine':[800,'Pago','10/01/2026',''], 'Duda Dittert':[700,'Pago','10/01/2026',''], 'Debora':[500,'Pago','20/01/2026',''], 'Por Minha Conta':[900,'Pago','15/01/2026',''], 'Áurea':[1500,'Pago','20/01/2026',''], 'Gestclin':[400,'Pago','29/01/2026',''] },
+        'fev/2026': { 'Duda Serenine':[800,'Pago','10/02/2026',''], 'Duda Dittert':[700,'Pago','10/02/2026',''], 'Debora':[500,'Pago','20/02/2026',''], 'LYGIA IMBELLONI':[500,'Pago','28/02/2026',''], 'Hiago Gomes':[500,'Pago','10/02/2026',''], 'Por Minha Conta':[900,'Pago','15/02/2026',''], 'Áurea':[1500,'Pago','20/02/2026',''], 'Gestclin':[400,'Pago','28/02/2026',''], 'Sara Brandão':[0,'Não pagou','','Não pagou fevereiro'] },
+        'mar/2026': { 'Duda Serenine':[800,'Pago','10/03/2026',''], 'Duda Dittert':[700,'Pago','10/03/2026',''], 'Debora':[500,'Pago','20/03/2026',''], 'LYGIA IMBELLONI':[500,'Pago','29/03/2026',''], 'Hiago Gomes':[500,'Pago','10/03/2026',''], 'Por Minha Conta':[900,'Pago','15/03/2026',''], 'Áurea':[1500,'Pago','20/03/2026',''], 'Gestclin':[400,'Pago','29/03/2026',''], 'Sara Brandão':[1500,'Parcial','01/04/2026','50% em 01/04 e 50% uma semana depois'] },
+        'abr/2026': { 'Duda Serenine':[800,'Pago','10/04/2026',''], 'Debora':[500,'Pago','20/04/2026',''] }
+      };
+
+      MONTHS.forEach(month => {
+        const [mon, year] = month.split('/');
+        clients.forEach(client => {
+          const dueDay = String(Math.min(normalizeNumber(client.vencimento, 1), days[mon])).padStart(2, '0');
+          const dueDate = `${dueDay}/${monthNum[mon]}/${year}`;
+          const sample = samples[month] && samples[month][client.cliente];
+          rows.push({
+            mes: month,
+            cliente: client.cliente,
+            servico: client.servico,
+            valorPrevisto: normalizeNumber(client.valorMensal),
+            valorRecebido: sample ? normalizeNumber(sample[0]) : 0,
+            status: sample ? sample[1] : 'Pendente',
+            dataPrevista: dueDate,
+            dataPagamento: sample ? sample[2] : '',
+            observacao: sample ? sample[3] : ''
+          });
+        });
+      });
+      return rows;
+    }
+
+    function buildExpenseSeed() {
+      const base = [
+        ['Folha','Gestor de projetos','Fixo',1300,'Sim',''],
+        ['Folha','Designer júnior 1','Fixo',1500,'Sim',''],
+        ['Folha','Designer júnior 2','Fixo',1500,'Sim',''],
+        ['Ferramentas','Google Drive','Fixo',50,'Sim',''],
+        ['Ferramentas','Canva','Fixo',50,'Sim',''],
+        ['Ferramentas','IA','Fixo',150,'Sim',''],
+        ['Ferramentas','Hospedagem de site','Fixo',50,'Sim','']
+      ];
+      const monthNum = { jan:'01', fev:'02', mar:'03', abr:'04', mai:'05', jun:'06', jul:'07', ago:'08', set:'09', out:'10', nov:'11', dez:'12' };
+      const rows = [];
+      MONTHS.forEach(month => {
+        const [mon, year] = month.split('/');
+        base.forEach(item => {
+          rows.push({
+            data: `01/${monthNum[mon]}/${year}`,
+            mes: month,
+            categoria: item[0],
+            descricao: item[1],
+            tipo: item[2],
+            valor: item[3],
+            pago: item[4],
+            observacao: item[5]
+          });
+        });
+      });
+      return rows;
+    }
+
+    function sanitizeState(raw) {
+      const safe = deepClone(DEFAULT_DATA);
+      const source = raw && typeof raw === 'object' ? raw : {};
+      const config = source.config && typeof source.config === 'object' ? source.config : {};
+      safe.config.dashboardMonth = MONTHS.includes(config.dashboardMonth) ? config.dashboardMonth : DEFAULT_DATA.config.dashboardMonth;
+      safe.config.proLaboreMensal = normalizeNumber(config.proLaboreMensal, DEFAULT_DATA.config.proLaboreMensal);
+      safe.config.metaReceitaMensal = normalizeNumber(config.metaReceitaMensal, DEFAULT_DATA.config.metaReceitaMensal);
+      safe.config.metaClientes = normalizeNumber(config.metaClientes, DEFAULT_DATA.config.metaClientes);
+      safe.config.multaAtraso = normalizeNumber(config.multaAtraso, DEFAULT_DATA.config.multaAtraso);
+      safe.config.jurosMes = normalizeNumber(config.jurosMes, DEFAULT_DATA.config.jurosMes);
+      safe.config.reservaMeses = normalizeNumber(config.reservaMeses, DEFAULT_DATA.config.reservaMeses);
+
+      safe.clients = Array.isArray(source.clients) && source.clients.length ? source.clients.map(client => ({
+        cliente: String(client.cliente || ''),
+        servico: String(client.servico || 'Posts recorrentes'),
+        valorMensal: normalizeNumber(client.valorMensal),
+        vencimento: normalizeNumber(client.vencimento, 10),
+        status: String(client.status || 'Ativo'),
+        risco: String(client.risco || 'Baixo'),
+        observacao: String(client.observacao || '')
+      })) : deepClone(DEFAULT_DATA.clients);
+
+      safe.monthly = Array.isArray(source.monthly) && source.monthly.length ? source.monthly.map(row => ({
+        mes: MONTHS.includes(row.mes) ? row.mes : DEFAULT_DATA.config.dashboardMonth,
+        cliente: String(row.cliente || ''),
+        servico: String(row.servico || 'Posts recorrentes'),
+        valorPrevisto: normalizeNumber(row.valorPrevisto),
+        valorRecebido: normalizeNumber(row.valorRecebido),
+        status: String(row.status || 'Pendente'),
+        dataPrevista: String(row.dataPrevista || ''),
+        dataPagamento: String(row.dataPagamento || ''),
+        observacao: String(row.observacao || '')
+      })) : buildMonthlySeed(safe.clients);
+
+      safe.expenses = Array.isArray(source.expenses) && source.expenses.length ? source.expenses.map(expense => ({
+        data: String(expense.data || ''),
+        mes: MONTHS.includes(expense.mes) ? expense.mes : DEFAULT_DATA.config.dashboardMonth,
+        categoria: String(expense.categoria || ''),
+        descricao: String(expense.descricao || ''),
+        tipo: String(expense.tipo || 'Fixo'),
+        valor: normalizeNumber(expense.valor),
+        pago: String(expense.pago || 'Sim'),
+        observacao: String(expense.observacao || '')
+      })) : buildExpenseSeed();
+
+      return safe;
+    }
+
+    function loadState() {
+      let publishedState = null;
+      try {
+        const el = document.getElementById('__published_state__');
+        if (el && el.textContent.trim() !== 'null') publishedState = JSON.parse(el.textContent);
+      } catch { /* ignora */ }
+      const publishedVersion = publishedState && publishedState.config && publishedState.config._version ? publishedState.config._version : 0;
+      try {
+        const raw = localStorage.getItem('nomi_financeiro_2026_v4') || localStorage.getItem('nomi_financeiro_2026_v3') || localStorage.getItem('nomi_financeiro_2026_v2');
+        if (!raw) return sanitizeState(publishedState || DEFAULT_DATA);
+        const localParsed = JSON.parse(raw);
+        const localVersion = localParsed.config && localParsed.config._version ? localParsed.config._version : 0;
+        if (publishedVersion > localVersion) {
+          localStorage.removeItem('nomi_financeiro_2026_v4');
+          return sanitizeState(publishedState);
+        }
+        return sanitizeState(localParsed);
+      } catch {
+        return sanitizeState(publishedState || DEFAULT_DATA);
+      }
+    }
+
+    let state = loadState();
+    saveState();
+
+    // === PRIVATE CONFIG (token nunca vai para o state publicado) ===
+    let privateConfig = {};
+    function loadPrivateConfig() {
+      try { return JSON.parse(localStorage.getItem('nomi_private_v1') || '{}'); } catch { return {}; }
+    }
+    function savePrivateConfig(updates) {
+      privateConfig = { ...privateConfig, ...updates };
+      localStorage.setItem('nomi_private_v1', JSON.stringify(privateConfig));
+    }
+    privateConfig = loadPrivateConfig();
+
+    function updateSyncStatus(text) {
+      const bar = document.getElementById('syncBar');
+      const barText = document.getElementById('syncBarText');
+      if (bar && barText) { bar.style.display = 'flex'; barText.textContent = text; }
+      const cfgEl = document.getElementById('syncStatusConfig');
+      if (cfgEl) cfgEl.textContent = text;
+    }
+
+    let publishTimer = null;
+    function schedulePublish() {
+      if (!privateConfig.autoPublish || !privateConfig.githubToken) return;
+      clearTimeout(publishTimer);
+      publishTimer = setTimeout(() => publishToGitHub(true), 10000);
+    }
+
+    async function publishToGitHub(isAuto = false) {
+      const token = privateConfig.githubToken;
+      if (!token) {
+        if (!isAuto) notice('⚠️ Configure o Token GitHub na aba Configurações.', true);
+        return false;
+      }
+      updateSyncStatus('⏳ Publicando...');
+      const repo = 'equipenomistudio/nomi-financeiro2026';
+      const file = 'index.html';
+      try {
+        const getResp = await fetch(`https://api.github.com/repos/${repo}/contents/${file}`, {
+          headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github+json' }
+        });
+        if (!getResp.ok) {
+          updateSyncStatus('❌ Token inválido ou sem permissão');
+          if (!isAuto) notice(`Erro ${getResp.status}: verifique o token GitHub.`, true);
+          return false;
+        }
+        const fileInfo = await getResp.json();
+        const sha = fileInfo.sha;
+        state.config._version = Date.now();
+        saveState();
+        const stateJson = JSON.stringify(state).replace(/<\/script>/gi, '<\\/script>');
+        let html = document.documentElement.outerHTML;
+        html = html.replace(
+          /<script id="__published_state__" type="application\/json">[\s\S]*?<\/script>/,
+          `<script id="__published_state__" type="application/json">${stateJson}<\/script>`
+        );
+        const encoder = new TextEncoder();
+        const bytes = encoder.encode(html);
+        let binary = '';
+        const chunk = 8192;
+        for (let i = 0; i < bytes.length; i += chunk) {
+          binary += String.fromCharCode(...bytes.subarray(i, i + chunk));
+        }
+        const base64Content = btoa(binary);
+        const now = new Date();
+        const dateStr = now.toLocaleDateString('pt-BR') + ' ' + now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        const putResp = await fetch(`https://api.github.com/repos/${repo}/contents/${file}`, {
+          method: 'PUT',
+          headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: `Atualização painel ${dateStr}`, content: base64Content, sha })
+        });
+        if (putResp.ok) {
+          const t = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+          savePrivateConfig({ lastSync: t });
+          updateSyncStatus(`☁️ Sincronizado às ${t}`);
+          if (!isAuto) notice('✅ Publicado! A equipe verá os dados em ~1 minuto.');
+          return true;
+        } else {
+          const err = await putResp.json().catch(() => ({}));
+          updateSyncStatus('❌ Erro ao publicar');
+          if (!isAuto) notice(`Erro ao publicar: ${err.message || putResp.status}`, true);
+          return false;
+        }
+      } catch (e) {
+        updateSyncStatus('❌ Erro de conexão');
+        if (!isAuto) notice(`Erro: ${e.message}`, true);
+        return false;
+      }
+    }
+
+
+    const TABS = [
+      ['dashboard', 'Dashboard'],
+      ['clientes', 'Clientes'],
+      ['controle', 'Controle Mensal'],
+      ['despesas', 'Despesas'],
+      ['dre', 'DRE'],
+      ['fluxo', 'Fluxo de Caixa'],
+      ['config', 'Configurações']
+    ];
+
+    function setPanel(name) {
+      document.querySelectorAll('.panel').forEach(panel => panel.classList.toggle('active', panel.dataset.panel === name));
+      document.querySelectorAll('.tab').forEach(tab => tab.classList.toggle('active', tab.dataset.tab === name));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderTabs() {
+      const wrap = document.getElementById('tabs');
+      wrap.innerHTML = '';
+      TABS.forEach((item, index) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'tab' + (index === 0 ? ' active' : '');
+        btn.dataset.tab = item[0];
+        btn.textContent = item[1];
+        btn.addEventListener('click', () => setPanel(item[0]));
+        wrap.appendChild(btn);
+      });
+    }
+
+    function activeClients() {
+      return state.clients.filter(client => client.status === 'Ativo');
+    }
+
+    function monthlyRows(month) {
+      return state.monthly.filter(row => row.mes === month);
+    }
+
+    function fixedMonthlyCost() {
+      return state.expenses
+        .filter(expense => expense.mes === 'jan/2026' && expense.tipo === 'Fixo')
+        .reduce((sum, expense) => sum + normalizeNumber(expense.valor), 0);
+    }
+
+    function getMonthMetrics(month) {
+      const rows = monthlyRows(month);
+      const previsto = rows.reduce((sum, row) => sum + normalizeNumber(row.valorPrevisto), 0);
+      const recebido = rows.reduce((sum, row) => sum + normalizeNumber(row.valorRecebido), 0);
+      const pendente = previsto - recebido;
+      const cobrados = rows.length;
+      const pagos = rows.filter(row => row.status === 'Pago').length;
+      const naoPagos = rows.filter(row => row.status === 'Não pagou').length;
+      const parciais = rows.filter(row => row.status === 'Parcial').length;
+      const despesasMes = state.expenses
+        .filter(expense => expense.mes === month)
+        .reduce((sum, expense) => sum + normalizeNumber(expense.valor), 0) + normalizeNumber(state.config.proLaboreMensal);
+      const lucro = recebido - despesasMes;
+      const margem = recebido > 0 ? lucro / recebido : 0;
+      return { previsto, recebido, pendente, cobrados, pagos, naoPagos, parciais, despesasMes, lucro, margem };
+    }
+
+    function getYearMetrics() {
+      const receitaPrevista = state.monthly.reduce((sum, row) => sum + normalizeNumber(row.valorPrevisto), 0);
+      const receitaRecebida = state.monthly.reduce((sum, row) => sum + normalizeNumber(row.valorRecebido), 0);
+      const pendente = receitaPrevista - receitaRecebida;
+      const recorrenciaAtiva = activeClients().reduce((sum, client) => sum + normalizeNumber(client.valorMensal), 0);
+      const clientesAtivos = activeClients().length;
+      const custoFixoMensal = fixedMonthlyCost();
+      const custoFixoAnual = state.expenses.reduce((sum, expense) => sum + normalizeNumber(expense.valor), 0);
+      const proLaboreAnual = normalizeNumber(state.config.proLaboreMensal) * 12;
+      const lucroAnual = receitaRecebida - custoFixoAnual - proLaboreAnual;
+      const margemAnual = receitaRecebida > 0 ? lucroAnual / receitaRecebida : 0;
+      return { receitaPrevista, receitaRecebida, pendente, recorrenciaAtiva, clientesAtivos, custoFixoMensal, custoFixoAnual, proLaboreAnual, lucroAnual, margemAnual };
+    }
+
+    function makeTag(status) {
+      const cls = status === 'Pago' ? 'tag-green' : status === 'Parcial' ? 'tag-yellow' : status === 'Não pagou' ? 'tag-red' : 'tag-blue';
+      return `<span class="tag ${cls}">${status}</span>`;
+    }
+
+    function escapeHtml(value) {
+      return String(value || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function renderDashboard() {
+      const monthSelect = document.getElementById('dashboardMonth');
+      monthSelect.innerHTML = MONTHS.map(month => `<option value="${month}">${month}</option>`).join('');
+      monthSelect.value = MONTHS.includes(state.config.dashboardMonth) ? state.config.dashboardMonth : DEFAULT_DATA.config.dashboardMonth;
+      monthSelect.onchange = function() {
+        state.config.dashboardMonth = this.value;
+        saveState();
+        renderAll();
+      };
+
+      const month = state.config.dashboardMonth;
+      const m = getMonthMetrics(month);
+      const y = getYearMetrics();
+
+      document.getElementById('metricsGrid').innerHTML = [
+        ['Receita prevista no mês', brl(m.previsto), month],
+        ['Receita recebida no mês', brl(m.recebido), `${m.pagos} pagos`],
+        ['Pendente no mês', brl(m.pendente), `${m.naoPagos} não pagaram`],
+        ['Lucro do mês', brl(m.lucro), `Margem ${pct(m.margem)}`]
+      ].map(item => `
+        <div class="card">
+          <div class="card-body">
+            <div class="metric-label">${item[0]}</div>
+            <div class="metric-value">${item[1]}</div>
+            <div class="metric-hint">${item[2]}</div>
+          </div>
+        </div>
+      `).join('');
+
+      document.getElementById('monthSummary').innerHTML = `
+        <div class="kpi-list">
+          <div class="kpi-row"><span>Mês analisado</span><strong>${month}</strong></div>
+          <div class="kpi-row"><span>Receita prevista</span><strong>${brl(m.previsto)}</strong></div>
+          <div class="kpi-row"><span>Receita recebida</span><strong>${brl(m.recebido)}</strong></div>
+          <div class="kpi-row"><span>Total pendente</span><strong>${brl(m.pendente)}</strong></div>
+          <div class="kpi-row"><span>Clientes com cobrança</span><strong>${m.cobrados}</strong></div>
+          <div class="kpi-row"><span>Clientes pagos</span><strong>${m.pagos}</strong></div>
+          <div class="kpi-row"><span>Clientes não pagaram</span><strong>${m.naoPagos}</strong></div>
+          <div class="kpi-row"><span>Clientes parciais</span><strong>${m.parciais}</strong></div>
+          <div class="kpi-row"><span>Despesas + pró-labore</span><strong>${brl(m.despesasMes)}</strong></div>
+          <div class="kpi-row"><span>Lucro operacional</span><strong>${brl(m.lucro)}</strong></div>
+        </div>
+      `;
+
+      document.getElementById('yearSummary').innerHTML = `
+        <div class="kpi-list">
+          <div class="kpi-row"><span>Receita prevista no ano</span><strong>${brl(y.receitaPrevista)}</strong></div>
+          <div class="kpi-row"><span>Receita recebida no ano</span><strong>${brl(y.receitaRecebida)}</strong></div>
+          <div class="kpi-row"><span>Total pendente no ano</span><strong>${brl(y.pendente)}</strong></div>
+          <div class="kpi-row"><span>Receita recorrente mensal ativa</span><strong>${brl(y.recorrenciaAtiva)}</strong></div>
+          <div class="kpi-row"><span>Clientes ativos</span><strong>${y.clientesAtivos}</strong></div>
+          <div class="kpi-row"><span>Custo fixo mensal</span><strong>${brl(y.custoFixoMensal)}</strong></div>
+          <div class="kpi-row"><span>Custo fixo anual</span><strong>${brl(y.custoFixoAnual)}</strong></div>
+          <div class="kpi-row"><span>Pró-labore anual</span><strong>${brl(y.proLaboreAnual)}</strong></div>
+          <div class="kpi-row"><span>Lucro anual estimado</span><strong>${brl(y.lucroAnual)}</strong></div>
+          <div class="kpi-row"><span>Margem anual estimada</span><strong>${pct(y.margemAnual)}</strong></div>
+          <div class="kpi-row"><span>Faltam para meta de clientes</span><strong>${Math.max(normalizeNumber(state.config.metaClientes) - y.clientesAtivos, 0)}</strong></div>
+        </div>
+      `;
+
+      const risk = state.clients.filter(client => client.risco === 'Alto' || client.status === 'Risco');
+      document.getElementById('riskClients').innerHTML = risk.length ? risk.map(client => `
+        <div class="danger-box">
+          <strong>${escapeHtml(client.cliente)}</strong>
+          <div class="small">${brl(client.valorMensal)} / mês</div>
+          <div class="small">${escapeHtml(client.observacao || '')}</div>
+        </div>
+      `).join('') : '<div class="small">Nenhum cliente em risco.</div>';
+
+      document.getElementById('monthStatus').innerHTML = monthlyRows(month).map(row => `
+        <div class="kpi-row"><span>${escapeHtml(row.cliente)}</span><span>${makeTag(row.status)}</span></div>
+      `).join('') || '<div class="small">Sem lançamentos nesse mês.</div>';
+    }
+
+    function buildClientRow(client, index) {
+      return `
+        <tr>
+          <td><input class="input" data-type="client" data-index="${index}" data-key="cliente" value="${escapeHtml(client.cliente)}"></td>
+          <td><input class="input" data-type="client" data-index="${index}" data-key="servico" value="${escapeHtml(client.servico)}"></td>
+          <td><input class="input" type="number" data-type="client" data-index="${index}" data-key="valorMensal" value="${normalizeNumber(client.valorMensal)}"></td>
+          <td><input class="input" type="number" data-type="client" data-index="${index}" data-key="vencimento" value="${normalizeNumber(client.vencimento, 10)}"></td>
+          <td><select class="select" data-type="client" data-index="${index}" data-key="status">${['Ativo','Pausado','Encerrado','Risco'].map(v => `<option ${client.status===v?'selected':''}>${v}</option>`).join('')}</select></td>
+          <td><select class="select" data-type="client" data-index="${index}" data-key="risco">${['Baixo','Médio','Alto'].map(v => `<option ${client.risco===v?'selected':''}>${v}</option>`).join('')}</select></td>
+          <td><input class="input" data-type="client" data-index="${index}" data-key="observacao" value="${escapeHtml(client.observacao || '')}"></td>
+          <td><button class="btn" type="button" onclick="deleteClient(${index})">Excluir</button></td>
+        </tr>
+      `;
+    }
+
+    function renderClients() {
+      const table = document.getElementById('clientsTable');
+      table.innerHTML = `
+        <thead>
+          <tr>
+            <th>Cliente</th><th>Serviço</th><th>Valor mensal</th><th>Vencimento</th><th>Status</th><th>Risco</th><th>Observação</th><th></th>
+          </tr>
+        </thead>
+        <tbody>${state.clients.map(buildClientRow).join('')}</tbody>
+      `;
+    }
+
+    function buildMonthlyRow(row, index) {
+      return `
+        <tr>
+          <td><select class="select" data-type="monthly" data-index="${index}" data-key="mes">${MONTHS.map(v => `<option ${row.mes===v?'selected':''}>${v}</option>`).join('')}</select></td>
+          <td><input class="input" data-type="monthly" data-index="${index}" data-key="cliente" value="${escapeHtml(row.cliente)}"></td>
+          <td><input class="input" data-type="monthly" data-index="${index}" data-key="servico" value="${escapeHtml(row.servico)}"></td>
+          <td><input class="input" type="number" data-type="monthly" data-index="${index}" data-key="valorPrevisto" value="${normalizeNumber(row.valorPrevisto)}"></td>
+          <td><input class="input" type="number" data-type="monthly" data-index="${index}" data-key="valorRecebido" value="${normalizeNumber(row.valorRecebido)}"></td>
+          <td><select class="select" data-type="monthly" data-index="${index}" data-key="status">${['Pago','Não pagou','Parcial','Pendente','Atrasado','Cancelado'].map(v => `<option ${row.status===v?'selected':''}>${v}</option>`).join('')}</select></td>
+          <td><input class="input" data-type="monthly" data-index="${index}" data-key="dataPrevista" value="${escapeHtml(row.dataPrevista)}"></td>
+          <td><input class="input" data-type="monthly" data-index="${index}" data-key="dataPagamento" value="${escapeHtml(row.dataPagamento)}"></td>
+          <td><input class="input" data-type="monthly" data-index="${index}" data-key="observacao" value="${escapeHtml(row.observacao || '')}"></td>
+          <td><button class="btn" type="button" onclick="deleteMonthly(${index})">Excluir</button></td>
+        </tr>
+      `;
+    }
+
+    function renderMonthly() {
+      const select = document.getElementById('filterMonth');
+      const previous = select.value;
+      select.innerHTML = ['todos'].concat(MONTHS).map(month => `<option value="${month}">${month}</option>`).join('');
+      select.value = previous && ['todos'].concat(MONTHS).includes(previous) ? previous : state.config.dashboardMonth;
+      select.onchange = () => renderMonthly();
+      const currentMonth = select.value || state.config.dashboardMonth;
+      const rows = currentMonth === 'todos' ? state.monthly : state.monthly.filter(row => row.mes === currentMonth);
+      const table = document.getElementById('monthlyTable');
+      table.innerHTML = `
+        <thead>
+          <tr>
+            <th>Mês</th><th>Cliente</th><th>Serviço</th><th>Valor previsto</th><th>Valor recebido</th><th>Status</th><th>Data prevista</th><th>Data pagamento</th><th>Observação</th><th></th>
+          </tr>
+        </thead>
+        <tbody>${rows.map(row => buildMonthlyRow(row, state.monthly.indexOf(row))).join('')}</tbody>
+      `;
+    }
+
+    function buildExpenseRow(expense, index) {
+      return `
+        <tr>
+          <td><input class="input" data-type="expense" data-index="${index}" data-key="data" value="${escapeHtml(expense.data)}"></td>
+          <td><select class="select" data-type="expense" data-index="${index}" data-key="mes">${MONTHS.map(v => `<option ${expense.mes===v?'selected':''}>${v}</option>`).join('')}</select></td>
+          <td><input class="input" data-type="expense" data-index="${index}" data-key="categoria" value="${escapeHtml(expense.categoria)}"></td>
+          <td><input class="input" data-type="expense" data-index="${index}" data-key="descricao" value="${escapeHtml(expense.descricao)}"></td>
+          <td><select class="select" data-type="expense" data-index="${index}" data-key="tipo">${['Fixo','Variável'].map(v => `<option ${expense.tipo===v?'selected':''}>${v}</option>`).join('')}</select></td>
+          <td><input class="input" type="number" data-type="expense" data-index="${index}" data-key="valor" value="${normalizeNumber(expense.valor)}"></td>
+          <td><select class="select" data-type="expense" data-index="${index}" data-key="pago">${['Sim','Não'].map(v => `<option ${expense.pago===v?'selected':''}>${v}</option>`).join('')}</select></td>
+          <td><input class="input" data-type="expense" data-index="${index}" data-key="observacao" value="${escapeHtml(expense.observacao || '')}"></td>
+          <td><button class="btn" type="button" onclick="deleteExpense(${index})">Excluir</button></td>
+        </tr>
+      `;
+    }
+
+    function renderExpenses() {
+      const select = document.getElementById('expenseFilterMonth');
+      const previous = select.value;
+      select.innerHTML = ['todos'].concat(MONTHS).map(month => `<option value="${month}">${month}</option>`).join('');
+      select.value = previous && ['todos'].concat(MONTHS).includes(previous) ? previous : state.config.dashboardMonth;
+      select.onchange = () => renderExpenses();
+      const currentMonth = select.value || state.config.dashboardMonth;
+      const rows = currentMonth === 'todos' ? state.expenses : state.expenses.filter(expense => expense.mes === currentMonth);
+      const table = document.getElementById('expensesTable');
+      table.innerHTML = `
+        <thead>
+          <tr>
+            <th>Data</th><th>Mês</th><th>Categoria</th><th>Descrição</th><th>Tipo</th><th>Valor</th><th>Pago</th><th>Observação</th><th></th>
+          </tr>
+        </thead>
+        <tbody>${rows.map(expense => buildExpenseRow(expense, state.expenses.indexOf(expense))).join('')}</tbody>
+      `;
+    }
+
+    function getDiagnostic() {
+      const annual = getYearMetrics();
+      const month = getMonthMetrics(state.config.dashboardMonth);
+      const recorrencia = annual.recorrenciaAtiva;
+      const estruturaMensal = annual.custoFixoMensal + normalizeNumber(state.config.proLaboreMensal);
+      let diagnostico = '';
+      let acao = '';
+      if (recorrencia >= estruturaMensal) {
+        diagnostico = 'Sua receita recorrente ativa já cobre a estrutura mensal total. Isso melhora previsibilidade e reduz risco de caixa.';
+        acao = 'Próxima ação: aumentar margem, revisando preços e reduzindo clientes com maior esforço e menor retorno.';
+      } else if (month.recebido > 0 && month.lucro > 0) {
+        diagnostico = 'Você consegue gerar lucro em alguns meses, mas a estrutura ainda depende de recebimentos variáveis e isso reduz a previsibilidade.';
+        acao = 'Próxima ação: transformar mais receita em recorrência e diminuir exposição a atrasos de clientes instáveis.';
+      } else {
+        diagnostico = 'Hoje a estrutura está pressionando o caixa. A operação depende demais do recebimento do mês e isso dificulta análise e controle.';
+        acao = 'Próxima ação: estabilizar o caixa primeiro. Priorize cobrança, recorrência previsível e revisão de pró-labore ou preços.';
+      }
+      return { diagnostico, acao, estruturaMensal, recorrencia, annual, month };
+    }
+
+    function renderDRE() {
+      const annual = getYearMetrics();
+      const month = getMonthMetrics(state.config.dashboardMonth);
+      const diagnostic = getDiagnostic();
+      document.getElementById('dreAnnual').innerHTML = `
+        <div class="kpi-list">
+          <div class="kpi-row"><span>Receita total recebida</span><strong>${brl(annual.receitaRecebida)}</strong></div>
+          <div class="kpi-row"><span>Receita prevista</span><strong>${brl(annual.receitaPrevista)}</strong></div>
+          <div class="kpi-row"><span>Custos fixos anuais</span><strong>${brl(annual.custoFixoAnual)}</strong></div>
+          <div class="kpi-row"><span>Pró-labore anual</span><strong>${brl(annual.proLaboreAnual)}</strong></div>
+          <div class="kpi-row"><span>Lucro líquido estimado</span><strong>${brl(annual.lucroAnual)}</strong></div>
+          <div class="kpi-row"><span>Margem líquida</span><strong>${pct(annual.margemAnual)}</strong></div>
+        </div>
+      `;
+      document.getElementById('dreMonth').innerHTML = `
+        <div class="kpi-list">
+          <div class="kpi-row"><span>Mês</span><strong>${state.config.dashboardMonth}</strong></div>
+          <div class="kpi-row"><span>Receita recebida</span><strong>${brl(month.recebido)}</strong></div>
+          <div class="kpi-row"><span>Receita prevista</span><strong>${brl(month.previsto)}</strong></div>
+          <div class="kpi-row"><span>Despesas + pró-labore</span><strong>${brl(month.despesasMes)}</strong></div>
+          <div class="kpi-row"><span>Lucro operacional</span><strong>${brl(month.lucro)}</strong></div>
+          <div class="kpi-row"><span>Margem operacional</span><strong>${pct(month.margem)}</strong></div>
+        </div>
+      `;
+      document.getElementById('dreDiagnostic').innerHTML = `
+        <div class="diagnostic">
+          <h4>Leitura CFO</h4>
+          <p><strong>Receita recorrente ativa:</strong> ${brl(diagnostic.recorrencia)}</p>
+          <p><strong>Estrutura mensal total:</strong> ${brl(diagnostic.estruturaMensal)}</p>
+          <p>${diagnostic.diagnostico}</p>
+          <div class="action"><strong>Ação recomendada:</strong> ${diagnostic.acao}</div>
+        </div>
+      `;
+    }
+
+    function renderCashflow() {
+      let acumulado = 0;
+      const rows = MONTHS.map(month => {
+        const entradas = state.monthly.filter(row => row.mes === month).reduce((sum, row) => sum + normalizeNumber(row.valorRecebido), 0);
+        const saidas = state.expenses.filter(expense => expense.mes === month).reduce((sum, expense) => sum + normalizeNumber(expense.valor), 0) + normalizeNumber(state.config.proLaboreMensal);
+        const saldo = entradas - saidas;
+        acumulado += saldo;
+        return { month, entradas, saidas, saldo, acumulado };
+      });
+      document.getElementById('cashflowTable').innerHTML = `
+        <thead><tr><th>Mês</th><th>Entradas</th><th>Saídas</th><th>Saldo do mês</th><th>Saldo acumulado</th></tr></thead>
+        <tbody>
+          ${rows.map(row => `
+            <tr>
+              <td>${row.month}</td>
+              <td>${brl(row.entradas)}</td>
+              <td>${brl(row.saidas)}</td>
+              <td>${brl(row.saldo)}</td>
+              <td>${brl(row.acumulado)}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      `;
+    }
+
+    function renderConfig() {
+      const syncStatus = privateConfig.lastSync ? `☁️ Último sync: ${privateConfig.lastSync}` : (privateConfig.githubToken ? '☁️ Pronto para sincronizar' : '⚠️ Token não configurado');
+      const syncBadgeClass = privateConfig.githubToken ? 'sync-ok' : 'sync-warn';
+      const grid = document.getElementById('configGrid');
+      grid.innerHTML = `
+        <div class="field"><label>Mês do painel</label><select class="select" id="cfgMonth">${MONTHS.map(month => `<option ${state.config.dashboardMonth===month?'selected':''}>${month}</option>`).join('')}</select></div>
+        <div class="field"><label>Pró-labore mensal</label><input class="input" id="cfgProlabore" type="number" value="${normalizeNumber(state.config.proLaboreMensal)}"></div>
+        <div class="field"><label>Meta de receita mensal</label><input class="input" id="cfgMetaReceita" type="number" value="${normalizeNumber(state.config.metaReceitaMensal)}"></div>
+        <div class="field"><label>Meta de clientes</label><input class="input" id="cfgMetaClientes" type="number" value="${normalizeNumber(state.config.metaClientes)}"></div>
+        <div class="field"><label>Multa atraso</label><input class="input" id="cfgMulta" type="number" step="0.01" value="${normalizeNumber(state.config.multaAtraso)}"></div>
+        <div class="field"><label>Juros mês</label><input class="input" id="cfgJuros" type="number" step="0.01" value="${normalizeNumber(state.config.jurosMes)}"></div>
+        <div class="field"><label>Reserva (meses)</label><input class="input" id="cfgReserva" type="number" value="${normalizeNumber(state.config.reservaMeses)}"></div>
+        <div class="sync-card">
+          <h4>☁️ Sincronização GitHub</h4>
+          <div class="sync-status-badge ${syncBadgeClass}" id="syncStatusConfig">${syncStatus}</div>
+          <div class="field"><label>Token GitHub (ghp_...)</label><input class="input" id="cfgToken" type="password" placeholder="Cole aqui seu token" value="${privateConfig.githubToken || ''}"></div>
+          <div style="display:flex;align-items:center;gap:8px;margin:10px 0;">
+            <input type="checkbox" id="cfgAutoPublish" ${privateConfig.autoPublish ? 'checked' : ''}>
+            <label for="cfgAutoPublish" style="font-size:14px;">Publicar automaticamente ao salvar dados</label>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn primary" id="cfgSaveTokenBtn">💾 Salvar configurações</button>
+            <button class="btn publish" id="cfgPublishNowBtn">📤 Publicar agora</button>
+          </div>
+        </div>
+      `;
+      document.getElementById('cfgMonth').onchange = e => updateConfig('dashboardMonth', e.target.value);
+      document.getElementById('cfgProlabore').onchange = e => updateConfig('proLaboreMensal', normalizeNumber(e.target.value));
+      document.getElementById('cfgMetaReceita').onchange = e => updateConfig('metaReceitaMensal', normalizeNumber(e.target.value));
+      document.getElementById('cfgMetaClientes').onchange = e => updateConfig('metaClientes', normalizeNumber(e.target.value));
+      document.getElementById('cfgMulta').onchange = e => updateConfig('multaAtraso', normalizeNumber(e.target.value));
+      document.getElementById('cfgJuros').onchange = e => updateConfig('jurosMes', normalizeNumber(e.target.value));
+      document.getElementById('cfgReserva').onchange = e => updateConfig('reservaMeses', normalizeNumber(e.target.value));
+      document.getElementById('cfgSaveTokenBtn').onclick = () => {
+        const token = document.getElementById('cfgToken').value.trim();
+        const auto = document.getElementById('cfgAutoPublish').checked;
+        savePrivateConfig({ githubToken: token, autoPublish: auto });
+        notice('✅ Configurações salvas!');
+        renderConfig();
+      };
+      document.getElementById('cfgPublishNowBtn').onclick = () => {
+        const token = document.getElementById('cfgToken').value.trim();
+        const auto = document.getElementById('cfgAutoPublish').checked;
+        savePrivateConfig({ githubToken: token, autoPublish: auto });
+        publishToGitHub(false);
+      };
+    }
+
+    function updateClient(index, key, value) {
+      state.clients[index][key] = value;
+      saveState();
+      schedulePublish();
+    }
+
+    function updateMonthly(index, key, value) {
+      state.monthly[index][key] = value;
+      saveState();
+      schedulePublish();
+    }
+
+    function updateExpense(index, key, value) {
+      state.expenses[index][key] = value;
+      saveState();
+      schedulePublish();
+    }
+
+    function updateConfig(key, value) {
+      state.config[key] = value;
+      saveState();
+      schedulePublish();
+      renderAll();
+    }
+
+    function deleteClient(index) {
+      state.clients.splice(index, 1);
+      saveState();
+      renderAll();
+    }
+
+    function deleteMonthly(index) {
+      state.monthly.splice(index, 1);
+      saveState();
+      renderAll();
+    }
+
+    function deleteExpense(index) {
+      state.expenses.splice(index, 1);
+      saveState();
+      renderAll();
+    }
+
+    function bindTablePersistence() {
+      document.querySelectorAll('input[data-type], select[data-type], textarea[data-type]').forEach(el => {
+        if (el.dataset.bound === '1') return;
+        el.dataset.bound = '1';
+        const handler = event => {
+          const target = event.target;
+          const type = target.dataset.type;
+          const index = Number(target.dataset.index);
+          const key = target.dataset.key;
+          let value = target.value;
+          if (target.type === 'number') value = normalizeNumber(value);
+          if (type === 'client') updateClient(index, key, value);
+          if (type === 'monthly') updateMonthly(index, key, value);
+          if (type === 'expense') updateExpense(index, key, value);
+        };
+        el.addEventListener('change', handler);
+        el.addEventListener('blur', handler);
+      });
+    }
+
+    function renderAll() {
+      renderDashboard();
+      renderClients();
+      renderMonthly();
+      renderExpenses();
+      renderDRE();
+      renderCashflow();
+      renderConfig();
+      bindTablePersistence();
+    }
+
+    document.getElementById('addClientBtn').onclick = function() {
+      state.clients.push({ cliente: '', servico: 'Posts recorrentes', valorMensal: 0, vencimento: 10, status: 'Ativo', risco: 'Baixo', observacao: '' });
+      saveState();
+      renderAll();
+    };
+
+    document.getElementById('addMonthlyBtn').onclick = function() {
+      state.monthly.push({ mes: state.config.dashboardMonth, cliente: '', servico: 'Posts recorrentes', valorPrevisto: 0, valorRecebido: 0, status: 'Pendente', dataPrevista: '', dataPagamento: '', observacao: '' });
+      saveState();
+      renderAll();
+    };
+
+    document.getElementById('addExpenseBtn').onclick = function() {
+      state.expenses.push({ data: '', mes: state.config.dashboardMonth, categoria: '', descricao: '', tipo: 'Fixo', valor: 0, pago: 'Sim', observacao: '' });
+      saveState();
+      renderAll();
+    };
+
+    document.getElementById('restoreBtn').onclick = function() {
+      state = sanitizeState(DEFAULT_DATA);
+      state.monthly = buildMonthlySeed(state.clients);
+      state.expenses = buildExpenseSeed();
+      saveState();
+      renderAll();
+      notice('Dados-base restaurados.');
+    };
+
+    document.getElementById('exportBtn').onclick = function() {
+      const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'nomi-studio-financeiro-2026.json';
+      a.click();
+      URL.revokeObjectURL(url);
+      notice('JSON exportado com sucesso.');
+    };
+
+    document.getElementById('backupBtn').onclick = function() {
+      saveState();
+      notice('Backup local salvo no navegador.');
+    };
+
+    document.getElementById('importBtn').onclick = function() {
+      document.getElementById('importFile').click();
+    };
+
+    document.getElementById('importFile').onchange = function(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function() {
+        try {
+          const parsed = JSON.parse(String(reader.result || '{}'));
+          state = sanitizeState(parsed);
+          saveState();
+          renderAll();
+          notice('Dados importados com sucesso.');
+        } catch {
+          notice('Arquivo JSON inválido.', true);
+        }
+      };
+      reader.readAsText(file, 'UTF-8');
+      event.target.value = '';
+    };
+
+    document.getElementById('downloadBtn').onclick = function() {
+      const blob = new Blob([document.documentElement.outerHTML], { type: 'text/html;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'nomi-studio-financeiro-2026.html';
+      a.click();
+      URL.revokeObjectURL(url);
+      notice('HTML baixado com sucesso.');
+    };
+
+    // AUTOSAVE INTELIGENTE
+let saveTimer = null;
+
+function scheduleSave() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    saveState();
+  }, 500);
+}
+
+function bindTablePersistence() {
+  document.querySelectorAll('input[data-type], select[data-type], textarea[data-type]').forEach(el => {
+    if (el.dataset.bound === '1') return;
+    el.dataset.bound = '1';
+
+    const handler = event => {
+      const target = event.target;
+      const type = target.dataset.type;
+      const index = Number(target.dataset.index);
+      const key = target.dataset.key;
+      let value = target.value;
+
+      if (target.type === 'number') {
+        value = normalizeNumber(value);
+      }
+
+      if (type === 'client') updateClient(index, key, value);
+      if (type === 'monthly') updateMonthly(index, key, value);
+      if (type === 'expense') updateExpense(index, key, value);
+
+      scheduleSave();
+    };
+
+    el.addEventListener('input', handler);
+    el.addEventListener('change', handler);
+    el.addEventListener('blur', handler);
+  });
+}
+
+window.addEventListener('beforeunload', () => {
+  saveState();
+});
+
+document.getElementById('publicarBtn').onclick = () => publishToGitHub(false);
+
+    // Init sync status
+    if (privateConfig.githubToken) {
+      const t = privateConfig.lastSync;
+      updateSyncStatus(t ? `☁️ Último sync: ${t}` : '☁️ Sincronização configurada');
+    }
+
+    renderTabs();
+    renderAll();
+  </script>
+</body>
+</html>
