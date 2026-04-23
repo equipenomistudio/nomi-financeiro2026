@@ -1,8 +1,6 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<html lang="pt-BR"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nomi Studio — Financeiro 2026</title>
   <style>
     :root {
@@ -292,7 +290,7 @@
     .sync-warn { background: #fef3c7; color: #92400e; }
     .sync-err  { background: #fee2e2; color: #991b1b; }
   </style>
-</head>
+<script src="chrome-extension://liecbddmkiiihnedobmlmillhodjkdmb/js/recordConsoleEvents.js"></script></head>
 <body>
   <div class="container">
     <div class="topbar">
@@ -312,26 +310,117 @@
     </div>
 
     <div class="notice" id="notice"></div>
-    <div id="syncBar"><span id="syncBarText">☁️ Sincronização ativa</span></div>
-  <div class="tabs" id="tabs"></div>
+    <div id="syncBar" style="display: flex;"><span id="syncBarText">⏳ Publicando...</span></div>
+  <div class="tabs" id="tabs"><button type="button" class="tab" data-tab="dashboard">Dashboard</button><button type="button" class="tab" data-tab="clientes">Clientes</button><button type="button" class="tab" data-tab="controle">Controle Mensal</button><button type="button" class="tab" data-tab="despesas">Despesas</button><button type="button" class="tab" data-tab="dre">DRE</button><button type="button" class="tab" data-tab="fluxo">Fluxo de Caixa</button><button type="button" class="tab active" data-tab="config">Configurações</button></div>
 
-    <section class="panel active" data-panel="dashboard">
+    <section class="panel" data-panel="dashboard">
       <div class="toolbar">
         <div class="field">
           <label for="dashboardMonth">Mês do painel</label>
-          <select id="dashboardMonth" class="select"></select>
+          <select id="dashboardMonth" class="select"><option value="jan/2026">jan/2026</option><option value="fev/2026">fev/2026</option><option value="mar/2026">mar/2026</option><option value="abr/2026">abr/2026</option><option value="mai/2026">mai/2026</option><option value="jun/2026">jun/2026</option><option value="jul/2026">jul/2026</option><option value="ago/2026">ago/2026</option><option value="set/2026">set/2026</option><option value="out/2026">out/2026</option><option value="nov/2026">nov/2026</option><option value="dez/2026">dez/2026</option></select>
         </div>
       </div>
-      <div class="grid" id="metricsGrid"></div>
-      <div style="height:16px"></div>
-      <div class="grid-2">
-        <div class="card"><div class="card-header"><h3>Resumo do mês selecionado</h3></div><div class="card-body" id="monthSummary"></div></div>
-        <div class="card"><div class="card-header"><h3>Visão anual 2026</h3></div><div class="card-body" id="yearSummary"></div></div>
+      <div class="grid" id="metricsGrid">
+        <div class="card">
+          <div class="card-body">
+            <div class="metric-label">Receita prevista no mês</div>
+            <div class="metric-value">R$&nbsp;9.564,00</div>
+            <div class="metric-hint">abr/2026</div>
+          </div>
+        </div>
+      
+        <div class="card">
+          <div class="card-body">
+            <div class="metric-label">Receita recebida no mês</div>
+            <div class="metric-value">R$&nbsp;2.300,00</div>
+            <div class="metric-hint">10 pagos</div>
+          </div>
+        </div>
+      
+        <div class="card">
+          <div class="card-body">
+            <div class="metric-label">Pendente no mês</div>
+            <div class="metric-value">R$&nbsp;7.264,00</div>
+            <div class="metric-hint">0 não pagaram</div>
+          </div>
+        </div>
+      
+        <div class="card">
+          <div class="card-body">
+            <div class="metric-label">Lucro do mês</div>
+            <div class="metric-value">-R$&nbsp;2.300,00</div>
+            <div class="metric-hint">Margem -100,0%</div>
+          </div>
+        </div>
       </div>
       <div style="height:16px"></div>
       <div class="grid-2">
-        <div class="card"><div class="card-header"><h3>Clientes em risco</h3></div><div class="card-body" id="riskClients"></div></div>
-        <div class="card"><div class="card-header"><h3>Status do mês</h3></div><div class="card-body" id="monthStatus"></div></div>
+        <div class="card"><div class="card-header"><h3>Resumo do mês selecionado</h3></div><div class="card-body" id="monthSummary">
+        <div class="kpi-list">
+          <div class="kpi-row"><span>Mês analisado</span><strong>abr/2026</strong></div>
+          <div class="kpi-row"><span>Receita prevista</span><strong>R$&nbsp;9.564,00</strong></div>
+          <div class="kpi-row"><span>Receita recebida</span><strong>R$&nbsp;2.300,00</strong></div>
+          <div class="kpi-row"><span>Total pendente</span><strong>R$&nbsp;7.264,00</strong></div>
+          <div class="kpi-row"><span>Clientes com cobrança</span><strong>13</strong></div>
+          <div class="kpi-row"><span>Clientes pagos</span><strong>10</strong></div>
+          <div class="kpi-row"><span>Clientes não pagaram</span><strong>0</strong></div>
+          <div class="kpi-row"><span>Clientes parciais</span><strong>0</strong></div>
+          <div class="kpi-row"><span>Despesas + pró-labore</span><strong>R$&nbsp;4.600,00</strong></div>
+          <div class="kpi-row"><span>Lucro operacional</span><strong>-R$&nbsp;2.300,00</strong></div>
+        </div>
+      </div></div>
+        <div class="card"><div class="card-header"><h3>Visão anual 2026</h3></div><div class="card-body" id="yearSummary">
+        <div class="kpi-list">
+          <div class="kpi-row"><span>Receita prevista no ano</span><strong>R$&nbsp;90.464,00</strong></div>
+          <div class="kpi-row"><span>Receita recebida no ano</span><strong>R$&nbsp;20.200,00</strong></div>
+          <div class="kpi-row"><span>Total pendente no ano</span><strong>R$&nbsp;70.264,00</strong></div>
+          <div class="kpi-row"><span>Receita recorrente mensal ativa</span><strong>R$&nbsp;5.800,00</strong></div>
+          <div class="kpi-row"><span>Clientes ativos</span><strong>10</strong></div>
+          <div class="kpi-row"><span>Custo fixo mensal</span><strong>R$&nbsp;4.600,00</strong></div>
+          <div class="kpi-row"><span>Custo fixo anual</span><strong>R$&nbsp;55.200,00</strong></div>
+          <div class="kpi-row"><span>Pró-labore anual</span><strong>R$&nbsp;0,00</strong></div>
+          <div class="kpi-row"><span>Lucro anual estimado</span><strong>-R$&nbsp;35.000,00</strong></div>
+          <div class="kpi-row"><span>Margem anual estimada</span><strong>-173,3%</strong></div>
+          <div class="kpi-row"><span>Faltam para meta de clientes</span><strong>10</strong></div>
+        </div>
+      </div></div>
+      </div>
+      <div style="height:16px"></div>
+      <div class="grid-2">
+        <div class="card"><div class="card-header"><h3>Clientes em risco</h3></div><div class="card-body" id="riskClients">
+        <div class="danger-box">
+          <strong>Sara Brandão</strong>
+          <div class="small">R$&nbsp;1.500,00 / mês</div>
+          <div class="small">Atrasos e parcelamento em 2026</div>
+        </div>
+      </div></div>
+        <div class="card"><div class="card-header"><h3>Status do mês</h3></div><div class="card-body" id="monthStatus">
+        <div class="kpi-row"><span>Duda Serenine</span><span><span class="tag tag-green">Pago</span></span></div>
+      
+        <div class="kpi-row"><span>Duda Dittert</span><span><span class="tag tag-green">Pago</span></span></div>
+      
+        <div class="kpi-row"><span>Debora</span><span><span class="tag tag-green">Pago</span></span></div>
+      
+        <div class="kpi-row"><span>LYGIA IMBELLONI</span><span><span class="tag tag-green">Pago</span></span></div>
+      
+        <div class="kpi-row"><span>Hiago Gomes</span><span><span class="tag tag-green">Pago</span></span></div>
+      
+        <div class="kpi-row"><span>Por Minha Conta</span><span><span class="tag tag-green">Pago</span></span></div>
+      
+        <div class="kpi-row"><span>Áurea</span><span><span class="tag tag-blue">Pendente</span></span></div>
+      
+        <div class="kpi-row"><span>Gestclin</span><span><span class="tag tag-blue">Pendente</span></span></div>
+      
+        <div class="kpi-row"><span>Sara Brandão</span><span><span class="tag tag-blue">Pendente</span></span></div>
+      
+        <div class="kpi-row"><span>Ana Luisa</span><span><span class="tag tag-green">Pago</span></span></div>
+      
+        <div class="kpi-row"><span>frella</span><span><span class="tag tag-green">Pago</span></span></div>
+      
+        <div class="kpi-row"><span>frella</span><span><span class="tag tag-green">Pago</span></span></div>
+      
+        <div class="kpi-row"><span>frella</span><span><span class="tag tag-green">Pago</span></span></div>
+      </div></div>
       </div>
     </section>
 
@@ -340,7 +429,146 @@
         <div class="card-header"><h3>Clientes</h3></div>
         <div class="card-body">
           <div class="toolbar"><button class="btn primary" id="addClientBtn">Adicionar cliente</button></div>
-          <div class="table-wrap"><table id="clientsTable"></table></div>
+          <div class="table-wrap"><table id="clientsTable">
+        <thead>
+          <tr>
+            <th>Cliente</th><th>Serviço</th><th>Valor mensal</th><th>Vencimento</th><th>Status</th><th>Risco</th><th>Observação</th><th></th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td><input class="input" data-type="client" data-index="0" data-key="cliente" value="Duda Serenine" data-bound="1"></td>
+          <td><input class="input" data-type="client" data-index="0" data-key="servico" value="Posts recorrentes" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="client" data-index="0" data-key="valorMensal" value="800" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="client" data-index="0" data-key="vencimento" value="10" data-bound="1"></td>
+          <td><select class="select" data-type="client" data-index="0" data-key="status" data-bound="1"><option selected="">Ativo</option><option>Pausado</option><option>Encerrado</option><option>Risco</option></select></td>
+          <td><select class="select" data-type="client" data-index="0" data-key="risco" data-bound="1"><option selected="">Baixo</option><option>Médio</option><option>Alto</option></select></td>
+          <td><input class="input" data-type="client" data-index="0" data-key="observacao" value="Cliente recorrente confiável" data-bound="1"></td>
+          <td><button class="btn" type="button" onclick="deleteClient(0)">Excluir</button></td>
+        </tr>
+      
+        <tr>
+          <td><input class="input" data-type="client" data-index="1" data-key="cliente" value="Duda Dittert" data-bound="1"></td>
+          <td><input class="input" data-type="client" data-index="1" data-key="servico" value="Posts recorrentes" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="client" data-index="1" data-key="valorMensal" value="700" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="client" data-index="1" data-key="vencimento" value="10" data-bound="1"></td>
+          <td><select class="select" data-type="client" data-index="1" data-key="status" data-bound="1"><option selected="">Ativo</option><option>Pausado</option><option>Encerrado</option><option>Risco</option></select></td>
+          <td><select class="select" data-type="client" data-index="1" data-key="risco" data-bound="1"><option selected="">Baixo</option><option>Médio</option><option>Alto</option></select></td>
+          <td><input class="input" data-type="client" data-index="1" data-key="observacao" value="Cliente recorrente confiável" data-bound="1"></td>
+          <td><button class="btn" type="button" onclick="deleteClient(1)">Excluir</button></td>
+        </tr>
+      
+        <tr>
+          <td><input class="input" data-type="client" data-index="2" data-key="cliente" value="Debora" data-bound="1"></td>
+          <td><input class="input" data-type="client" data-index="2" data-key="servico" value="Posts recorrentes" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="client" data-index="2" data-key="valorMensal" value="500" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="client" data-index="2" data-key="vencimento" value="20" data-bound="1"></td>
+          <td><select class="select" data-type="client" data-index="2" data-key="status" data-bound="1"><option selected="">Ativo</option><option>Pausado</option><option>Encerrado</option><option>Risco</option></select></td>
+          <td><select class="select" data-type="client" data-index="2" data-key="risco" data-bound="1"><option selected="">Baixo</option><option>Médio</option><option>Alto</option></select></td>
+          <td><input class="input" data-type="client" data-index="2" data-key="observacao" value="Cliente recorrente confiável" data-bound="1"></td>
+          <td><button class="btn" type="button" onclick="deleteClient(2)">Excluir</button></td>
+        </tr>
+      
+        <tr>
+          <td><input class="input" data-type="client" data-index="3" data-key="cliente" value="LYGIA IMBELLONI" data-bound="1"></td>
+          <td><input class="input" data-type="client" data-index="3" data-key="servico" value="Posts recorrentes" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="client" data-index="3" data-key="valorMensal" value="500" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="client" data-index="3" data-key="vencimento" value="29" data-bound="1"></td>
+          <td><select class="select" data-type="client" data-index="3" data-key="status" data-bound="1"><option selected="">Ativo</option><option>Pausado</option><option>Encerrado</option><option>Risco</option></select></td>
+          <td><select class="select" data-type="client" data-index="3" data-key="risco" data-bound="1"><option selected="">Baixo</option><option>Médio</option><option>Alto</option></select></td>
+          <td><input class="input" data-type="client" data-index="3" data-key="observacao" value="Cliente recorrente confiável" data-bound="1"></td>
+          <td><button class="btn" type="button" onclick="deleteClient(3)">Excluir</button></td>
+        </tr>
+      
+        <tr>
+          <td><input class="input" data-type="client" data-index="4" data-key="cliente" value="Hiago Gomes" data-bound="1"></td>
+          <td><input class="input" data-type="client" data-index="4" data-key="servico" value="Posts recorrentes" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="client" data-index="4" data-key="valorMensal" value="500" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="client" data-index="4" data-key="vencimento" value="10" data-bound="1"></td>
+          <td><select class="select" data-type="client" data-index="4" data-key="status" data-bound="1"><option selected="">Ativo</option><option>Pausado</option><option>Encerrado</option><option>Risco</option></select></td>
+          <td><select class="select" data-type="client" data-index="4" data-key="risco" data-bound="1"><option selected="">Baixo</option><option>Médio</option><option>Alto</option></select></td>
+          <td><input class="input" data-type="client" data-index="4" data-key="observacao" value="Cliente recorrente confiável" data-bound="1"></td>
+          <td><button class="btn" type="button" onclick="deleteClient(4)">Excluir</button></td>
+        </tr>
+      
+        <tr>
+          <td><input class="input" data-type="client" data-index="5" data-key="cliente" value="Por Minha Conta" data-bound="1"></td>
+          <td><input class="input" data-type="client" data-index="5" data-key="servico" value="Posts recorrentes" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="client" data-index="5" data-key="valorMensal" value="900" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="client" data-index="5" data-key="vencimento" value="15" data-bound="1"></td>
+          <td><select class="select" data-type="client" data-index="5" data-key="status" data-bound="1"><option selected="">Ativo</option><option>Pausado</option><option>Encerrado</option><option>Risco</option></select></td>
+          <td><select class="select" data-type="client" data-index="5" data-key="risco" data-bound="1"><option selected="">Baixo</option><option>Médio</option><option>Alto</option></select></td>
+          <td><input class="input" data-type="client" data-index="5" data-key="observacao" value="Cliente recorrente confiável" data-bound="1"></td>
+          <td><button class="btn" type="button" onclick="deleteClient(5)">Excluir</button></td>
+        </tr>
+      
+        <tr>
+          <td><input class="input" data-type="client" data-index="6" data-key="cliente" value="Áurea" data-bound="1"></td>
+          <td><input class="input" data-type="client" data-index="6" data-key="servico" value="Posts recorrentes" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="client" data-index="6" data-key="valorMensal" value="1500" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="client" data-index="6" data-key="vencimento" value="20" data-bound="1"></td>
+          <td><select class="select" data-type="client" data-index="6" data-key="status" data-bound="1"><option selected="">Ativo</option><option>Pausado</option><option>Encerrado</option><option>Risco</option></select></td>
+          <td><select class="select" data-type="client" data-index="6" data-key="risco" data-bound="1"><option selected="">Baixo</option><option>Médio</option><option>Alto</option></select></td>
+          <td><input class="input" data-type="client" data-index="6" data-key="observacao" value="Cliente mais previsível" data-bound="1"></td>
+          <td><button class="btn" type="button" onclick="deleteClient(6)">Excluir</button></td>
+        </tr>
+      
+        <tr>
+          <td><input class="input" data-type="client" data-index="7" data-key="cliente" value="Gestclin" data-bound="1"></td>
+          <td><input class="input" data-type="client" data-index="7" data-key="servico" value="Posts recorrentes" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="client" data-index="7" data-key="valorMensal" value="400" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="client" data-index="7" data-key="vencimento" value="29" data-bound="1"></td>
+          <td><select class="select" data-type="client" data-index="7" data-key="status" data-bound="1"><option selected="">Ativo</option><option>Pausado</option><option>Encerrado</option><option>Risco</option></select></td>
+          <td><select class="select" data-type="client" data-index="7" data-key="risco" data-bound="1"><option selected="">Baixo</option><option>Médio</option><option>Alto</option></select></td>
+          <td><input class="input" data-type="client" data-index="7" data-key="observacao" value="Cliente recorrente confiável" data-bound="1"></td>
+          <td><button class="btn" type="button" onclick="deleteClient(7)">Excluir</button></td>
+        </tr>
+      
+        <tr>
+          <td><input class="input" data-type="client" data-index="8" data-key="cliente" value="Sara Brandão" data-bound="1"></td>
+          <td><input class="input" data-type="client" data-index="8" data-key="servico" value="Posts recorrentes" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="client" data-index="8" data-key="valorMensal" value="1500" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="client" data-index="8" data-key="vencimento" value="20" data-bound="1"></td>
+          <td><select class="select" data-type="client" data-index="8" data-key="status" data-bound="1"><option>Ativo</option><option>Pausado</option><option>Encerrado</option><option selected="">Risco</option></select></td>
+          <td><select class="select" data-type="client" data-index="8" data-key="risco" data-bound="1"><option>Baixo</option><option>Médio</option><option selected="">Alto</option></select></td>
+          <td><input class="input" data-type="client" data-index="8" data-key="observacao" value="Atrasos e parcelamento em 2026" data-bound="1"></td>
+          <td><button class="btn" type="button" onclick="deleteClient(8)">Excluir</button></td>
+        </tr>
+      
+        <tr>
+          <td><input class="input" data-type="client" data-index="9" data-key="cliente" value="Frella" data-bound="1"></td>
+          <td><input class="input" data-type="client" data-index="9" data-key="servico" value="Frella" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="client" data-index="9" data-key="valorMensal" value="0" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="client" data-index="9" data-key="vencimento" value="10" data-bound="1"></td>
+          <td><select class="select" data-type="client" data-index="9" data-key="status" data-bound="1"><option selected="">Ativo</option><option>Pausado</option><option>Encerrado</option><option>Risco</option></select></td>
+          <td><select class="select" data-type="client" data-index="9" data-key="risco" data-bound="1"><option selected="">Baixo</option><option>Médio</option><option>Alto</option></select></td>
+          <td><input class="input" data-type="client" data-index="9" data-key="observacao" value="" data-bound="1"></td>
+          <td><button class="btn" type="button" onclick="deleteClient(9)">Excluir</button></td>
+        </tr>
+      
+        <tr>
+          <td><input class="input" data-type="client" data-index="10" data-key="cliente" value="Tami Amaro" data-bound="1"></td>
+          <td><input class="input" data-type="client" data-index="10" data-key="servico" value="Posts recorrentes" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="client" data-index="10" data-key="valorMensal" value="0" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="client" data-index="10" data-key="vencimento" value="10" data-bound="1"></td>
+          <td><select class="select" data-type="client" data-index="10" data-key="status" data-bound="1"><option>Ativo</option><option selected="">Pausado</option><option>Encerrado</option><option>Risco</option></select></td>
+          <td><select class="select" data-type="client" data-index="10" data-key="risco" data-bound="1"><option selected="">Baixo</option><option>Médio</option><option>Alto</option></select></td>
+          <td><input class="input" data-type="client" data-index="10" data-key="observacao" value="" data-bound="1"></td>
+          <td><button class="btn" type="button" onclick="deleteClient(10)">Excluir</button></td>
+        </tr>
+      
+        <tr>
+          <td><input class="input" data-type="client" data-index="11" data-key="cliente" value="Nicole Fagundes" data-bound="1"></td>
+          <td><input class="input" data-type="client" data-index="11" data-key="servico" value="Posts recorrentes" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="client" data-index="11" data-key="valorMensal" value="0" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="client" data-index="11" data-key="vencimento" value="10" data-bound="1"></td>
+          <td><select class="select" data-type="client" data-index="11" data-key="status" data-bound="1"><option selected="">Ativo</option><option>Pausado</option><option>Encerrado</option><option>Risco</option></select></td>
+          <td><select class="select" data-type="client" data-index="11" data-key="risco" data-bound="1"><option selected="">Baixo</option><option>Médio</option><option>Alto</option></select></td>
+          <td><input class="input" data-type="client" data-index="11" data-key="observacao" value="" data-bound="1"></td>
+          <td><button class="btn" type="button" onclick="deleteClient(11)">Excluir</button></td>
+        </tr>
+      </tbody>
+      </table></div>
         </div>
       </div>
     </section>
@@ -352,11 +580,187 @@
           <div class="toolbar">
             <div class="field">
               <label for="filterMonth">Filtrar por mês</label>
-              <select id="filterMonth" class="select"></select>
+              <select id="filterMonth" class="select"><option value="todos">todos</option><option value="jan/2026">jan/2026</option><option value="fev/2026">fev/2026</option><option value="mar/2026">mar/2026</option><option value="abr/2026">abr/2026</option><option value="mai/2026">mai/2026</option><option value="jun/2026">jun/2026</option><option value="jul/2026">jul/2026</option><option value="ago/2026">ago/2026</option><option value="set/2026">set/2026</option><option value="out/2026">out/2026</option><option value="nov/2026">nov/2026</option><option value="dez/2026">dez/2026</option></select>
             </div>
             <button class="btn primary" id="addMonthlyBtn">Adicionar lançamento</button>
           </div>
-          <div class="table-wrap"><table id="monthlyTable"></table></div>
+          <div class="table-wrap"><table id="monthlyTable">
+        <thead>
+          <tr>
+            <th>Mês</th><th>Cliente</th><th>Serviço</th><th>Valor previsto</th><th>Valor recebido</th><th>Status</th><th>Data prevista</th><th>Data pagamento</th><th>Observação</th><th></th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td><select class="select" data-type="monthly" data-index="27" data-key="mes" data-bound="1"><option>jan/2026</option><option>fev/2026</option><option>mar/2026</option><option selected="">abr/2026</option><option>mai/2026</option><option>jun/2026</option><option>jul/2026</option><option>ago/2026</option><option>set/2026</option><option>out/2026</option><option>nov/2026</option><option>dez/2026</option></select></td>
+          <td><input class="input" data-type="monthly" data-index="27" data-key="cliente" value="Duda Serenine" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="27" data-key="servico" value="Posts recorrentes" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="monthly" data-index="27" data-key="valorPrevisto" value="800" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="monthly" data-index="27" data-key="valorRecebido" value="800" data-bound="1"></td>
+          <td><select class="select" data-type="monthly" data-index="27" data-key="status" data-bound="1"><option selected="">Pago</option><option>Não pagou</option><option>Parcial</option><option>Pendente</option><option>Atrasado</option><option>Cancelado</option></select></td>
+          <td><input class="input" data-type="monthly" data-index="27" data-key="dataPrevista" value="10/04/2026" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="27" data-key="dataPagamento" value="10/04/2026" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="27" data-key="observacao" value="" data-bound="1"></td>
+          <td><button class="btn" type="button" onclick="deleteMonthly(27)">Excluir</button></td>
+        </tr>
+      
+        <tr>
+          <td><select class="select" data-type="monthly" data-index="28" data-key="mes" data-bound="1"><option>jan/2026</option><option>fev/2026</option><option>mar/2026</option><option selected="">abr/2026</option><option>mai/2026</option><option>jun/2026</option><option>jul/2026</option><option>ago/2026</option><option>set/2026</option><option>out/2026</option><option>nov/2026</option><option>dez/2026</option></select></td>
+          <td><input class="input" data-type="monthly" data-index="28" data-key="cliente" value="Duda Dittert" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="28" data-key="servico" value="Posts recorrentes" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="monthly" data-index="28" data-key="valorPrevisto" value="1000" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="monthly" data-index="28" data-key="valorRecebido" value="1000" data-bound="1"></td>
+          <td><select class="select" data-type="monthly" data-index="28" data-key="status" data-bound="1"><option selected="">Pago</option><option>Não pagou</option><option>Parcial</option><option>Pendente</option><option>Atrasado</option><option>Cancelado</option></select></td>
+          <td><input class="input" data-type="monthly" data-index="28" data-key="dataPrevista" value="10/04/2026" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="28" data-key="dataPagamento" value="10/04/2026" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="28" data-key="observacao" value="" data-bound="1"></td>
+          <td><button class="btn" type="button" onclick="deleteMonthly(28)">Excluir</button></td>
+        </tr>
+      
+        <tr>
+          <td><select class="select" data-type="monthly" data-index="29" data-key="mes" data-bound="1"><option>jan/2026</option><option>fev/2026</option><option>mar/2026</option><option selected="">abr/2026</option><option>mai/2026</option><option>jun/2026</option><option>jul/2026</option><option>ago/2026</option><option>set/2026</option><option>out/2026</option><option>nov/2026</option><option>dez/2026</option></select></td>
+          <td><input class="input" data-type="monthly" data-index="29" data-key="cliente" value="Debora" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="29" data-key="servico" value="Posts recorrentes" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="monthly" data-index="29" data-key="valorPrevisto" value="500" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="monthly" data-index="29" data-key="valorRecebido" value="500" data-bound="1"></td>
+          <td><select class="select" data-type="monthly" data-index="29" data-key="status" data-bound="1"><option selected="">Pago</option><option>Não pagou</option><option>Parcial</option><option>Pendente</option><option>Atrasado</option><option>Cancelado</option></select></td>
+          <td><input class="input" data-type="monthly" data-index="29" data-key="dataPrevista" value="20/04/2026" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="29" data-key="dataPagamento" value="20/04/2026" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="29" data-key="observacao" value="" data-bound="1"></td>
+          <td><button class="btn" type="button" onclick="deleteMonthly(29)">Excluir</button></td>
+        </tr>
+      
+        <tr>
+          <td><select class="select" data-type="monthly" data-index="30" data-key="mes" data-bound="1"><option>jan/2026</option><option>fev/2026</option><option>mar/2026</option><option selected="">abr/2026</option><option>mai/2026</option><option>jun/2026</option><option>jul/2026</option><option>ago/2026</option><option>set/2026</option><option>out/2026</option><option>nov/2026</option><option>dez/2026</option></select></td>
+          <td><input class="input" data-type="monthly" data-index="30" data-key="cliente" value="LYGIA IMBELLONI" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="30" data-key="servico" value="Posts recorrentes" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="monthly" data-index="30" data-key="valorPrevisto" value="500" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="monthly" data-index="30" data-key="valorRecebido" value="0" data-bound="1"></td>
+          <td><select class="select" data-type="monthly" data-index="30" data-key="status" data-bound="1"><option selected="">Pago</option><option>Não pagou</option><option>Parcial</option><option>Pendente</option><option>Atrasado</option><option>Cancelado</option></select></td>
+          <td><input class="input" data-type="monthly" data-index="30" data-key="dataPrevista" value="29/04/2026" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="30" data-key="dataPagamento" value="10/04/2026" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="30" data-key="observacao" value="" data-bound="1"></td>
+          <td><button class="btn" type="button" onclick="deleteMonthly(30)">Excluir</button></td>
+        </tr>
+      
+        <tr>
+          <td><select class="select" data-type="monthly" data-index="31" data-key="mes" data-bound="1"><option>jan/2026</option><option>fev/2026</option><option>mar/2026</option><option selected="">abr/2026</option><option>mai/2026</option><option>jun/2026</option><option>jul/2026</option><option>ago/2026</option><option>set/2026</option><option>out/2026</option><option>nov/2026</option><option>dez/2026</option></select></td>
+          <td><input class="input" data-type="monthly" data-index="31" data-key="cliente" value="Hiago Gomes" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="31" data-key="servico" value="Posts recorrentes" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="monthly" data-index="31" data-key="valorPrevisto" value="500" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="monthly" data-index="31" data-key="valorRecebido" value="0" data-bound="1"></td>
+          <td><select class="select" data-type="monthly" data-index="31" data-key="status" data-bound="1"><option selected="">Pago</option><option>Não pagou</option><option>Parcial</option><option>Pendente</option><option>Atrasado</option><option>Cancelado</option></select></td>
+          <td><input class="input" data-type="monthly" data-index="31" data-key="dataPrevista" value="10/04/2026" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="31" data-key="dataPagamento" value="10/04/2026" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="31" data-key="observacao" value="" data-bound="1"></td>
+          <td><button class="btn" type="button" onclick="deleteMonthly(31)">Excluir</button></td>
+        </tr>
+      
+        <tr>
+          <td><select class="select" data-type="monthly" data-index="32" data-key="mes" data-bound="1"><option>jan/2026</option><option>fev/2026</option><option>mar/2026</option><option selected="">abr/2026</option><option>mai/2026</option><option>jun/2026</option><option>jul/2026</option><option>ago/2026</option><option>set/2026</option><option>out/2026</option><option>nov/2026</option><option>dez/2026</option></select></td>
+          <td><input class="input" data-type="monthly" data-index="32" data-key="cliente" value="Por Minha Conta" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="32" data-key="servico" value="Posts recorrentes" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="monthly" data-index="32" data-key="valorPrevisto" value="900" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="monthly" data-index="32" data-key="valorRecebido" value="0" data-bound="1"></td>
+          <td><select class="select" data-type="monthly" data-index="32" data-key="status" data-bound="1"><option selected="">Pago</option><option>Não pagou</option><option>Parcial</option><option>Pendente</option><option>Atrasado</option><option>Cancelado</option></select></td>
+          <td><input class="input" data-type="monthly" data-index="32" data-key="dataPrevista" value="15/04/2026" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="32" data-key="dataPagamento" value="" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="32" data-key="observacao" value="" data-bound="1"></td>
+          <td><button class="btn" type="button" onclick="deleteMonthly(32)">Excluir</button></td>
+        </tr>
+      
+        <tr>
+          <td><select class="select" data-type="monthly" data-index="33" data-key="mes" data-bound="1"><option>jan/2026</option><option>fev/2026</option><option>mar/2026</option><option selected="">abr/2026</option><option>mai/2026</option><option>jun/2026</option><option>jul/2026</option><option>ago/2026</option><option>set/2026</option><option>out/2026</option><option>nov/2026</option><option>dez/2026</option></select></td>
+          <td><input class="input" data-type="monthly" data-index="33" data-key="cliente" value="Áurea" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="33" data-key="servico" value="Posts recorrentes" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="monthly" data-index="33" data-key="valorPrevisto" value="1500" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="monthly" data-index="33" data-key="valorRecebido" value="0" data-bound="1"></td>
+          <td><select class="select" data-type="monthly" data-index="33" data-key="status" data-bound="1"><option>Pago</option><option>Não pagou</option><option>Parcial</option><option selected="">Pendente</option><option>Atrasado</option><option>Cancelado</option></select></td>
+          <td><input class="input" data-type="monthly" data-index="33" data-key="dataPrevista" value="20/04/2026" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="33" data-key="dataPagamento" value="" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="33" data-key="observacao" value="" data-bound="1"></td>
+          <td><button class="btn" type="button" onclick="deleteMonthly(33)">Excluir</button></td>
+        </tr>
+      
+        <tr>
+          <td><select class="select" data-type="monthly" data-index="34" data-key="mes" data-bound="1"><option>jan/2026</option><option>fev/2026</option><option>mar/2026</option><option selected="">abr/2026</option><option>mai/2026</option><option>jun/2026</option><option>jul/2026</option><option>ago/2026</option><option>set/2026</option><option>out/2026</option><option>nov/2026</option><option>dez/2026</option></select></td>
+          <td><input class="input" data-type="monthly" data-index="34" data-key="cliente" value="Gestclin" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="34" data-key="servico" value="Posts recorrentes" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="monthly" data-index="34" data-key="valorPrevisto" value="400" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="monthly" data-index="34" data-key="valorRecebido" value="0" data-bound="1"></td>
+          <td><select class="select" data-type="monthly" data-index="34" data-key="status" data-bound="1"><option>Pago</option><option>Não pagou</option><option>Parcial</option><option selected="">Pendente</option><option>Atrasado</option><option>Cancelado</option></select></td>
+          <td><input class="input" data-type="monthly" data-index="34" data-key="dataPrevista" value="29/04/2026" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="34" data-key="dataPagamento" value="" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="34" data-key="observacao" value="" data-bound="1"></td>
+          <td><button class="btn" type="button" onclick="deleteMonthly(34)">Excluir</button></td>
+        </tr>
+      
+        <tr>
+          <td><select class="select" data-type="monthly" data-index="35" data-key="mes" data-bound="1"><option>jan/2026</option><option>fev/2026</option><option>mar/2026</option><option selected="">abr/2026</option><option>mai/2026</option><option>jun/2026</option><option>jul/2026</option><option>ago/2026</option><option>set/2026</option><option>out/2026</option><option>nov/2026</option><option>dez/2026</option></select></td>
+          <td><input class="input" data-type="monthly" data-index="35" data-key="cliente" value="Sara Brandão" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="35" data-key="servico" value="Posts recorrentes" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="monthly" data-index="35" data-key="valorPrevisto" value="1500" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="monthly" data-index="35" data-key="valorRecebido" value="0" data-bound="1"></td>
+          <td><select class="select" data-type="monthly" data-index="35" data-key="status" data-bound="1"><option>Pago</option><option>Não pagou</option><option>Parcial</option><option selected="">Pendente</option><option>Atrasado</option><option>Cancelado</option></select></td>
+          <td><input class="input" data-type="monthly" data-index="35" data-key="dataPrevista" value="20/04/2026" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="35" data-key="dataPagamento" value="" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="35" data-key="observacao" value="" data-bound="1"></td>
+          <td><button class="btn" type="button" onclick="deleteMonthly(35)">Excluir</button></td>
+        </tr>
+      
+        <tr>
+          <td><select class="select" data-type="monthly" data-index="108" data-key="mes" data-bound="1"><option>jan/2026</option><option>fev/2026</option><option>mar/2026</option><option selected="">abr/2026</option><option>mai/2026</option><option>jun/2026</option><option>jul/2026</option><option>ago/2026</option><option>set/2026</option><option>out/2026</option><option>nov/2026</option><option>dez/2026</option></select></td>
+          <td><input class="input" data-type="monthly" data-index="108" data-key="cliente" value="Ana Luisa" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="108" data-key="servico" value="Posts recorrentes" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="monthly" data-index="108" data-key="valorPrevisto" value="900" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="monthly" data-index="108" data-key="valorRecebido" value="0" data-bound="1"></td>
+          <td><select class="select" data-type="monthly" data-index="108" data-key="status" data-bound="1"><option selected="">Pago</option><option>Não pagou</option><option>Parcial</option><option>Pendente</option><option>Atrasado</option><option>Cancelado</option></select></td>
+          <td><input class="input" data-type="monthly" data-index="108" data-key="dataPrevista" value="10/04/2026" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="108" data-key="dataPagamento" value="" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="108" data-key="observacao" value="" data-bound="1"></td>
+          <td><button class="btn" type="button" onclick="deleteMonthly(108)">Excluir</button></td>
+        </tr>
+      
+        <tr>
+          <td><select class="select" data-type="monthly" data-index="109" data-key="mes" data-bound="1"><option>jan/2026</option><option>fev/2026</option><option>mar/2026</option><option selected="">abr/2026</option><option>mai/2026</option><option>jun/2026</option><option>jul/2026</option><option>ago/2026</option><option>set/2026</option><option>out/2026</option><option>nov/2026</option><option>dez/2026</option></select></td>
+          <td><input class="input" data-type="monthly" data-index="109" data-key="cliente" value="frella" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="109" data-key="servico" value="guia visual" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="monthly" data-index="109" data-key="valorPrevisto" value="250" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="monthly" data-index="109" data-key="valorRecebido" value="0" data-bound="1"></td>
+          <td><select class="select" data-type="monthly" data-index="109" data-key="status" data-bound="1"><option selected="">Pago</option><option>Não pagou</option><option>Parcial</option><option>Pendente</option><option>Atrasado</option><option>Cancelado</option></select></td>
+          <td><input class="input" data-type="monthly" data-index="109" data-key="dataPrevista" value="10/04/2026" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="109" data-key="dataPagamento" value="10/04/2026" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="109" data-key="observacao" value="50%" data-bound="1"></td>
+          <td><button class="btn" type="button" onclick="deleteMonthly(109)">Excluir</button></td>
+        </tr>
+      
+        <tr>
+          <td><select class="select" data-type="monthly" data-index="110" data-key="mes" data-bound="1"><option>jan/2026</option><option>fev/2026</option><option>mar/2026</option><option selected="">abr/2026</option><option>mai/2026</option><option>jun/2026</option><option>jul/2026</option><option>ago/2026</option><option>set/2026</option><option>out/2026</option><option>nov/2026</option><option>dez/2026</option></select></td>
+          <td><input class="input" data-type="monthly" data-index="110" data-key="cliente" value="frella" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="110" data-key="servico" value="slide evento" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="monthly" data-index="110" data-key="valorPrevisto" value="400" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="monthly" data-index="110" data-key="valorRecebido" value="0" data-bound="1"></td>
+          <td><select class="select" data-type="monthly" data-index="110" data-key="status" data-bound="1"><option selected="">Pago</option><option>Não pagou</option><option>Parcial</option><option>Pendente</option><option>Atrasado</option><option>Cancelado</option></select></td>
+          <td><input class="input" data-type="monthly" data-index="110" data-key="dataPrevista" value="10/04/2026" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="110" data-key="dataPagamento" value="" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="110" data-key="observacao" value="" data-bound="1"></td>
+          <td><button class="btn" type="button" onclick="deleteMonthly(110)">Excluir</button></td>
+        </tr>
+      
+        <tr>
+          <td><select class="select" data-type="monthly" data-index="114" data-key="mes" data-bound="1"><option>jan/2026</option><option>fev/2026</option><option>mar/2026</option><option selected="">abr/2026</option><option>mai/2026</option><option>jun/2026</option><option>jul/2026</option><option>ago/2026</option><option>set/2026</option><option>out/2026</option><option>nov/2026</option><option>dez/2026</option></select></td>
+          <td><input class="input" data-type="monthly" data-index="114" data-key="cliente" value="frella" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="114" data-key="servico" value="critivos mauro" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="monthly" data-index="114" data-key="valorPrevisto" value="414" data-bound="1"></td>
+          <td><input class="input" type="number" data-type="monthly" data-index="114" data-key="valorRecebido" value="0" data-bound="1"></td>
+          <td><select class="select" data-type="monthly" data-index="114" data-key="status" data-bound="1"><option selected="">Pago</option><option>Não pagou</option><option>Parcial</option><option>Pendente</option><option>Atrasado</option><option>Cancelado</option></select></td>
+          <td><input class="input" data-type="monthly" data-index="114" data-key="dataPrevista" value="15/04/2026" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="114" data-key="dataPagamento" value="" data-bound="1"></td>
+          <td><input class="input" data-type="monthly" data-index="114" data-key="observacao" value="" data-bound="1"></td>
+          <td><button class="btn" type="button" onclick="deleteMonthly(114)">Excluir</button></td>
+        </tr>
+      </tbody>
+      </table></div>
         </div>
       </div>
     </section>
@@ -368,11 +772,102 @@
           <div class="toolbar">
             <div class="field">
               <label for="expenseFilterMonth">Filtrar por mês</label>
-              <select id="expenseFilterMonth" class="select"></select>
+              <select id="expenseFilterMonth" class="select"><option value="todos">todos</option><option value="jan/2026">jan/2026</option><option value="fev/2026">fev/2026</option><option value="mar/2026">mar/2026</option><option value="abr/2026">abr/2026</option><option value="mai/2026">mai/2026</option><option value="jun/2026">jun/2026</option><option value="jul/2026">jul/2026</option><option value="ago/2026">ago/2026</option><option value="set/2026">set/2026</option><option value="out/2026">out/2026</option><option value="nov/2026">nov/2026</option><option value="dez/2026">dez/2026</option></select>
             </div>
             <button class="btn primary" id="addExpenseBtn">Adicionar despesa</button>
           </div>
-          <div class="table-wrap"><table id="expensesTable"></table></div>
+          <div class="table-wrap"><table id="expensesTable">
+        <thead>
+          <tr>
+            <th>Data</th><th>Mês</th><th>Categoria</th><th>Descrição</th><th>Tipo</th><th>Valor</th><th>Pago</th><th>Observação</th><th></th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td><input class="input" data-type="expense" data-index="21" data-key="data" value="01/04/2026" data-bound="1"></td>
+          <td><select class="select" data-type="expense" data-index="21" data-key="mes" data-bound="1"><option>jan/2026</option><option>fev/2026</option><option>mar/2026</option><option selected="">abr/2026</option><option>mai/2026</option><option>jun/2026</option><option>jul/2026</option><option>ago/2026</option><option>set/2026</option><option>out/2026</option><option>nov/2026</option><option>dez/2026</option></select></td>
+          <td><input class="input" data-type="expense" data-index="21" data-key="categoria" value="Folha" data-bound="1"></td>
+          <td><input class="input" data-type="expense" data-index="21" data-key="descricao" value="Gestor de projetos" data-bound="1"></td>
+          <td><select class="select" data-type="expense" data-index="21" data-key="tipo" data-bound="1"><option selected="">Fixo</option><option>Variável</option></select></td>
+          <td><input class="input" type="number" data-type="expense" data-index="21" data-key="valor" value="1300" data-bound="1"></td>
+          <td><select class="select" data-type="expense" data-index="21" data-key="pago" data-bound="1"><option>Sim</option><option selected="">Não</option></select></td>
+          <td><input class="input" data-type="expense" data-index="21" data-key="observacao" value="" data-bound="1"></td>
+          <td><button class="btn" type="button" onclick="deleteExpense(21)">Excluir</button></td>
+        </tr>
+      
+        <tr>
+          <td><input class="input" data-type="expense" data-index="22" data-key="data" value="01/04/2026" data-bound="1"></td>
+          <td><select class="select" data-type="expense" data-index="22" data-key="mes" data-bound="1"><option>jan/2026</option><option>fev/2026</option><option>mar/2026</option><option selected="">abr/2026</option><option>mai/2026</option><option>jun/2026</option><option>jul/2026</option><option>ago/2026</option><option>set/2026</option><option>out/2026</option><option>nov/2026</option><option>dez/2026</option></select></td>
+          <td><input class="input" data-type="expense" data-index="22" data-key="categoria" value="Folha" data-bound="1"></td>
+          <td><input class="input" data-type="expense" data-index="22" data-key="descricao" value="Designer júnior 1" data-bound="1"></td>
+          <td><select class="select" data-type="expense" data-index="22" data-key="tipo" data-bound="1"><option selected="">Fixo</option><option>Variável</option></select></td>
+          <td><input class="input" type="number" data-type="expense" data-index="22" data-key="valor" value="1500" data-bound="1"></td>
+          <td><select class="select" data-type="expense" data-index="22" data-key="pago" data-bound="1"><option>Sim</option><option selected="">Não</option></select></td>
+          <td><input class="input" data-type="expense" data-index="22" data-key="observacao" value="" data-bound="1"></td>
+          <td><button class="btn" type="button" onclick="deleteExpense(22)">Excluir</button></td>
+        </tr>
+      
+        <tr>
+          <td><input class="input" data-type="expense" data-index="23" data-key="data" value="01/04/2026" data-bound="1"></td>
+          <td><select class="select" data-type="expense" data-index="23" data-key="mes" data-bound="1"><option>jan/2026</option><option>fev/2026</option><option>mar/2026</option><option selected="">abr/2026</option><option>mai/2026</option><option>jun/2026</option><option>jul/2026</option><option>ago/2026</option><option>set/2026</option><option>out/2026</option><option>nov/2026</option><option>dez/2026</option></select></td>
+          <td><input class="input" data-type="expense" data-index="23" data-key="categoria" value="Folha" data-bound="1"></td>
+          <td><input class="input" data-type="expense" data-index="23" data-key="descricao" value="Designer júnior 2" data-bound="1"></td>
+          <td><select class="select" data-type="expense" data-index="23" data-key="tipo" data-bound="1"><option selected="">Fixo</option><option>Variável</option></select></td>
+          <td><input class="input" type="number" data-type="expense" data-index="23" data-key="valor" value="1500" data-bound="1"></td>
+          <td><select class="select" data-type="expense" data-index="23" data-key="pago" data-bound="1"><option>Sim</option><option selected="">Não</option></select></td>
+          <td><input class="input" data-type="expense" data-index="23" data-key="observacao" value="" data-bound="1"></td>
+          <td><button class="btn" type="button" onclick="deleteExpense(23)">Excluir</button></td>
+        </tr>
+      
+        <tr>
+          <td><input class="input" data-type="expense" data-index="24" data-key="data" value="01/04/2026" data-bound="1"></td>
+          <td><select class="select" data-type="expense" data-index="24" data-key="mes" data-bound="1"><option>jan/2026</option><option>fev/2026</option><option>mar/2026</option><option selected="">abr/2026</option><option>mai/2026</option><option>jun/2026</option><option>jul/2026</option><option>ago/2026</option><option>set/2026</option><option>out/2026</option><option>nov/2026</option><option>dez/2026</option></select></td>
+          <td><input class="input" data-type="expense" data-index="24" data-key="categoria" value="Ferramentas" data-bound="1"></td>
+          <td><input class="input" data-type="expense" data-index="24" data-key="descricao" value="Google Drive" data-bound="1"></td>
+          <td><select class="select" data-type="expense" data-index="24" data-key="tipo" data-bound="1"><option selected="">Fixo</option><option>Variável</option></select></td>
+          <td><input class="input" type="number" data-type="expense" data-index="24" data-key="valor" value="50" data-bound="1"></td>
+          <td><select class="select" data-type="expense" data-index="24" data-key="pago" data-bound="1"><option selected="">Sim</option><option>Não</option></select></td>
+          <td><input class="input" data-type="expense" data-index="24" data-key="observacao" value="" data-bound="1"></td>
+          <td><button class="btn" type="button" onclick="deleteExpense(24)">Excluir</button></td>
+        </tr>
+      
+        <tr>
+          <td><input class="input" data-type="expense" data-index="25" data-key="data" value="01/04/2026" data-bound="1"></td>
+          <td><select class="select" data-type="expense" data-index="25" data-key="mes" data-bound="1"><option>jan/2026</option><option>fev/2026</option><option>mar/2026</option><option selected="">abr/2026</option><option>mai/2026</option><option>jun/2026</option><option>jul/2026</option><option>ago/2026</option><option>set/2026</option><option>out/2026</option><option>nov/2026</option><option>dez/2026</option></select></td>
+          <td><input class="input" data-type="expense" data-index="25" data-key="categoria" value="Ferramentas" data-bound="1"></td>
+          <td><input class="input" data-type="expense" data-index="25" data-key="descricao" value="Canva" data-bound="1"></td>
+          <td><select class="select" data-type="expense" data-index="25" data-key="tipo" data-bound="1"><option selected="">Fixo</option><option>Variável</option></select></td>
+          <td><input class="input" type="number" data-type="expense" data-index="25" data-key="valor" value="50" data-bound="1"></td>
+          <td><select class="select" data-type="expense" data-index="25" data-key="pago" data-bound="1"><option>Sim</option><option selected="">Não</option></select></td>
+          <td><input class="input" data-type="expense" data-index="25" data-key="observacao" value="" data-bound="1"></td>
+          <td><button class="btn" type="button" onclick="deleteExpense(25)">Excluir</button></td>
+        </tr>
+      
+        <tr>
+          <td><input class="input" data-type="expense" data-index="26" data-key="data" value="01/04/2026" data-bound="1"></td>
+          <td><select class="select" data-type="expense" data-index="26" data-key="mes" data-bound="1"><option>jan/2026</option><option>fev/2026</option><option>mar/2026</option><option selected="">abr/2026</option><option>mai/2026</option><option>jun/2026</option><option>jul/2026</option><option>ago/2026</option><option>set/2026</option><option>out/2026</option><option>nov/2026</option><option>dez/2026</option></select></td>
+          <td><input class="input" data-type="expense" data-index="26" data-key="categoria" value="Ferramentas" data-bound="1"></td>
+          <td><input class="input" data-type="expense" data-index="26" data-key="descricao" value="IA" data-bound="1"></td>
+          <td><select class="select" data-type="expense" data-index="26" data-key="tipo" data-bound="1"><option selected="">Fixo</option><option>Variável</option></select></td>
+          <td><input class="input" type="number" data-type="expense" data-index="26" data-key="valor" value="150" data-bound="1"></td>
+          <td><select class="select" data-type="expense" data-index="26" data-key="pago" data-bound="1"><option selected="">Sim</option><option>Não</option></select></td>
+          <td><input class="input" data-type="expense" data-index="26" data-key="observacao" value="" data-bound="1"></td>
+          <td><button class="btn" type="button" onclick="deleteExpense(26)">Excluir</button></td>
+        </tr>
+      
+        <tr>
+          <td><input class="input" data-type="expense" data-index="27" data-key="data" value="01/04/2026" data-bound="1"></td>
+          <td><select class="select" data-type="expense" data-index="27" data-key="mes" data-bound="1"><option>jan/2026</option><option>fev/2026</option><option>mar/2026</option><option selected="">abr/2026</option><option>mai/2026</option><option>jun/2026</option><option>jul/2026</option><option>ago/2026</option><option>set/2026</option><option>out/2026</option><option>nov/2026</option><option>dez/2026</option></select></td>
+          <td><input class="input" data-type="expense" data-index="27" data-key="categoria" value="Ferramentas" data-bound="1"></td>
+          <td><input class="input" data-type="expense" data-index="27" data-key="descricao" value="Hospedagem de site" data-bound="1"></td>
+          <td><select class="select" data-type="expense" data-index="27" data-key="tipo" data-bound="1"><option selected="">Fixo</option><option>Variável</option></select></td>
+          <td><input class="input" type="number" data-type="expense" data-index="27" data-key="valor" value="50" data-bound="1"></td>
+          <td><select class="select" data-type="expense" data-index="27" data-key="pago" data-bound="1"><option selected="">Sim</option><option>Não</option></select></td>
+          <td><input class="input" data-type="expense" data-index="27" data-key="observacao" value="" data-bound="1"></td>
+          <td><button class="btn" type="button" onclick="deleteExpense(27)">Excluir</button></td>
+        </tr>
+      </tbody>
+      </table></div>
         </div>
       </div>
     </section>
@@ -380,12 +875,38 @@
     <section class="panel" data-panel="dre">
       <div class="stack">
         <div class="grid-2">
-          <div class="card"><div class="card-header"><h3>DRE anual</h3></div><div class="card-body" id="dreAnnual"></div></div>
-          <div class="card"><div class="card-header"><h3>DRE do mês</h3></div><div class="card-body" id="dreMonth"></div></div>
+          <div class="card"><div class="card-header"><h3>DRE anual</h3></div><div class="card-body" id="dreAnnual">
+        <div class="kpi-list">
+          <div class="kpi-row"><span>Receita total recebida</span><strong>R$&nbsp;20.200,00</strong></div>
+          <div class="kpi-row"><span>Receita prevista</span><strong>R$&nbsp;90.464,00</strong></div>
+          <div class="kpi-row"><span>Custos fixos anuais</span><strong>R$&nbsp;55.200,00</strong></div>
+          <div class="kpi-row"><span>Pró-labore anual</span><strong>R$&nbsp;0,00</strong></div>
+          <div class="kpi-row"><span>Lucro líquido estimado</span><strong>-R$&nbsp;35.000,00</strong></div>
+          <div class="kpi-row"><span>Margem líquida</span><strong>-173,3%</strong></div>
+        </div>
+      </div></div>
+          <div class="card"><div class="card-header"><h3>DRE do mês</h3></div><div class="card-body" id="dreMonth">
+        <div class="kpi-list">
+          <div class="kpi-row"><span>Mês</span><strong>abr/2026</strong></div>
+          <div class="kpi-row"><span>Receita recebida</span><strong>R$&nbsp;2.300,00</strong></div>
+          <div class="kpi-row"><span>Receita prevista</span><strong>R$&nbsp;9.564,00</strong></div>
+          <div class="kpi-row"><span>Despesas + pró-labore</span><strong>R$&nbsp;4.600,00</strong></div>
+          <div class="kpi-row"><span>Lucro operacional</span><strong>-R$&nbsp;2.300,00</strong></div>
+          <div class="kpi-row"><span>Margem operacional</span><strong>-100,0%</strong></div>
+        </div>
+      </div></div>
         </div>
         <div class="card">
           <div class="card-header"><h3>Diagnóstico financeiro</h3></div>
-          <div class="card-body"><div id="dreDiagnostic"></div></div>
+          <div class="card-body"><div id="dreDiagnostic">
+        <div class="diagnostic">
+          <h4>Leitura CFO</h4>
+          <p><strong>Receita recorrente ativa:</strong> R$&nbsp;5.800,00</p>
+          <p><strong>Estrutura mensal total:</strong> R$&nbsp;4.600,00</p>
+          <p>Sua receita recorrente ativa já cobre a estrutura mensal total. Isso melhora previsibilidade e reduz risco de caixa.</p>
+          <div class="action"><strong>Ação recomendada:</strong> Próxima ação: aumentar margem, revisando preços e reduzindo clientes com maior esforço e menor retorno.</div>
+        </div>
+      </div></div>
         </div>
       </div>
     </section>
@@ -393,19 +914,141 @@
     <section class="panel" data-panel="fluxo">
       <div class="card">
         <div class="card-header"><h3>Fluxo de Caixa</h3></div>
-        <div class="card-body"><div class="table-wrap"><table id="cashflowTable"></table></div></div>
+        <div class="card-body"><div class="table-wrap"><table id="cashflowTable">
+        <thead><tr><th>Mês</th><th>Entradas</th><th>Saídas</th><th>Saldo do mês</th><th>Saldo acumulado</th></tr></thead>
+        <tbody>
+          
+            <tr>
+              <td>jan/2026</td>
+              <td>R$&nbsp;4.800,00</td>
+              <td>R$&nbsp;4.600,00</td>
+              <td>R$&nbsp;200,00</td>
+              <td>R$&nbsp;200,00</td>
+            </tr>
+          
+            <tr>
+              <td>fev/2026</td>
+              <td>R$&nbsp;5.800,00</td>
+              <td>R$&nbsp;4.600,00</td>
+              <td>R$&nbsp;1.200,00</td>
+              <td>R$&nbsp;1.400,00</td>
+            </tr>
+          
+            <tr>
+              <td>mar/2026</td>
+              <td>R$&nbsp;7.300,00</td>
+              <td>R$&nbsp;4.600,00</td>
+              <td>R$&nbsp;2.700,00</td>
+              <td>R$&nbsp;4.100,00</td>
+            </tr>
+          
+            <tr>
+              <td>abr/2026</td>
+              <td>R$&nbsp;2.300,00</td>
+              <td>R$&nbsp;4.600,00</td>
+              <td>-R$&nbsp;2.300,00</td>
+              <td>R$&nbsp;1.800,00</td>
+            </tr>
+          
+            <tr>
+              <td>mai/2026</td>
+              <td>R$&nbsp;0,00</td>
+              <td>R$&nbsp;4.600,00</td>
+              <td>-R$&nbsp;4.600,00</td>
+              <td>-R$&nbsp;2.800,00</td>
+            </tr>
+          
+            <tr>
+              <td>jun/2026</td>
+              <td>R$&nbsp;0,00</td>
+              <td>R$&nbsp;4.600,00</td>
+              <td>-R$&nbsp;4.600,00</td>
+              <td>-R$&nbsp;7.400,00</td>
+            </tr>
+          
+            <tr>
+              <td>jul/2026</td>
+              <td>R$&nbsp;0,00</td>
+              <td>R$&nbsp;4.600,00</td>
+              <td>-R$&nbsp;4.600,00</td>
+              <td>-R$&nbsp;12.000,00</td>
+            </tr>
+          
+            <tr>
+              <td>ago/2026</td>
+              <td>R$&nbsp;0,00</td>
+              <td>R$&nbsp;4.600,00</td>
+              <td>-R$&nbsp;4.600,00</td>
+              <td>-R$&nbsp;16.600,00</td>
+            </tr>
+          
+            <tr>
+              <td>set/2026</td>
+              <td>R$&nbsp;0,00</td>
+              <td>R$&nbsp;4.600,00</td>
+              <td>-R$&nbsp;4.600,00</td>
+              <td>-R$&nbsp;21.200,00</td>
+            </tr>
+          
+            <tr>
+              <td>out/2026</td>
+              <td>R$&nbsp;0,00</td>
+              <td>R$&nbsp;4.600,00</td>
+              <td>-R$&nbsp;4.600,00</td>
+              <td>-R$&nbsp;25.800,00</td>
+            </tr>
+          
+            <tr>
+              <td>nov/2026</td>
+              <td>R$&nbsp;0,00</td>
+              <td>R$&nbsp;4.600,00</td>
+              <td>-R$&nbsp;4.600,00</td>
+              <td>-R$&nbsp;30.400,00</td>
+            </tr>
+          
+            <tr>
+              <td>dez/2026</td>
+              <td>R$&nbsp;0,00</td>
+              <td>R$&nbsp;4.600,00</td>
+              <td>-R$&nbsp;4.600,00</td>
+              <td>-R$&nbsp;35.000,00</td>
+            </tr>
+          
+        </tbody>
+      </table></div></div>
       </div>
     </section>
 
-    <section class="panel" data-panel="config">
+    <section class="panel active" data-panel="config">
       <div class="card">
         <div class="card-header"><h3>Configurações</h3></div>
-        <div class="card-body"><div class="grid-2" id="configGrid"></div></div>
+        <div class="card-body"><div class="grid-2" id="configGrid">
+        <div class="field"><label>Mês do painel</label><select class="select" id="cfgMonth"><option>jan/2026</option><option>fev/2026</option><option>mar/2026</option><option selected="">abr/2026</option><option>mai/2026</option><option>jun/2026</option><option>jul/2026</option><option>ago/2026</option><option>set/2026</option><option>out/2026</option><option>nov/2026</option><option>dez/2026</option></select></div>
+        <div class="field"><label>Pró-labore mensal</label><input class="input" id="cfgProlabore" type="number" value="0"></div>
+        <div class="field"><label>Meta de receita mensal</label><input class="input" id="cfgMetaReceita" type="number" value="10000"></div>
+        <div class="field"><label>Meta de clientes</label><input class="input" id="cfgMetaClientes" type="number" value="20"></div>
+        <div class="field"><label>Multa atraso</label><input class="input" id="cfgMulta" type="number" step="0.01" value="0.02"></div>
+        <div class="field"><label>Juros mês</label><input class="input" id="cfgJuros" type="number" step="0.01" value="0.01"></div>
+        <div class="field"><label>Reserva (meses)</label><input class="input" id="cfgReserva" type="number" value="3"></div>
+        <div class="sync-card">
+          <h4>☁️ Sincronização GitHub</h4>
+          <div class="sync-status-badge sync-warn" id="syncStatusConfig">⏳ Publicando...</div>
+          <div class="field"><label>Token GitHub (ghp_...)</label><input class="input" id="cfgToken" type="password" placeholder="Cole aqui seu token" value=""></div>
+          <div style="display:flex;align-items:center;gap:8px;margin:10px 0;">
+            <input type="checkbox" id="cfgAutoPublish">
+            <label for="cfgAutoPublish" style="font-size:14px;">Publicar automaticamente ao salvar dados</label>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn primary" id="cfgSaveTokenBtn">💾 Salvar configurações</button>
+            <button class="btn publish" id="cfgPublishNowBtn">📤 Publicar agora</button>
+          </div>
+        </div>
+      </div></div>
       </div>
     </section>
   </div>
 
-  <script id="__published_state__" type="application/json">null</script>
+  <script id="__published_state__" type="application/json">{"config":{"dashboardMonth":"abr/2026","proLaboreMensal":0,"metaReceitaMensal":10000,"metaClientes":20,"multaAtraso":0.02,"jurosMes":0.01,"reservaMeses":3,"_version":1776980106569},"clients":[{"cliente":"Duda Serenine","servico":"Posts recorrentes","valorMensal":800,"vencimento":10,"status":"Ativo","risco":"Baixo","observacao":"Cliente recorrente confiável"},{"cliente":"Duda Dittert","servico":"Posts recorrentes","valorMensal":700,"vencimento":10,"status":"Ativo","risco":"Baixo","observacao":"Cliente recorrente confiável"},{"cliente":"Debora","servico":"Posts recorrentes","valorMensal":500,"vencimento":20,"status":"Ativo","risco":"Baixo","observacao":"Cliente recorrente confiável"},{"cliente":"LYGIA IMBELLONI","servico":"Posts recorrentes","valorMensal":500,"vencimento":29,"status":"Ativo","risco":"Baixo","observacao":"Cliente recorrente confiável"},{"cliente":"Hiago Gomes","servico":"Posts recorrentes","valorMensal":500,"vencimento":10,"status":"Ativo","risco":"Baixo","observacao":"Cliente recorrente confiável"},{"cliente":"Por Minha Conta","servico":"Posts recorrentes","valorMensal":900,"vencimento":15,"status":"Ativo","risco":"Baixo","observacao":"Cliente recorrente confiável"},{"cliente":"Áurea","servico":"Posts recorrentes","valorMensal":1500,"vencimento":20,"status":"Ativo","risco":"Baixo","observacao":"Cliente mais previsível"},{"cliente":"Gestclin","servico":"Posts recorrentes","valorMensal":400,"vencimento":29,"status":"Ativo","risco":"Baixo","observacao":"Cliente recorrente confiável"},{"cliente":"Sara Brandão","servico":"Posts recorrentes","valorMensal":1500,"vencimento":20,"status":"Risco","risco":"Alto","observacao":"Atrasos e parcelamento em 2026"},{"cliente":"Frella","servico":"Frella","valorMensal":0,"vencimento":10,"status":"Ativo","risco":"Baixo","observacao":""},{"cliente":"Tami Amaro","servico":"Posts recorrentes","valorMensal":0,"vencimento":10,"status":"Pausado","risco":"Baixo","observacao":""},{"cliente":"Nicole Fagundes","servico":"Posts recorrentes","valorMensal":0,"vencimento":10,"status":"Ativo","risco":"Baixo","observacao":""}],"monthly":[{"mes":"jan/2026","cliente":"Duda Serenine","servico":"Posts recorrentes","valorPrevisto":800,"valorRecebido":800,"status":"Pago","dataPrevista":"10/01/2026","dataPagamento":"10/01/2026","observacao":""},{"mes":"jan/2026","cliente":"Duda Dittert","servico":"Posts recorrentes","valorPrevisto":700,"valorRecebido":700,"status":"Pago","dataPrevista":"10/01/2026","dataPagamento":"10/01/2026","observacao":""},{"mes":"jan/2026","cliente":"Debora","servico":"Posts recorrentes","valorPrevisto":500,"valorRecebido":500,"status":"Pago","dataPrevista":"20/01/2026","dataPagamento":"20/01/2026","observacao":""},{"mes":"jan/2026","cliente":"LYGIA IMBELLONI","servico":"Posts recorrentes","valorPrevisto":500,"valorRecebido":0,"status":"Pendente","dataPrevista":"29/01/2026","dataPagamento":"","observacao":""},{"mes":"jan/2026","cliente":"Hiago Gomes","servico":"Posts recorrentes","valorPrevisto":500,"valorRecebido":0,"status":"Pendente","dataPrevista":"10/01/2026","dataPagamento":"","observacao":""},{"mes":"jan/2026","cliente":"Por Minha Conta","servico":"Posts recorrentes","valorPrevisto":900,"valorRecebido":900,"status":"Pago","dataPrevista":"15/01/2026","dataPagamento":"15/01/2026","observacao":""},{"mes":"jan/2026","cliente":"Áurea","servico":"Posts recorrentes","valorPrevisto":1500,"valorRecebido":1500,"status":"Pago","dataPrevista":"20/01/2026","dataPagamento":"20/01/2026","observacao":""},{"mes":"jan/2026","cliente":"Gestclin","servico":"Posts recorrentes","valorPrevisto":400,"valorRecebido":400,"status":"Pago","dataPrevista":"29/01/2026","dataPagamento":"29/01/2026","observacao":""},{"mes":"jan/2026","cliente":"Sara Brandão","servico":"Posts recorrentes","valorPrevisto":1500,"valorRecebido":0,"status":"Cancelado","dataPrevista":"20/01/2026","dataPagamento":"","observacao":""},{"mes":"fev/2026","cliente":"Duda Serenine","servico":"Posts recorrentes","valorPrevisto":800,"valorRecebido":800,"status":"Pago","dataPrevista":"10/02/2026","dataPagamento":"10/02/2026","observacao":""},{"mes":"fev/2026","cliente":"Duda Dittert","servico":"Posts recorrentes","valorPrevisto":700,"valorRecebido":700,"status":"Pago","dataPrevista":"10/02/2026","dataPagamento":"10/02/2026","observacao":""},{"mes":"fev/2026","cliente":"Debora","servico":"Posts recorrentes","valorPrevisto":500,"valorRecebido":500,"status":"Pago","dataPrevista":"20/02/2026","dataPagamento":"20/02/2026","observacao":""},{"mes":"fev/2026","cliente":"LYGIA IMBELLONI","servico":"Posts recorrentes","valorPrevisto":500,"valorRecebido":500,"status":"Pago","dataPrevista":"28/02/2026","dataPagamento":"28/02/2026","observacao":""},{"mes":"fev/2026","cliente":"Hiago Gomes","servico":"Posts recorrentes","valorPrevisto":500,"valorRecebido":500,"status":"Pago","dataPrevista":"10/02/2026","dataPagamento":"10/02/2026","observacao":""},{"mes":"fev/2026","cliente":"Por Minha Conta","servico":"Posts recorrentes","valorPrevisto":900,"valorRecebido":900,"status":"Pago","dataPrevista":"15/02/2026","dataPagamento":"15/02/2026","observacao":""},{"mes":"fev/2026","cliente":"Áurea","servico":"Posts recorrentes","valorPrevisto":1500,"valorRecebido":1500,"status":"Pago","dataPrevista":"20/02/2026","dataPagamento":"20/02/2026","observacao":""},{"mes":"fev/2026","cliente":"Gestclin","servico":"Posts recorrentes","valorPrevisto":400,"valorRecebido":400,"status":"Pago","dataPrevista":"28/02/2026","dataPagamento":"28/02/2026","observacao":""},{"mes":"fev/2026","cliente":"Sara Brandão","servico":"Posts recorrentes","valorPrevisto":1500,"valorRecebido":0,"status":"Não pagou","dataPrevista":"20/02/2026","dataPagamento":"","observacao":"Não pagou fevereiro"},{"mes":"mar/2026","cliente":"Duda Serenine","servico":"Posts recorrentes","valorPrevisto":800,"valorRecebido":800,"status":"Pago","dataPrevista":"10/03/2026","dataPagamento":"10/03/2026","observacao":""},{"mes":"mar/2026","cliente":"Duda Dittert","servico":"Posts recorrentes","valorPrevisto":700,"valorRecebido":700,"status":"Pago","dataPrevista":"10/03/2026","dataPagamento":"10/03/2026","observacao":""},{"mes":"mar/2026","cliente":"Debora","servico":"Posts recorrentes","valorPrevisto":500,"valorRecebido":500,"status":"Pago","dataPrevista":"20/03/2026","dataPagamento":"20/03/2026","observacao":""},{"mes":"mar/2026","cliente":"LYGIA IMBELLONI","servico":"Posts recorrentes","valorPrevisto":500,"valorRecebido":500,"status":"Pago","dataPrevista":"29/03/2026","dataPagamento":"29/03/2026","observacao":""},{"mes":"mar/2026","cliente":"Hiago Gomes","servico":"Posts recorrentes","valorPrevisto":500,"valorRecebido":500,"status":"Pago","dataPrevista":"10/03/2026","dataPagamento":"10/03/2026","observacao":""},{"mes":"mar/2026","cliente":"Por Minha Conta","servico":"Posts recorrentes","valorPrevisto":900,"valorRecebido":900,"status":"Pago","dataPrevista":"15/03/2026","dataPagamento":"15/03/2026","observacao":""},{"mes":"mar/2026","cliente":"Áurea","servico":"Posts recorrentes","valorPrevisto":1500,"valorRecebido":1500,"status":"Pago","dataPrevista":"20/03/2026","dataPagamento":"20/03/2026","observacao":""},{"mes":"mar/2026","cliente":"Gestclin","servico":"Posts recorrentes","valorPrevisto":400,"valorRecebido":400,"status":"Pago","dataPrevista":"29/03/2026","dataPagamento":"29/03/2026","observacao":""},{"mes":"mar/2026","cliente":"Sara Brandão","servico":"Posts recorrentes","valorPrevisto":1500,"valorRecebido":1500,"status":"Parcial","dataPrevista":"20/03/2026","dataPagamento":"01/04/2026","observacao":"50% em 01/04 e 50% uma semana depois"},{"mes":"abr/2026","cliente":"Duda Serenine","servico":"Posts recorrentes","valorPrevisto":800,"valorRecebido":800,"status":"Pago","dataPrevista":"10/04/2026","dataPagamento":"10/04/2026","observacao":""},{"mes":"abr/2026","cliente":"Duda Dittert","servico":"Posts recorrentes","valorPrevisto":1000,"valorRecebido":1000,"status":"Pago","dataPrevista":"10/04/2026","dataPagamento":"10/04/2026","observacao":""},{"mes":"abr/2026","cliente":"Debora","servico":"Posts recorrentes","valorPrevisto":500,"valorRecebido":500,"status":"Pago","dataPrevista":"20/04/2026","dataPagamento":"20/04/2026","observacao":""},{"mes":"abr/2026","cliente":"LYGIA IMBELLONI","servico":"Posts recorrentes","valorPrevisto":500,"valorRecebido":0,"status":"Pago","dataPrevista":"29/04/2026","dataPagamento":"10/04/2026","observacao":""},{"mes":"abr/2026","cliente":"Hiago Gomes","servico":"Posts recorrentes","valorPrevisto":500,"valorRecebido":0,"status":"Pago","dataPrevista":"10/04/2026","dataPagamento":"10/04/2026","observacao":""},{"mes":"abr/2026","cliente":"Por Minha Conta","servico":"Posts recorrentes","valorPrevisto":900,"valorRecebido":0,"status":"Pago","dataPrevista":"15/04/2026","dataPagamento":"","observacao":""},{"mes":"abr/2026","cliente":"Áurea","servico":"Posts recorrentes","valorPrevisto":1500,"valorRecebido":0,"status":"Pendente","dataPrevista":"20/04/2026","dataPagamento":"","observacao":""},{"mes":"abr/2026","cliente":"Gestclin","servico":"Posts recorrentes","valorPrevisto":400,"valorRecebido":0,"status":"Pendente","dataPrevista":"29/04/2026","dataPagamento":"","observacao":""},{"mes":"abr/2026","cliente":"Sara Brandão","servico":"Posts recorrentes","valorPrevisto":1500,"valorRecebido":0,"status":"Pendente","dataPrevista":"20/04/2026","dataPagamento":"","observacao":""},{"mes":"mai/2026","cliente":"Duda Serenine","servico":"Posts recorrentes","valorPrevisto":800,"valorRecebido":0,"status":"Pendente","dataPrevista":"10/05/2026","dataPagamento":"","observacao":""},{"mes":"mai/2026","cliente":"Duda Dittert","servico":"Posts recorrentes","valorPrevisto":700,"valorRecebido":0,"status":"Pendente","dataPrevista":"10/05/2026","dataPagamento":"","observacao":""},{"mes":"mai/2026","cliente":"Debora","servico":"Posts recorrentes","valorPrevisto":500,"valorRecebido":0,"status":"Pendente","dataPrevista":"20/05/2026","dataPagamento":"","observacao":""},{"mes":"mai/2026","cliente":"LYGIA IMBELLONI","servico":"Posts recorrentes","valorPrevisto":500,"valorRecebido":0,"status":"Pendente","dataPrevista":"29/05/2026","dataPagamento":"","observacao":""},{"mes":"mai/2026","cliente":"Hiago Gomes","servico":"Posts recorrentes","valorPrevisto":500,"valorRecebido":0,"status":"Pendente","dataPrevista":"10/05/2026","dataPagamento":"","observacao":""},{"mes":"mai/2026","cliente":"Por Minha Conta","servico":"Posts recorrentes","valorPrevisto":900,"valorRecebido":0,"status":"Pendente","dataPrevista":"15/05/2026","dataPagamento":"","observacao":""},{"mes":"mai/2026","cliente":"Áurea","servico":"Posts recorrentes","valorPrevisto":1500,"valorRecebido":0,"status":"Pendente","dataPrevista":"20/05/2026","dataPagamento":"","observacao":""},{"mes":"mai/2026","cliente":"Gestclin","servico":"Posts recorrentes","valorPrevisto":400,"valorRecebido":0,"status":"Pendente","dataPrevista":"29/05/2026","dataPagamento":"","observacao":""},{"mes":"mai/2026","cliente":"Sara Brandão","servico":"Posts recorrentes","valorPrevisto":1500,"valorRecebido":0,"status":"Pendente","dataPrevista":"20/05/2026","dataPagamento":"","observacao":""},{"mes":"jun/2026","cliente":"Duda Serenine","servico":"Posts recorrentes","valorPrevisto":800,"valorRecebido":0,"status":"Pendente","dataPrevista":"10/06/2026","dataPagamento":"","observacao":""},{"mes":"jun/2026","cliente":"Duda Dittert","servico":"Posts recorrentes","valorPrevisto":700,"valorRecebido":0,"status":"Pendente","dataPrevista":"10/06/2026","dataPagamento":"","observacao":""},{"mes":"jun/2026","cliente":"Debora","servico":"Posts recorrentes","valorPrevisto":500,"valorRecebido":0,"status":"Pendente","dataPrevista":"20/06/2026","dataPagamento":"","observacao":""},{"mes":"jun/2026","cliente":"LYGIA IMBELLONI","servico":"Posts recorrentes","valorPrevisto":500,"valorRecebido":0,"status":"Pendente","dataPrevista":"29/06/2026","dataPagamento":"","observacao":""},{"mes":"jun/2026","cliente":"Hiago Gomes","servico":"Posts recorrentes","valorPrevisto":500,"valorRecebido":0,"status":"Pendente","dataPrevista":"10/06/2026","dataPagamento":"","observacao":""},{"mes":"jun/2026","cliente":"Por Minha Conta","servico":"Posts recorrentes","valorPrevisto":900,"valorRecebido":0,"status":"Pendente","dataPrevista":"15/06/2026","dataPagamento":"","observacao":""},{"mes":"jun/2026","cliente":"Áurea","servico":"Posts recorrentes","valorPrevisto":1500,"valorRecebido":0,"status":"Pendente","dataPrevista":"20/06/2026","dataPagamento":"","observacao":""},{"mes":"jun/2026","cliente":"Gestclin","servico":"Posts recorrentes","valorPrevisto":400,"valorRecebido":0,"status":"Pendente","dataPrevista":"29/06/2026","dataPagamento":"","observacao":""},{"mes":"jun/2026","cliente":"Sara Brandão","servico":"Posts recorrentes","valorPrevisto":1500,"valorRecebido":0,"status":"Pendente","dataPrevista":"20/06/2026","dataPagamento":"","observacao":""},{"mes":"jul/2026","cliente":"Duda Serenine","servico":"Posts recorrentes","valorPrevisto":800,"valorRecebido":0,"status":"Pendente","dataPrevista":"10/07/2026","dataPagamento":"","observacao":""},{"mes":"jul/2026","cliente":"Duda Dittert","servico":"Posts recorrentes","valorPrevisto":700,"valorRecebido":0,"status":"Pendente","dataPrevista":"10/07/2026","dataPagamento":"","observacao":""},{"mes":"jul/2026","cliente":"Debora","servico":"Posts recorrentes","valorPrevisto":500,"valorRecebido":0,"status":"Pendente","dataPrevista":"20/07/2026","dataPagamento":"","observacao":""},{"mes":"jul/2026","cliente":"LYGIA IMBELLONI","servico":"Posts recorrentes","valorPrevisto":500,"valorRecebido":0,"status":"Pendente","dataPrevista":"29/07/2026","dataPagamento":"","observacao":""},{"mes":"jul/2026","cliente":"Hiago Gomes","servico":"Posts recorrentes","valorPrevisto":500,"valorRecebido":0,"status":"Pendente","dataPrevista":"10/07/2026","dataPagamento":"","observacao":""},{"mes":"jul/2026","cliente":"Por Minha Conta","servico":"Posts recorrentes","valorPrevisto":900,"valorRecebido":0,"status":"Pendente","dataPrevista":"15/07/2026","dataPagamento":"","observacao":""},{"mes":"jul/2026","cliente":"Áurea","servico":"Posts recorrentes","valorPrevisto":1500,"valorRecebido":0,"status":"Pendente","dataPrevista":"20/07/2026","dataPagamento":"","observacao":""},{"mes":"jul/2026","cliente":"Gestclin","servico":"Posts recorrentes","valorPrevisto":400,"valorRecebido":0,"status":"Pendente","dataPrevista":"29/07/2026","dataPagamento":"","observacao":""},{"mes":"jul/2026","cliente":"Sara Brandão","servico":"Posts recorrentes","valorPrevisto":1500,"valorRecebido":0,"status":"Pendente","dataPrevista":"20/07/2026","dataPagamento":"","observacao":""},{"mes":"ago/2026","cliente":"Duda Serenine","servico":"Posts recorrentes","valorPrevisto":800,"valorRecebido":0,"status":"Pendente","dataPrevista":"10/08/2026","dataPagamento":"","observacao":""},{"mes":"ago/2026","cliente":"Duda Dittert","servico":"Posts recorrentes","valorPrevisto":700,"valorRecebido":0,"status":"Pendente","dataPrevista":"10/08/2026","dataPagamento":"","observacao":""},{"mes":"ago/2026","cliente":"Debora","servico":"Posts recorrentes","valorPrevisto":500,"valorRecebido":0,"status":"Pendente","dataPrevista":"20/08/2026","dataPagamento":"","observacao":""},{"mes":"ago/2026","cliente":"LYGIA IMBELLONI","servico":"Posts recorrentes","valorPrevisto":500,"valorRecebido":0,"status":"Pendente","dataPrevista":"29/08/2026","dataPagamento":"","observacao":""},{"mes":"ago/2026","cliente":"Hiago Gomes","servico":"Posts recorrentes","valorPrevisto":500,"valorRecebido":0,"status":"Pendente","dataPrevista":"10/08/2026","dataPagamento":"","observacao":""},{"mes":"ago/2026","cliente":"Por Minha Conta","servico":"Posts recorrentes","valorPrevisto":900,"valorRecebido":0,"status":"Pendente","dataPrevista":"15/08/2026","dataPagamento":"","observacao":""},{"mes":"ago/2026","cliente":"Áurea","servico":"Posts recorrentes","valorPrevisto":1500,"valorRecebido":0,"status":"Pendente","dataPrevista":"20/08/2026","dataPagamento":"","observacao":""},{"mes":"ago/2026","cliente":"Gestclin","servico":"Posts recorrentes","valorPrevisto":400,"valorRecebido":0,"status":"Pendente","dataPrevista":"29/08/2026","dataPagamento":"","observacao":""},{"mes":"ago/2026","cliente":"Sara Brandão","servico":"Posts recorrentes","valorPrevisto":1500,"valorRecebido":0,"status":"Pendente","dataPrevista":"20/08/2026","dataPagamento":"","observacao":""},{"mes":"set/2026","cliente":"Duda Serenine","servico":"Posts recorrentes","valorPrevisto":800,"valorRecebido":0,"status":"Pendente","dataPrevista":"10/09/2026","dataPagamento":"","observacao":""},{"mes":"set/2026","cliente":"Duda Dittert","servico":"Posts recorrentes","valorPrevisto":700,"valorRecebido":0,"status":"Pendente","dataPrevista":"10/09/2026","dataPagamento":"","observacao":""},{"mes":"set/2026","cliente":"Debora","servico":"Posts recorrentes","valorPrevisto":500,"valorRecebido":0,"status":"Pendente","dataPrevista":"20/09/2026","dataPagamento":"","observacao":""},{"mes":"set/2026","cliente":"LYGIA IMBELLONI","servico":"Posts recorrentes","valorPrevisto":500,"valorRecebido":0,"status":"Pendente","dataPrevista":"29/09/2026","dataPagamento":"","observacao":""},{"mes":"set/2026","cliente":"Hiago Gomes","servico":"Posts recorrentes","valorPrevisto":500,"valorRecebido":0,"status":"Pendente","dataPrevista":"10/09/2026","dataPagamento":"","observacao":""},{"mes":"set/2026","cliente":"Por Minha Conta","servico":"Posts recorrentes","valorPrevisto":900,"valorRecebido":0,"status":"Pendente","dataPrevista":"15/09/2026","dataPagamento":"","observacao":""},{"mes":"set/2026","cliente":"Áurea","servico":"Posts recorrentes","valorPrevisto":1500,"valorRecebido":0,"status":"Pendente","dataPrevista":"20/09/2026","dataPagamento":"","observacao":""},{"mes":"set/2026","cliente":"Gestclin","servico":"Posts recorrentes","valorPrevisto":400,"valorRecebido":0,"status":"Pendente","dataPrevista":"29/09/2026","dataPagamento":"","observacao":""},{"mes":"set/2026","cliente":"Sara Brandão","servico":"Posts recorrentes","valorPrevisto":1500,"valorRecebido":0,"status":"Pendente","dataPrevista":"20/09/2026","dataPagamento":"","observacao":""},{"mes":"out/2026","cliente":"Duda Serenine","servico":"Posts recorrentes","valorPrevisto":800,"valorRecebido":0,"status":"Pendente","dataPrevista":"10/10/2026","dataPagamento":"","observacao":""},{"mes":"out/2026","cliente":"Duda Dittert","servico":"Posts recorrentes","valorPrevisto":700,"valorRecebido":0,"status":"Pendente","dataPrevista":"10/10/2026","dataPagamento":"","observacao":""},{"mes":"out/2026","cliente":"Debora","servico":"Posts recorrentes","valorPrevisto":500,"valorRecebido":0,"status":"Pendente","dataPrevista":"20/10/2026","dataPagamento":"","observacao":""},{"mes":"out/2026","cliente":"LYGIA IMBELLONI","servico":"Posts recorrentes","valorPrevisto":500,"valorRecebido":0,"status":"Pendente","dataPrevista":"29/10/2026","dataPagamento":"","observacao":""},{"mes":"out/2026","cliente":"Hiago Gomes","servico":"Posts recorrentes","valorPrevisto":500,"valorRecebido":0,"status":"Pendente","dataPrevista":"10/10/2026","dataPagamento":"","observacao":""},{"mes":"out/2026","cliente":"Por Minha Conta","servico":"Posts recorrentes","valorPrevisto":900,"valorRecebido":0,"status":"Pendente","dataPrevista":"15/10/2026","dataPagamento":"","observacao":""},{"mes":"out/2026","cliente":"Áurea","servico":"Posts recorrentes","valorPrevisto":1500,"valorRecebido":0,"status":"Pendente","dataPrevista":"20/10/2026","dataPagamento":"","observacao":""},{"mes":"out/2026","cliente":"Gestclin","servico":"Posts recorrentes","valorPrevisto":400,"valorRecebido":0,"status":"Pendente","dataPrevista":"29/10/2026","dataPagamento":"","observacao":""},{"mes":"out/2026","cliente":"Sara Brandão","servico":"Posts recorrentes","valorPrevisto":1500,"valorRecebido":0,"status":"Pendente","dataPrevista":"20/10/2026","dataPagamento":"","observacao":""},{"mes":"nov/2026","cliente":"Duda Serenine","servico":"Posts recorrentes","valorPrevisto":800,"valorRecebido":0,"status":"Pendente","dataPrevista":"10/11/2026","dataPagamento":"","observacao":""},{"mes":"nov/2026","cliente":"Duda Dittert","servico":"Posts recorrentes","valorPrevisto":700,"valorRecebido":0,"status":"Pendente","dataPrevista":"10/11/2026","dataPagamento":"","observacao":""},{"mes":"nov/2026","cliente":"Debora","servico":"Posts recorrentes","valorPrevisto":500,"valorRecebido":0,"status":"Pendente","dataPrevista":"20/11/2026","dataPagamento":"","observacao":""},{"mes":"nov/2026","cliente":"LYGIA IMBELLONI","servico":"Posts recorrentes","valorPrevisto":500,"valorRecebido":0,"status":"Pendente","dataPrevista":"29/11/2026","dataPagamento":"","observacao":""},{"mes":"nov/2026","cliente":"Hiago Gomes","servico":"Posts recorrentes","valorPrevisto":500,"valorRecebido":0,"status":"Pendente","dataPrevista":"10/11/2026","dataPagamento":"","observacao":""},{"mes":"nov/2026","cliente":"Por Minha Conta","servico":"Posts recorrentes","valorPrevisto":900,"valorRecebido":0,"status":"Pendente","dataPrevista":"15/11/2026","dataPagamento":"","observacao":""},{"mes":"nov/2026","cliente":"Áurea","servico":"Posts recorrentes","valorPrevisto":1500,"valorRecebido":0,"status":"Pendente","dataPrevista":"20/11/2026","dataPagamento":"","observacao":""},{"mes":"nov/2026","cliente":"Gestclin","servico":"Posts recorrentes","valorPrevisto":400,"valorRecebido":0,"status":"Pendente","dataPrevista":"29/11/2026","dataPagamento":"","observacao":""},{"mes":"nov/2026","cliente":"Sara Brandão","servico":"Posts recorrentes","valorPrevisto":1500,"valorRecebido":0,"status":"Pendente","dataPrevista":"20/11/2026","dataPagamento":"","observacao":""},{"mes":"dez/2026","cliente":"Duda Serenine","servico":"Posts recorrentes","valorPrevisto":800,"valorRecebido":0,"status":"Pendente","dataPrevista":"10/12/2026","dataPagamento":"","observacao":""},{"mes":"dez/2026","cliente":"Duda Dittert","servico":"Posts recorrentes","valorPrevisto":700,"valorRecebido":0,"status":"Pendente","dataPrevista":"10/12/2026","dataPagamento":"","observacao":""},{"mes":"dez/2026","cliente":"Debora","servico":"Posts recorrentes","valorPrevisto":500,"valorRecebido":0,"status":"Pendente","dataPrevista":"20/12/2026","dataPagamento":"","observacao":""},{"mes":"dez/2026","cliente":"LYGIA IMBELLONI","servico":"Posts recorrentes","valorPrevisto":500,"valorRecebido":0,"status":"Pendente","dataPrevista":"29/12/2026","dataPagamento":"","observacao":""},{"mes":"dez/2026","cliente":"Hiago Gomes","servico":"Posts recorrentes","valorPrevisto":500,"valorRecebido":0,"status":"Pendente","dataPrevista":"10/12/2026","dataPagamento":"","observacao":""},{"mes":"dez/2026","cliente":"Por Minha Conta","servico":"Posts recorrentes","valorPrevisto":900,"valorRecebido":0,"status":"Pendente","dataPrevista":"15/12/2026","dataPagamento":"","observacao":""},{"mes":"dez/2026","cliente":"Áurea","servico":"Posts recorrentes","valorPrevisto":1500,"valorRecebido":0,"status":"Pendente","dataPrevista":"20/12/2026","dataPagamento":"","observacao":""},{"mes":"dez/2026","cliente":"Gestclin","servico":"Posts recorrentes","valorPrevisto":400,"valorRecebido":0,"status":"Pendente","dataPrevista":"29/12/2026","dataPagamento":"","observacao":""},{"mes":"dez/2026","cliente":"Sara Brandão","servico":"Posts recorrentes","valorPrevisto":1500,"valorRecebido":0,"status":"Pendente","dataPrevista":"20/12/2026","dataPagamento":"","observacao":""},{"mes":"abr/2026","cliente":"Ana Luisa","servico":"Posts recorrentes","valorPrevisto":900,"valorRecebido":0,"status":"Pago","dataPrevista":"10/04/2026","dataPagamento":"","observacao":""},{"mes":"abr/2026","cliente":"frella","servico":"guia visual","valorPrevisto":250,"valorRecebido":0,"status":"Pago","dataPrevista":"10/04/2026","dataPagamento":"10/04/2026","observacao":"50%"},{"mes":"abr/2026","cliente":"frella","servico":"slide evento","valorPrevisto":400,"valorRecebido":0,"status":"Pago","dataPrevista":"10/04/2026","dataPagamento":"","observacao":""},{"mes":"mai/2026","cliente":"Nicole Fagundes","servico":"Posts recorrentes","valorPrevisto":600,"valorRecebido":0,"status":"Pendente","dataPrevista":"10/05/2026","dataPagamento":"","observacao":""},{"mes":"mar/2026","cliente":"","servico":"Posts recorrentes","valorPrevisto":0,"valorRecebido":0,"status":"Pendente","dataPrevista":"","dataPagamento":"","observacao":""},{"mes":"mar/2026","cliente":"","servico":"Posts recorrentes","valorPrevisto":0,"valorRecebido":0,"status":"Pendente","dataPrevista":"","dataPagamento":"","observacao":""},{"mes":"abr/2026","cliente":"frella","servico":"critivos mauro","valorPrevisto":414,"valorRecebido":0,"status":"Pago","dataPrevista":"15/04/2026","dataPagamento":"","observacao":""}],"expenses":[{"data":"01/01/2026","mes":"jan/2026","categoria":"Folha","descricao":"Gestor de projetos","tipo":"Fixo","valor":1300,"pago":"Sim","observacao":""},{"data":"01/01/2026","mes":"jan/2026","categoria":"Folha","descricao":"Designer júnior 1","tipo":"Fixo","valor":1500,"pago":"Sim","observacao":""},{"data":"01/01/2026","mes":"jan/2026","categoria":"Folha","descricao":"Designer júnior 2","tipo":"Fixo","valor":1500,"pago":"Sim","observacao":""},{"data":"01/01/2026","mes":"jan/2026","categoria":"Ferramentas","descricao":"Google Drive","tipo":"Fixo","valor":50,"pago":"Sim","observacao":""},{"data":"01/01/2026","mes":"jan/2026","categoria":"Ferramentas","descricao":"Canva","tipo":"Fixo","valor":50,"pago":"Sim","observacao":""},{"data":"01/01/2026","mes":"jan/2026","categoria":"Ferramentas","descricao":"IA","tipo":"Fixo","valor":150,"pago":"Sim","observacao":""},{"data":"01/01/2026","mes":"jan/2026","categoria":"Ferramentas","descricao":"Hospedagem de site","tipo":"Fixo","valor":50,"pago":"Sim","observacao":""},{"data":"01/02/2026","mes":"fev/2026","categoria":"Folha","descricao":"Gestor de projetos","tipo":"Fixo","valor":1300,"pago":"Sim","observacao":""},{"data":"01/02/2026","mes":"fev/2026","categoria":"Folha","descricao":"Designer júnior 1","tipo":"Fixo","valor":1500,"pago":"Sim","observacao":""},{"data":"01/02/2026","mes":"fev/2026","categoria":"Folha","descricao":"Designer júnior 2","tipo":"Fixo","valor":1500,"pago":"Sim","observacao":""},{"data":"01/02/2026","mes":"fev/2026","categoria":"Ferramentas","descricao":"Google Drive","tipo":"Fixo","valor":50,"pago":"Sim","observacao":""},{"data":"01/02/2026","mes":"fev/2026","categoria":"Ferramentas","descricao":"Canva","tipo":"Fixo","valor":50,"pago":"Sim","observacao":""},{"data":"01/02/2026","mes":"fev/2026","categoria":"Ferramentas","descricao":"IA","tipo":"Fixo","valor":150,"pago":"Sim","observacao":""},{"data":"01/02/2026","mes":"fev/2026","categoria":"Ferramentas","descricao":"Hospedagem de site","tipo":"Fixo","valor":50,"pago":"Sim","observacao":""},{"data":"01/03/2026","mes":"mar/2026","categoria":"Folha","descricao":"Gestor de projetos","tipo":"Fixo","valor":1300,"pago":"Sim","observacao":""},{"data":"01/03/2026","mes":"mar/2026","categoria":"Folha","descricao":"Designer júnior 1","tipo":"Fixo","valor":1500,"pago":"Sim","observacao":""},{"data":"01/03/2026","mes":"mar/2026","categoria":"Folha","descricao":"Designer júnior 2","tipo":"Fixo","valor":1500,"pago":"Sim","observacao":""},{"data":"01/03/2026","mes":"mar/2026","categoria":"Ferramentas","descricao":"Google Drive","tipo":"Fixo","valor":50,"pago":"Sim","observacao":""},{"data":"01/03/2026","mes":"mar/2026","categoria":"Ferramentas","descricao":"Canva","tipo":"Fixo","valor":50,"pago":"Sim","observacao":""},{"data":"01/03/2026","mes":"mar/2026","categoria":"Ferramentas","descricao":"IA","tipo":"Fixo","valor":150,"pago":"Sim","observacao":""},{"data":"01/03/2026","mes":"mar/2026","categoria":"Ferramentas","descricao":"Hospedagem de site","tipo":"Fixo","valor":50,"pago":"Sim","observacao":""},{"data":"01/04/2026","mes":"abr/2026","categoria":"Folha","descricao":"Gestor de projetos","tipo":"Fixo","valor":1300,"pago":"Não","observacao":""},{"data":"01/04/2026","mes":"abr/2026","categoria":"Folha","descricao":"Designer júnior 1","tipo":"Fixo","valor":1500,"pago":"Não","observacao":""},{"data":"01/04/2026","mes":"abr/2026","categoria":"Folha","descricao":"Designer júnior 2","tipo":"Fixo","valor":1500,"pago":"Não","observacao":""},{"data":"01/04/2026","mes":"abr/2026","categoria":"Ferramentas","descricao":"Google Drive","tipo":"Fixo","valor":50,"pago":"Sim","observacao":""},{"data":"01/04/2026","mes":"abr/2026","categoria":"Ferramentas","descricao":"Canva","tipo":"Fixo","valor":50,"pago":"Não","observacao":""},{"data":"01/04/2026","mes":"abr/2026","categoria":"Ferramentas","descricao":"IA","tipo":"Fixo","valor":150,"pago":"Sim","observacao":""},{"data":"01/04/2026","mes":"abr/2026","categoria":"Ferramentas","descricao":"Hospedagem de site","tipo":"Fixo","valor":50,"pago":"Sim","observacao":""},{"data":"01/05/2026","mes":"mai/2026","categoria":"Folha","descricao":"Gestor de projetos","tipo":"Fixo","valor":1300,"pago":"Sim","observacao":""},{"data":"01/05/2026","mes":"mai/2026","categoria":"Folha","descricao":"Designer júnior 1","tipo":"Fixo","valor":1500,"pago":"Sim","observacao":""},{"data":"01/05/2026","mes":"mai/2026","categoria":"Folha","descricao":"Designer júnior 2","tipo":"Fixo","valor":1500,"pago":"Sim","observacao":""},{"data":"01/05/2026","mes":"mai/2026","categoria":"Ferramentas","descricao":"Google Drive","tipo":"Fixo","valor":50,"pago":"Sim","observacao":""},{"data":"01/05/2026","mes":"mai/2026","categoria":"Ferramentas","descricao":"Canva","tipo":"Fixo","valor":50,"pago":"Sim","observacao":""},{"data":"01/05/2026","mes":"mai/2026","categoria":"Ferramentas","descricao":"IA","tipo":"Fixo","valor":150,"pago":"Sim","observacao":""},{"data":"01/05/2026","mes":"mai/2026","categoria":"Ferramentas","descricao":"Hospedagem de site","tipo":"Fixo","valor":50,"pago":"Sim","observacao":""},{"data":"01/06/2026","mes":"jun/2026","categoria":"Folha","descricao":"Gestor de projetos","tipo":"Fixo","valor":1300,"pago":"Sim","observacao":""},{"data":"01/06/2026","mes":"jun/2026","categoria":"Folha","descricao":"Designer júnior 1","tipo":"Fixo","valor":1500,"pago":"Sim","observacao":""},{"data":"01/06/2026","mes":"jun/2026","categoria":"Folha","descricao":"Designer júnior 2","tipo":"Fixo","valor":1500,"pago":"Sim","observacao":""},{"data":"01/06/2026","mes":"jun/2026","categoria":"Ferramentas","descricao":"Google Drive","tipo":"Fixo","valor":50,"pago":"Sim","observacao":""},{"data":"01/06/2026","mes":"jun/2026","categoria":"Ferramentas","descricao":"Canva","tipo":"Fixo","valor":50,"pago":"Sim","observacao":""},{"data":"01/06/2026","mes":"jun/2026","categoria":"Ferramentas","descricao":"IA","tipo":"Fixo","valor":150,"pago":"Sim","observacao":""},{"data":"01/06/2026","mes":"jun/2026","categoria":"Ferramentas","descricao":"Hospedagem de site","tipo":"Fixo","valor":50,"pago":"Sim","observacao":""},{"data":"01/07/2026","mes":"jul/2026","categoria":"Folha","descricao":"Gestor de projetos","tipo":"Fixo","valor":1300,"pago":"Sim","observacao":""},{"data":"01/07/2026","mes":"jul/2026","categoria":"Folha","descricao":"Designer júnior 1","tipo":"Fixo","valor":1500,"pago":"Sim","observacao":""},{"data":"01/07/2026","mes":"jul/2026","categoria":"Folha","descricao":"Designer júnior 2","tipo":"Fixo","valor":1500,"pago":"Sim","observacao":""},{"data":"01/07/2026","mes":"jul/2026","categoria":"Ferramentas","descricao":"Google Drive","tipo":"Fixo","valor":50,"pago":"Sim","observacao":""},{"data":"01/07/2026","mes":"jul/2026","categoria":"Ferramentas","descricao":"Canva","tipo":"Fixo","valor":50,"pago":"Sim","observacao":""},{"data":"01/07/2026","mes":"jul/2026","categoria":"Ferramentas","descricao":"IA","tipo":"Fixo","valor":150,"pago":"Sim","observacao":""},{"data":"01/07/2026","mes":"jul/2026","categoria":"Ferramentas","descricao":"Hospedagem de site","tipo":"Fixo","valor":50,"pago":"Sim","observacao":""},{"data":"01/08/2026","mes":"ago/2026","categoria":"Folha","descricao":"Gestor de projetos","tipo":"Fixo","valor":1300,"pago":"Sim","observacao":""},{"data":"01/08/2026","mes":"ago/2026","categoria":"Folha","descricao":"Designer júnior 1","tipo":"Fixo","valor":1500,"pago":"Sim","observacao":""},{"data":"01/08/2026","mes":"ago/2026","categoria":"Folha","descricao":"Designer júnior 2","tipo":"Fixo","valor":1500,"pago":"Sim","observacao":""},{"data":"01/08/2026","mes":"ago/2026","categoria":"Ferramentas","descricao":"Google Drive","tipo":"Fixo","valor":50,"pago":"Sim","observacao":""},{"data":"01/08/2026","mes":"ago/2026","categoria":"Ferramentas","descricao":"Canva","tipo":"Fixo","valor":50,"pago":"Sim","observacao":""},{"data":"01/08/2026","mes":"ago/2026","categoria":"Ferramentas","descricao":"IA","tipo":"Fixo","valor":150,"pago":"Sim","observacao":""},{"data":"01/08/2026","mes":"ago/2026","categoria":"Ferramentas","descricao":"Hospedagem de site","tipo":"Fixo","valor":50,"pago":"Sim","observacao":""},{"data":"01/09/2026","mes":"set/2026","categoria":"Folha","descricao":"Gestor de projetos","tipo":"Fixo","valor":1300,"pago":"Sim","observacao":""},{"data":"01/09/2026","mes":"set/2026","categoria":"Folha","descricao":"Designer júnior 1","tipo":"Fixo","valor":1500,"pago":"Sim","observacao":""},{"data":"01/09/2026","mes":"set/2026","categoria":"Folha","descricao":"Designer júnior 2","tipo":"Fixo","valor":1500,"pago":"Sim","observacao":""},{"data":"01/09/2026","mes":"set/2026","categoria":"Ferramentas","descricao":"Google Drive","tipo":"Fixo","valor":50,"pago":"Sim","observacao":""},{"data":"01/09/2026","mes":"set/2026","categoria":"Ferramentas","descricao":"Canva","tipo":"Fixo","valor":50,"pago":"Sim","observacao":""},{"data":"01/09/2026","mes":"set/2026","categoria":"Ferramentas","descricao":"IA","tipo":"Fixo","valor":150,"pago":"Sim","observacao":""},{"data":"01/09/2026","mes":"set/2026","categoria":"Ferramentas","descricao":"Hospedagem de site","tipo":"Fixo","valor":50,"pago":"Sim","observacao":""},{"data":"01/10/2026","mes":"out/2026","categoria":"Folha","descricao":"Gestor de projetos","tipo":"Fixo","valor":1300,"pago":"Sim","observacao":""},{"data":"01/10/2026","mes":"out/2026","categoria":"Folha","descricao":"Designer júnior 1","tipo":"Fixo","valor":1500,"pago":"Sim","observacao":""},{"data":"01/10/2026","mes":"out/2026","categoria":"Folha","descricao":"Designer júnior 2","tipo":"Fixo","valor":1500,"pago":"Sim","observacao":""},{"data":"01/10/2026","mes":"out/2026","categoria":"Ferramentas","descricao":"Google Drive","tipo":"Fixo","valor":50,"pago":"Sim","observacao":""},{"data":"01/10/2026","mes":"out/2026","categoria":"Ferramentas","descricao":"Canva","tipo":"Fixo","valor":50,"pago":"Sim","observacao":""},{"data":"01/10/2026","mes":"out/2026","categoria":"Ferramentas","descricao":"IA","tipo":"Fixo","valor":150,"pago":"Sim","observacao":""},{"data":"01/10/2026","mes":"out/2026","categoria":"Ferramentas","descricao":"Hospedagem de site","tipo":"Fixo","valor":50,"pago":"Sim","observacao":""},{"data":"01/11/2026","mes":"nov/2026","categoria":"Folha","descricao":"Gestor de projetos","tipo":"Fixo","valor":1300,"pago":"Sim","observacao":""},{"data":"01/11/2026","mes":"nov/2026","categoria":"Folha","descricao":"Designer júnior 1","tipo":"Fixo","valor":1500,"pago":"Sim","observacao":""},{"data":"01/11/2026","mes":"nov/2026","categoria":"Folha","descricao":"Designer júnior 2","tipo":"Fixo","valor":1500,"pago":"Sim","observacao":""},{"data":"01/11/2026","mes":"nov/2026","categoria":"Ferramentas","descricao":"Google Drive","tipo":"Fixo","valor":50,"pago":"Sim","observacao":""},{"data":"01/11/2026","mes":"nov/2026","categoria":"Ferramentas","descricao":"Canva","tipo":"Fixo","valor":50,"pago":"Sim","observacao":""},{"data":"01/11/2026","mes":"nov/2026","categoria":"Ferramentas","descricao":"IA","tipo":"Fixo","valor":150,"pago":"Sim","observacao":""},{"data":"01/11/2026","mes":"nov/2026","categoria":"Ferramentas","descricao":"Hospedagem de site","tipo":"Fixo","valor":50,"pago":"Sim","observacao":""},{"data":"01/12/2026","mes":"dez/2026","categoria":"Folha","descricao":"Gestor de projetos","tipo":"Fixo","valor":1300,"pago":"Sim","observacao":""},{"data":"01/12/2026","mes":"dez/2026","categoria":"Folha","descricao":"Designer júnior 1","tipo":"Fixo","valor":1500,"pago":"Sim","observacao":""},{"data":"01/12/2026","mes":"dez/2026","categoria":"Folha","descricao":"Designer júnior 2","tipo":"Fixo","valor":1500,"pago":"Sim","observacao":""},{"data":"01/12/2026","mes":"dez/2026","categoria":"Ferramentas","descricao":"Google Drive","tipo":"Fixo","valor":50,"pago":"Sim","observacao":""},{"data":"01/12/2026","mes":"dez/2026","categoria":"Ferramentas","descricao":"Canva","tipo":"Fixo","valor":50,"pago":"Sim","observacao":""},{"data":"01/12/2026","mes":"dez/2026","categoria":"Ferramentas","descricao":"IA","tipo":"Fixo","valor":150,"pago":"Sim","observacao":""},{"data":"01/12/2026","mes":"dez/2026","categoria":"Ferramentas","descricao":"Hospedagem de site","tipo":"Fixo","valor":50,"pago":"Sim","observacao":""}]}</script>
 
   <script>
     const MONTHS = ['jan/2026','fev/2026','mar/2026','abr/2026','mai/2026','jun/2026','jul/2026','ago/2026','set/2026','out/2026','nov/2026','dez/2026'];
@@ -1287,5 +1930,6 @@ document.getElementById('publicarBtn').onclick = () => publishToGitHub(false);
     renderTabs();
     renderAll();
   </script>
-</body>
-</html>
+
+
+</body></html>
